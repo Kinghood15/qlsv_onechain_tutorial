@@ -1,0 +1,6 @@
+                <Card>
+                    <Card.Body>
+                        <input type="text" value={inputVal} onChange={e => setInputVal(e.target.value)} />
+                        <button onClick={handleNewNotification}>Add Notification</button>
+                    </Card.Body>
+                </Card>

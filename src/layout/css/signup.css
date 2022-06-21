@@ -1,0 +1,27 @@
+.boxSignUp{
+    align-items: center;
+    display:flex;
+    /* justify-content:right; */
+    margin-right: 100px;
+    width:100vw;
+    height:100vh;
+    z-index: 1;
+}
+.cardBody{
+    padding-top:20px;
+}
+@media screen and (max-width:800px) {
+    .boxSignUp{
+        align-items: center;
+        display:flex;
+        width:90vw;
+        height:100vh;
+        margin:auto;
+    }
+
+}
+@media screen and (max-width:550px){
+    .boxInputName{
+
+    }
+}

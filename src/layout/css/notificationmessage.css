@@ -1,0 +1,70 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+.notification-wrapper{
+    position:fixed;
+    top:10px;
+    right: 10px;
+    width:300px;
+    z-index:9;
+    
+}
+.notification-item{
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    border-radius: 10px;
+    overflow: hidden; 
+    margin-bottom:20px;
+    z-index: 9;
+    animation:SlideDown 1s;
+    animation-fill-mode: forwards;
+    background-color:white;
+}
+.notification-item p{
+    margin:0;
+    padding:5px;
+}
+.notification-item .bar{
+    height:10px;
+}
+.notification-item.Success .bar{
+    background-color: rgb(24, 221, 24);
+}
+.notification-item.Error .bar{
+    background-color: rgb(246, 107, 83);
+}
+.notification-item.exit{
+    animation:SlideRight 1s;
+    animation-fill-mode: forwards;
+}
+.box-notification-message{
+    display:flex;
+    align-content:space-between;
+    padding:10px;
+}
+.text-message{
+    width: 15em; 
+    word-wrap: break-word;
+}
+.btn-close-notification-message{
+    background-color:white;
+    border:0;
+}
+@keyframes SlideDown {
+    0%{
+        margin-top :-50%;
+    }
+    100%{
+        margin-top:0%;
+    }
+}
+
+@keyframes SlideRight{ 
+    0%{
+        margin-left:0;
+
+    }
+    100%{
+        margin-left:120%;
+    }
+}
