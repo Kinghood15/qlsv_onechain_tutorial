@@ -16,7 +16,7 @@ function App() {
           {/* <Route path="/" element={<App />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
-          <Route path="" element={<Home />} />
+          <Route path="" exact element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       {/* </NotificationMessageProvider> */}

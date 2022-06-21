@@ -9,7 +9,7 @@ import 'tippy.js/dist/tippy.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/SidebarNavigationMenu.css';
-export default function SidebarNavigationMenu({isMobile}) {
+export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
     const menuDefaults = [{
         id: 1,
         name: 'Trang chủ',
@@ -24,7 +24,7 @@ export default function SidebarNavigationMenu({isMobile}) {
         id: 3,
         name: 'Sinh viên',
         icon: <AiOutlineTeam size={24} />,
-        url: '',    
+        url: '',
     }, {
         id: 4,
         name: 'Môn học',
@@ -50,34 +50,70 @@ export default function SidebarNavigationMenu({isMobile}) {
     const onClickSlidebar = () => {
         setSlidebar(!slidebar);
     }
+    
+    props.parentCallback(slidebar);
+    // console.log("slidebar",slidebar)
+    
     return (
         <>
-            <div className={isMobile ? 'slidebar active w-60 mt-8 ease-in-out': ( slidebar ? 'slidebar active w-60 mt-8 ease-in-out' : 'slidebar w-60 mt-8 ease-in-out')}>
-                <ul className={isMobile ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : (slidebar ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : 'list-items-menu w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out')}>
-                    <Tippy content='Menu' placement="right" theme="translucent">
-                        <li onClick={onClickSlidebar} className={"item-menu ease-in-out active w-11/12 flex items-center justify-between h-20 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
-                            <div className="icon ml-5">
-                                <FiMenu size={24} />
+            {(() => {
+                console.log("isShowSidebar",isShowSidebar,"isMobile",isMobile)
+                if (isShowSidebar === true && isMobile === true) {
+                    return (
+                        <>
+                            <div className="slidebar absolute top-20 left-0">
+                                <ul className="list-items-menu bg-sky-300 rounded-r-2xl py-2">
+                                    {menuDefaults.map((item) => {
+                                        return (
+                                            <Link to={item.url}>
+                                                {/* <Tippy content={`${item.name}`} placement="right" theme="translucent"> */}
+                                                    <li className={"item-menu w-11/12 flex items-center justify-between h-20 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
+                                                        <div className="icon mx-5">
+                                                            {item.icon}
+                                                        </div>
+                                                        <div className="title mr-5 w-20">{item.name}</div>
+                                                    </li>
+                                                {/* </Tippy> */}
+                                            </Link>
+                                        )
+                                    })}
+                                </ul>
                             </div>
-                            <div className="title mr-5">Menu</div>
-                        </li>
-                    </Tippy>
-                    {menuDefaults.map((item) => {
-                        return (
-                            <Link to={item.url}>
-                                <Tippy content={`${item.name}`} placement="right" theme="translucent">
-                                    <li className={"item-menu w-11/12 flex items-center justify-between h-20 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
-                                        <div className="icon ml-5">
-                                            {item.icon}
-                                        </div>
-                                        <div className="title mr-5">{item.name}</div>
-                                    </li>
-                                </Tippy>
-                            </Link>
-                        )
-                    })}
-                </ul>
-            </div>
+                        </>
+                    )
+                } else {
+                    return (
+                        <>
+                            <div className={isMobile ? 'slidebar active w-60 mt-8 ease-in-out' : (slidebar ? 'slidebar active w-60 mt-8 ease-in-out' : 'slidebar w-60 mt-8 ease-in-out')}>
+                                <ul className={isMobile ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : (slidebar ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : 'list-items-menu w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out')}>
+                                    <Tippy content='Menu' placement="right" theme="translucent">
+                                        <li onClick={onClickSlidebar} className={"item-menu ease-in-out active w-11/12 flex items-center justify-between h-20 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
+                                            <div className="icon ml-5 ">
+                                                <FiMenu size={24} />
+                                            </div>
+                                            <div className="title mr-5">Menu</div>
+                                        </li>
+                                    </Tippy>
+                                    {menuDefaults.map((item) => {
+                                        return (
+                                            <Link to={item.url}>
+                                                <Tippy content={`${item.name}`} placement="right" theme="translucent">
+                                                    <li className={"item-menu w-11/12 flex items-center justify-between h-20 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
+                                                        <div className="icon mx-5">
+                                                            {item.icon}
+                                                        </div>
+                                                        <div className="title mr-5 w-20">{item.name}</div>
+                                                    </li>
+                                                </Tippy>
+                                            </Link>
+                                        )
+                                    })}
+                                </ul>
+                            </div>
+                        </>
+                    )
+                }
+            })()}
         </>
     );
 };

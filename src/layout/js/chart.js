@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 // import "./App.css";
 import BarChart from "./BarChart";
 import LineChart from "./LineChart";
@@ -26,16 +26,32 @@ function Chart() {
     });
 
     // IF YOU SEE THIS COMMENT: I HAVE GOOD EYESIGHT
+    const [isMobile, setIsMobile] = useState(false)
 
+    //choose the screen size 
+    const handleResize = () => {
+        if (window.innerWidth < 1200) {
+            setIsMobile(true)
+           
+        } else {
+            setIsMobile(false)
+        }
+    }
+    // console.log(isMobile);
+
+    // create an event listener
+    useEffect(() => {
+        window.addEventListener("resize", handleResize)
+    })
     return (
         <div className="App">
-            <div style={{ width: 700 }}>
+            <div className={isMobile ? "md max-w-2xl" : " md"}>
                 <BarChart chartData={userData} />
             </div>
-            <div style={{ width: 700 }}>
+            <div className={isMobile ? "md max-w-2xl" : " md"}>
                 <LineChart chartData={userData} />
             </div>
-            <div style={{ width: 700 }}>
+            <div className={isMobile ? "md max-w-2xl" : " md"}>
                 <PieChart chartData={userData} />
             </div>
         </div>

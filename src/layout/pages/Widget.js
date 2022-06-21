@@ -22,7 +22,9 @@ export default function Widget(){
         color:'red',
         icon:<AiOutlineFall />
     })
-    
+    const handleWidgetUpDown = () => {
+        setUpAndDown()
+    }
         // name:'Success',
         // color:'green',
         // icon: <AiOutlineRise />

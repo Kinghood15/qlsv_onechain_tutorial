@@ -4,3 +4,18 @@
         margin-bottom:32px;
     }
 }
+.container {
+    -moz-animation: bigcircle 0.7s ease-in-out linear;
+    -o-animation: bigcircle 0.7s ease-in-out linear;
+    -webkit-animation: bigcircle 0.7s ease-in-out linear;
+    animation: bigcircle 1.6s ease-in-out linear;
+}
+@keyframes bigcircle{
+    from{
+        transform: translate(0,50%);
+
+    }
+    to{
+        transform: translate(50%,100%);
+    }
+}
