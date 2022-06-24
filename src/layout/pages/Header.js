@@ -5,7 +5,9 @@ import an from '../../img/an.jpg';
 import Tippy from '@tippyjs/react';
 import React, { useState, useEffect } from "react";
 import SidebarNavigationMenu from './SidebarNavigationMenu';
-export default function Header() {
+import { ACCESS_TOKEN_SECRET, AVATAR_USER } from '../env';
+import CryptoJS from 'crypto-js';
+export default function Header(accesstoken) {
     const [isMobile, setIsMobile] = useState(false);
     const [isShowSidebar, setIsShowSidebar] = useState(false);
     //choose the screen size 
@@ -16,7 +18,7 @@ export default function Header() {
         } else {
             setIsMobile(false)
         }
-        
+
     }
     // console.log(isTable);
 
@@ -30,12 +32,22 @@ export default function Header() {
     const onHandleClickMenu = () => {
         if (isMobile) {
             setIsShowSidebar(!isShowSidebar);
-        }else{
+        } else {
             setIsShowSidebar(false);
         }
     }
     const callbackFunction = () => {
-        
+
+    }
+    const getAvatar = () => {
+        let token = localStorage.getItem('Authorization').split(' ')[1];
+        console.log("token test app", token);
+        // Get data by token 
+        let data = CryptoJS.AES.decrypt(token, ACCESS_TOKEN_SECRET);
+        data = data.toString(CryptoJS.enc.Utf8);
+        let dataJSON = JSON.parse(data);
+        //Get document query parameters
+        return  dataJSON.avatar
     }
     console.log(isShowSidebar)
     return (
@@ -52,22 +64,43 @@ export default function Header() {
                         );
                     } else return "";
                 })()}
-                {(() =>{
-                    if(isShowSidebar===true && isMobile===true){
+                {(() => {
+                    if (isShowSidebar === true && isMobile === true) {
                         return (
-                            <SidebarNavigationMenu isMobile={isMobile} isShowSidebar={isShowSidebar} parentCallback={callbackFunction} /> 
+                            <SidebarNavigationMenu isMobile={isMobile} isShowSidebar={isShowSidebar} parentCallback={callbackFunction} />
                         );
                     }
                 })()}
 
-                <a className={isMobile ? "text-white w-full text-center text-xl font-bold ease-in" :"text-white w-full text-center text-2xl font-bold ease-in"} href="/">Quản lý sinh viên </a>
+                <a className={isMobile ? "text-white w-full text-center text-xl font-bold ease-in" : "text-white w-full text-center text-2xl font-bold ease-in"} href="/">Quản lý sinh viên </a>
             </div>
             <div className="boxNotification w-65 flex justify-end mr-5 items-center">
+                {(() => {
+                    console.log("accesstoken Header before if check",accesstoken);
+                    if (accesstoken === true) {
+                        console.log("accesstoken Header after if check",accesstoken);
+                        return (
+                            <>
+                                <button href="/notification" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><MdNotifications size={28} /></button>
+                                {/* <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"><MdPerson size={28} /></button> */}
+                                <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><img className="rounded-full w-11 h-11" src={getAvatar} alt="user" /></button>
+                            </>
+                        )
+                    } else {
+                        return (
+                            <>
+                                {/* <button href="/notification" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><MdNotifications size={28} /></button> */}
+                                <button href="/login" className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Đăng nhập</button>
+                                <button href="/contract" className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Liên hệ</button>
+                            </>
+                        )
+                    }
+                })()}
                 {/* <button href="/login" className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Đăng nhập</button> */}
                 {/* <button href="/contract" className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Liên hệ</button> */}
-                <button href="/notification" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><MdNotifications size={28} /></button>
+                {/* <button href="/notification" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><MdNotifications size={28} /></button> */}
                 {/* <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"><MdPerson size={28} /></button> */}
-                <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><img className="rounded-full w-11 h-11" src={an} alt="user" /></button>
+                {/* <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><img className="rounded-full w-11 h-11" src={an} alt="user" /></button> */}
             </div>
         </div>
     )

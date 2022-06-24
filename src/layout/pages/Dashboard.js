@@ -3,16 +3,16 @@ import Header from './Header';
 import Footer from './Footer';
 import SidebarNavigationMenu from './SidebarNavigationMenu';
 import MainContainer from './MainContainer';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import '../css/dashboard.css';
-export default function Dashboard(){
+export default function Dashboard(accesstoken) {
     const [isTable, setIsTable] = useState(false)
 
     //choose the screen size 
     const handleResize = () => {
         if (window.innerWidth < 1200) {
             setIsTable(true)
-           
+
         } else {
             setIsTable(false)
         }
@@ -29,7 +29,7 @@ export default function Dashboard(){
     const handleResizeMobile = () => {
         if (window.innerWidth < 860) {
             setIsMobile(true)
-           
+
         } else {
             setIsMobile(false)
         }
@@ -43,31 +43,58 @@ export default function Dashboard(){
             setIsMobile(true);
         };
     })
-    const [ isCheckMenu, setIsCheckMenu ] = useState();
+    const [isCheckMenu, setIsCheckMenu] = useState();
     const callbackFunction = (childData) => {
         setIsCheckMenu(childData);
     }
     // console.log("isCheckMenu",isCheckMenu);
     return (
         <>
-            <Header />
-            <div className={isMobile ? "maincontainer block" :"maincontainer flex"}>
-                <div className="sidebar">
-                {(() => { 
-                    if(isMobile){
-                        return;
-                    }else{
-                        return <SidebarNavigationMenu isMobile={isTable} isShowSidebar="" parentCallback={callbackFunction} />
-                    }
-                })()}
-                </div>
-                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm w-11/12 ease-in" :"container sm w-10/12 ease")}>
-                    <MainContainer />
-                </div>
-                
-            </div>
-            <Footer />
+            {(() => {
+                if (accesstoken === true) {
+                    return (
+                        <>
+                            <Header accesstoken={true} />
+                            <div className={isMobile ? "maincontainer block" : "maincontainer flex"}>
+                                <div className="sidebar">
+                                    {(() => {
+                                        if (isMobile) {
+                                            return;
+                                        } else {
+                                            return <SidebarNavigationMenu isMobile={isTable} isShowSidebar="" parentCallback={callbackFunction} />
+                                        }
+                                    })()}
+                                </div>
+                                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm w-11/12 ease-in" : "container sm w-10/12 ease")}>
+                                    <MainContainer />
+                                </div>
+                            </div>
+                            <Footer />
+                        </>
+                    );
+                } else {
+                    return (
+                        <>
+                            <Header accesstoken={true} />
+                            <div className={isMobile ? "maincontainer block" : "maincontainer flex"}>
+                                <div className="sidebar">
+                                    {(() => {
+                                        if (isMobile) {
+                                            return;
+                                        } else {
+                                            return <SidebarNavigationMenu isMobile={isTable} isShowSidebar="" parentCallback={callbackFunction} />
+                                        }
+                                    })()}
+                                </div>
+                                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm w-11/12 ease-in" : "container sm w-10/12 ease")}>
+                                    <MainContainer />
+                                </div>
+                            </div>
+                            <Footer />
+                        </>
+                    );
+                }
+            })()}
         </>
-
     );
 }; 

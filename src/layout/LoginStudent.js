@@ -2,25 +2,26 @@ import { Container, Card, Input, Spacer, Button, Text, Link } from '@nextui-org/
 import './css/login.css';
 import { UnLockIcon } from "./js/UnLockIcon.js";
 import { LockIcon } from "./js/LockIcon.js";
-import { onSnapshot, getDocs, collection, addDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
+import { Navigate } from 'react-router-dom';
 import { db, auth } from "./Firebase";
 import { isEmpty } from "validator";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import CryptoJS from 'crypto-js';
 import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './env';
+import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
 export default function Login() {
     const [users, setUsers] = useState([]);
     const userCollectionRef = collection(db, "users");
-    const [userName, setUserName] = useState('');
+    const [studentId, setStudentId] = useState('');
     const [password, setPassword] = useState('');
     const [validationMsg, setValidationMsg] = useState('');
     const [colorInput, setColorInput] = useState({
-        userName: 'default',
+        studentId: 'default',
         password: 'default',
     });
     const [errorMessage, setErrorMessage] = useState({
-        userName: '',
+        studentId: '',
         password: '',
     });
     useEffect(() => {
@@ -30,13 +31,13 @@ export default function Login() {
         };
         getUsers();
     }, []);
-    // Event on change in input username
-    const handleUserNameChange = (e) => {
+    // Event on change in input studentId
+    const handleStudentIdChange = (e) => {
         if (e.target.value.split(' ').length > 1) {
-            setErrorMessage({ userName: "Tên đăng nhập không được có khoảng cách!" })
-            setColorInput({ userName: 'error' });
+            setErrorMessage({ studentId: "Tên đăng nhập không được có khoảng cách!" })
+            setColorInput({ studentId: 'error' });
         } else {
-            setUserName(e.target.value.trim());
+            setStudentId(e.target.value.trim());
             validateInput();
         }
     }
@@ -47,12 +48,12 @@ export default function Login() {
         validateInput();
     }
     const validateInput = () => {
-        if (!isEmpty(userName.trim())) {
-            setErrorMessage({ userName: "" });
-            setColorInput({ userName: 'default' });
+        if (!isEmpty(studentId.trim())) {
+            setErrorMessage({ studentId: "" });
+            setColorInput({ studentId: 'default' });
         } else {
-            setErrorMessage({ userName: "Hãy nhập tên đăng nhập" })
-            setColorInput({ userName: 'error' });
+            setErrorMessage({ studentId: "Hãy nhập tên đăng nhập" })
+            setColorInput({ studentId: 'error' });
         }
 
         if (!isEmpty(password.trim())) {
@@ -64,17 +65,71 @@ export default function Login() {
         }
 
     };
+    const LoginNotFoundToken = async() => {
+        //Get document query parameters
+        const q = query(collection(db, "users"), where("studentId", "==", studentId), where("password", "==", password));
 
-    const LoginPost = () => {
+        const querySnapshot = await getDocs(q);
+        let checkQuery;
+        let docHashUser;
+        let idLogError;
+        // console.log("querySnapshot",querySnapshot);
+        querySnapshot.forEach((doc) => {
+            if (doc.data().studentId === studentId) {
+                checkQuery += 1;
+                docHashUser += doc.data();
+                idLogError += doc.data();
+            }
+            // console.log(doc.data())
+        });
+        if (checkQuery === 1) {
+            //Create token user
+            let stringDataOld = JSON.stringify(docHashUser);
+            let token = CryptoJS.AES.encrypt(stringDataOld, ACCESS_TOKEN_SECRET).toString();
+            localStorage.setItem("Authorization", `Bearer ${token}`);
+            Navigate('/');
+        } else {
+            await addDoc(collection(db, "logs"), {
+                // "filename": 'LoginStudent.js' ,
+                "idError": idLogError,
+                "message": "Xuất hiện data bị trùng ! ",
+                "time": new Date().getTime(),
+            });
+
+        }
+    }
+    const LoginPost = async () => {
         validateInput();
         console.log(errorMessage);
         // if(errorMessage.)
-        if (true) {
+        if (localStorage.getItem('Authorization')) {
             // Get data by token 
-            let token = localStorage.getItem('Authorization');
-            console.log(token);
+            let token = localStorage.getItem('Authorization').split(' ')[1];
+            // console.log(token);
             let data = CryptoJS.AES.decrypt(token, ACCESS_TOKEN_SECRET);
+            let checkQuery;
+            let docHashUser;
+            let idLogError;
             data = data.toString(CryptoJS.enc.Utf8);
+            //Get document query parameters
+            if (data.studentId === studentId) {
+                const q = query(collection(db, "users"), where("studentId", "==", data.studentId), where("firstName", "==", data.firstName), where("lastName", "==", data.lastName), where("email", "==", data.email));
+
+                const querySnapshot = await getDocs(q);
+
+                // console.log("querySnapshot",querySnapshot);
+                querySnapshot.forEach((doc) => {
+                    checkQuery += 1;
+                    docHashUser += doc.data();
+                    idLogError += doc.data();
+                    console.log("doc.data()",doc.data())
+                });
+            }else{
+                localStorage.removeItem('Authorization');
+                LoginNotFoundToken();
+            }
+        } else {
+            LoginNotFoundToken();
         }
 
     }
@@ -89,9 +144,9 @@ export default function Login() {
                 <Card.Body css={{ mw: "550px", w: "90%", p: "$6" }} className="cardBody">
                     {/* <form className="formLogin" justify="center" align="center"> */}
                     <Spacer y={2.5} />
-                    <Input rounded bordered color={colorInput.userName} css={{ w: "95%" }} labelPlaceholder="Tên đăng nhập" className="username" onChange={handleUserNameChange} initialValue="" type="text" required />
+                    <Input rounded bordered color={colorInput.studentId} css={{ w: "95%" }} labelPlaceholder="Tên đăng nhập" className="studentid" onChange={handleStudentIdChange} initialValue="" type="text" required />
                     <Spacer y={0.5} />
-                    <Text color="error"> {errorMessage.userName}</Text>
+                    <Text color="error"> {errorMessage.studentId}</Text>
                     <Spacer y={2.0} />
                     <Input.Password rounded bordered color={colorInput.password} css={{ w: "95%" }} labelPlaceholder="Mật khẩu" onChange={handlePasswordChange} initialValue="" type="password" required />
                     <Spacer y={0.5} />
