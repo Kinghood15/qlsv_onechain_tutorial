@@ -37,6 +37,7 @@ export default function Header() {
     const callbackFunction = () => {
         
     }
+    console.log(isShowSidebar)
     return (
         <div className="header 2xl h-20 bg-sky-500 flex justify-between block ease-in">
             <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
@@ -52,9 +53,8 @@ export default function Header() {
                     } else return "";
                 })()}
                 {(() =>{
-                    if(isShowSidebar && isMobile){
+                    if(isShowSidebar===true && isMobile===true){
                         return (
-                            
                             <SidebarNavigationMenu isMobile={isMobile} isShowSidebar={isShowSidebar} parentCallback={callbackFunction} /> 
                         );
                     }

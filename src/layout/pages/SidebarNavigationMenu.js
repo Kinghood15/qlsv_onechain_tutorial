@@ -50,15 +50,13 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
     const onClickSlidebar = () => {
         setSlidebar(!slidebar);
     }
-    
     props.parentCallback(slidebar);
     // console.log("slidebar",slidebar)
     
     return (
         <>
             {(() => {
-                console.log("isShowSidebar",isShowSidebar,"isMobile",isMobile)
-                if (isShowSidebar === true && isMobile === true) {
+                if (props.isShowSidebar === true && props.isMobile === true) {
                     return (
                         <>
                             <div className="slidebar absolute top-20 left-0">
@@ -84,8 +82,8 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
                 } else {
                     return (
                         <>
-                            <div className={isMobile ? 'slidebar active w-60 mt-8 ease-in-out' : (slidebar ? 'slidebar active w-60 mt-8 ease-in-out' : 'slidebar w-60 mt-8 ease-in-out')}>
-                                <ul className={isMobile ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : (slidebar ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : 'list-items-menu w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out')}>
+                            <div className={props.isMobile ? 'slidebar active w-60 mt-8 ease-in-out' : (slidebar ? 'slidebar active w-60 mt-8 ease-in-out' : 'slidebar w-60 mt-8 ease-in-out')}>
+                                <ul className={props.isMobile ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : (slidebar ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : 'list-items-menu w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out')}>
                                     <Tippy content='Menu' placement="right" theme="translucent">
                                         <li onClick={onClickSlidebar} className={"item-menu ease-in-out active w-11/12 flex items-center justify-between h-20 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
                                             <div className="icon ml-5 ">

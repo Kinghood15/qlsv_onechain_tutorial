@@ -1,15 +1,19 @@
 import { Container, Card, Input, Spacer, Button, Text, Link, Grid, Checkbox } from '@nextui-org/react';
 import './css/signup.css';
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UnLockIcon } from "./js/UnLockIcon.js";
 import { LockIcon } from "./js/LockIcon.js";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import NotificationMessageProvider from './Provider/NotificationMessageProvider';
 import { db, auth } from "./Firebase";
-import { onSnapshot, getDocs, collection, addDoc } from "firebase/firestore";
 import { isEmpty } from "validator";
 import isEmail from 'validator/es/lib/isEmail';
 import { useNotification } from './Provider/NotificationMessageProvider';
+import { ACCESS_TOKEN_SECRET,AVATAR_USER } from './env';
+import { AuthContext } from './context/AuthContext';
+import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
+import CryptoJS from 'crypto-js';
 export default function SignUp() {
     const [users, setUsers] = useState([]);
     const userCollectionRef = collection(db, "users");
@@ -21,6 +25,10 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [checkBox, setCheckBox] = useState(false);
     const [inputVal, setInputVal] = useState("");
+    const [registerUser] = useState(AuthContext);
+    const navigate = useNavigate();
+    // const [ alert, setAlert] = useState(null);
+
     const dispatch = useNotification();
     const [colorInput, setColorInput] = useState({
         studentId: 'default',
@@ -56,8 +64,6 @@ export default function SignUp() {
         getUsers();
     }, []);
     const handleConfirmPassword = (e) => {
-
-
         if (isEmpty(confirmPassword.trim())) {
             setConfirmPassword(e.target.value.trim());
             setErrorMessage({ confirmPassword: "Hãy nhập xác nhận mật khẩu" })
@@ -71,7 +77,6 @@ export default function SignUp() {
                 setErrorMessage({ confirmPassword: "Mật khẩu xác nhận của bạn không khớp với mật khẩu bạn nhập ở mục trên!" })
                 setColorInput({ confirmPassword: 'error' });
             }
-
         }
     }
     const handlestudentIdChange = (e) => {
@@ -111,21 +116,23 @@ export default function SignUp() {
         }
     }
     const handleFirstName = (e) => {
-        setFirstName(e.target.value.trim());
-        if (isEmpty(firstName.trim())) {
+
+        if (isEmpty(e.target.value.trim())) {
             setErrorMessage({ firstName: "Hãy nhập họ của bạn vào đây!" })
             setColorInput({ firstName: 'error' });
         } else {
+            setFirstName(e.target.value.trim());
             setErrorMessage({ firstName: "" });
             setColorInput({ firstName: 'default' });
         }
     }
     const handleLastName = (e) => {
-        setFirstName(e.target.value.trim());
-        if (isEmpty(lastName.trim())) {
+
+        if (isEmpty(e.target.value.trim())) {
             setErrorMessage({ lastName: "Hãy nhập tên của bạn vào đây!" })
             setColorInput({ lastName: 'error' });
         } else {
+            setLastName(e.target.value.trim());
             setErrorMessage({ lastName: "" });
             setColorInput({ lastName: 'default' });
         }
@@ -147,27 +154,70 @@ export default function SignUp() {
         handleCheckBox();
 
     };
+
+
     const SignUpPost = async () => {
-        // validateInput();
+        let countEmail = 0;
         if (checkBox) {
-            createUserWithEmailAndPassword(auth, studentId,password,confirmPassword,firstName,lastName,email,)
-                .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user;
-                    console.log(user);
-                    // ...
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // ..
+            //Get document query parameters
+            const q = query(collection(db, "users"), where("email", "==", email));
+
+            const querySnapshot = await getDocs(q);
+            let checkQuery;
+            // console.log("querySnapshot",querySnapshot);
+            querySnapshot.forEach((doc) => {
+                if (doc.data().email === email) {
+                    countEmail += 1;
+                }
+                // console.log(doc.data())
+            });
+            if (countEmail >= 1) {
+                alert("Email đã bị trùng với cơ sở dữ liệu. Vui lòng nhập email khác của bạn!");
+                checkQuery = false;
+            } else {
+                checkQuery = true;
+            }
+            if (checkQuery) {   
+                const docRef = await addDoc(collection(db, "users"), {
+                    studentId: studentId,
+                    firstName: firstName,
+                    lastName: lastName,
+                    password: password,
+                    email: email,
+                    avatar: AVATAR_USER,
                 });
+                if (docRef.id) {
+                    const docHashUser = {
+                        studentId: studentId,
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        avatar: AVATAR_USER,
+                    }
+                    
+                    //Create token user
+                    let stringDataOld = JSON.stringify(docHashUser);
+                    let token = CryptoJS.AES.encrypt(stringDataOld,ACCESS_TOKEN_SECRET).toString();
+                    // console.log("token",token);
+                    localStorage.setItem("Authorization", `Bearer ${token}`);
+                    // Get data by token 
+                    let data = CryptoJS.AES.decrypt(token,ACCESS_TOKEN_SECRET);
+                    data = data.toString(CryptoJS.enc.Utf8);
+                    
+                    console.log("data",data);
+                    console.log("data.json",JSON.parse(data));
+
+                    alert('Đăng ký thành công tài khoản!');
+                    navigate("/login");
+                } else {
+                    alert('Đăng ký tài khoản thất bại!')
+                }
+
+            }
         } else {
             setErrorMessage({ checkbox: "Hãy tích vào ô phía trên!" })
             setColorInput({ checkbox: 'error' });
         }
-
-
     }
     return (
         <Container xl>
@@ -176,6 +226,7 @@ export default function SignUp() {
                 <Card css={{ mw: "600px", w: "90%", p: "$6" }}>
                     <Card.Header css={{ mw: "550px", w: "100%", p: "$6" }} className="cardHeader">
                         <Text h1>Đăng Ký</Text>
+                        {/* <img src={AVATAR_USER} /> */}
                     </Card.Header>
                     <Card.Body css={{ mw: "550px", w: "90%", p: "$6" }} className="cardBody">
                         <Spacer y={1.5} />
