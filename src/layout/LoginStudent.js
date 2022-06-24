@@ -3,12 +3,13 @@ import './css/login.css';
 import { UnLockIcon } from "./js/UnLockIcon.js";
 import { LockIcon } from "./js/LockIcon.js";
 import { useState, useEffect } from "react";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { db, auth } from "./Firebase";
 import { isEmpty } from "validator";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import CryptoJS from 'crypto-js';
 import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './env';
+import { formatDate } from './js/FormatDate';
 import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
 export default function Login() {
     const [users, setUsers] = useState([]);
@@ -16,6 +17,7 @@ export default function Login() {
     const [studentId, setStudentId] = useState('');
     const [password, setPassword] = useState('');
     const [validationMsg, setValidationMsg] = useState('');
+    const navigate = useNavigate();
     const [colorInput, setColorInput] = useState({
         studentId: 'default',
         password: 'default',
@@ -70,30 +72,37 @@ export default function Login() {
         const q = query(collection(db, "users"), where("studentId", "==", studentId), where("password", "==", password));
 
         const querySnapshot = await getDocs(q);
-        let checkQuery;
+        var checkQuery = 0;
         let docHashUser;
-        let idLogError;
-        // console.log("querySnapshot",querySnapshot);
+        var idLogError='';
+        console.log(idLogError);
         querySnapshot.forEach((doc) => {
-            if (doc.data().studentId === studentId) {
+            if (Object(doc.data()).studentId === studentId) {
                 checkQuery += 1;
-                docHashUser += doc.data();
-                idLogError += doc.data();
+                docHashUser = {
+                    studentId: Object(doc.data()).studentId,
+                    firstName: Object(doc.data()).firstName,
+                    lastName: Object(doc.data()).lastName,
+                    email: Object(doc.data()).email,
+                    avatar: Object(doc.data()).avatar,
+                };
+                idLogError += Object(doc.data()).studentId;
             }
-            // console.log(doc.data())
         });
+        console.log(checkQuery,"checkQuery")
         if (checkQuery === 1) {
+            
             //Create token user
             let stringDataOld = JSON.stringify(docHashUser);
             let token = CryptoJS.AES.encrypt(stringDataOld, ACCESS_TOKEN_SECRET).toString();
-            localStorage.setItem("Authorization", `Bearer ${token}`);
-            Navigate('/');
+            localStorage.setItem("Authorization", ` Bearer ${token}`);
+            navigate('/');
         } else {
             await addDoc(collection(db, "logs"), {
                 // "filename": 'LoginStudent.js' ,
                 "idError": idLogError,
                 "message": "Xuất hiện data bị trùng ! ",
-                "time": new Date().getTime(),
+                "time": formatDate(new Date()),
             });
 
         }
@@ -103,28 +112,45 @@ export default function Login() {
         console.log(errorMessage);
         // if(errorMessage.)
         if (localStorage.getItem('Authorization')) {
+            console.log("localStorage.getItem('Authorization') success");
             // Get data by token 
             let token = localStorage.getItem('Authorization').split(' ')[1];
             // console.log(token);
             let data = CryptoJS.AES.decrypt(token, ACCESS_TOKEN_SECRET);
-            let checkQuery;
+            // const checkQuery = 0;
             let docHashUser;
             let idLogError;
             data = data.toString(CryptoJS.enc.Utf8);
+            let dataJSON = JSON.parse(data);
+            
             //Get document query parameters
-            if (data.studentId === studentId) {
-                const q = query(collection(db, "users"), where("studentId", "==", data.studentId), where("firstName", "==", data.firstName), where("lastName", "==", data.lastName), where("email", "==", data.email));
+            if (Object(dataJSON).studentId === studentId) {
+                console.log("Object(dataJSON).studentId === studentId");
+                const q = query(collection(db, "users"), where("studentId", "==", Object(dataJSON).studentId), where("firstName", "==", Object(dataJSON).firstName), where("lastName", "==", Object(dataJSON).lastName), where("email", "==", Object(dataJSON).email));
 
                 const querySnapshot = await getDocs(q);
-
+                let checkQuery = 0;
                 // console.log("querySnapshot",querySnapshot);
                 querySnapshot.forEach((doc) => {
-                    checkQuery += 1;
+                    checkQuery+=1;
                     docHashUser += doc.data();
                     idLogError += doc.data();
-                    console.log("doc.data()",doc.data())
+                    console.log("doc.data() in localStorage",doc.data())
                 });
+                // console.log("Check query",checkQuery);
+                if(checkQuery === 1){
+                    navigate("/");
+                }else{
+                    console.log("await addDoc localStorage.getItem")
+                    await addDoc(collection(db, "logs"), {
+                        // "filename": 'LoginStudent.js' ,
+                        "idError": idLogError,
+                        "message": "Xuất hiện data bị trùng ! ",
+                        "time": new Date().getTime(),
+                    });
+                }
             }else{
+                console.log("data.studentId !== studentId");
                 localStorage.removeItem('Authorization');
                 LoginNotFoundToken();
             }

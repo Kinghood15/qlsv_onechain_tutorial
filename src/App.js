@@ -13,14 +13,17 @@ import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './layout/env';
 import CryptoJS from 'crypto-js';
 function App() {
   const AuthorizationCheck = async (stringToken) => {
-    let token = stringToken.split(' ')[1];
-    console.log("token test app", token);
+    console.log("stringToken in function AuthorizationCheck with App.js",stringToken)
+    let token = stringToken.trim().split(' ')[1];
+    console.log("Token in function AuthorizationCheck with App.js",token)
     // Get data by token 
     let data = CryptoJS.AES.decrypt(token, ACCESS_TOKEN_SECRET);
     data = data.toString(CryptoJS.enc.Utf8);
+    console.log("data in function with App.js ",data)
     let dataJSON = JSON.parse(data);
+    console.log("dataJSON", dataJSON);
     //Get document query parameters
-    const q = query(collection(db, "users"), where("studentId", "==", dataJSON.studentId), where("email", "==", dataJSON.email), where("firstName", "==", dataJSON.firstName), where("lastName", "==", dataJSON.lastName));
+    const q = query(collection(db, "users"), where("studentId", "==", Object(dataJSON).studentId), where("email", "==", Object(dataJSON).email), where("firstName", "==", Object(dataJSON).firstName), where("lastName", "==", Object(dataJSON).lastName));
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -35,8 +38,6 @@ function App() {
       {/* <NotificationMessageProvider> */}
       <Routes>
         {/* <Route path="/" element={<App />} /> */}
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<SignUp />} />
         {(() => {
           if (localStorage.getItem('Authorization') && AuthorizationCheck(localStorage.getItem('Authorization'))) {
             return (
@@ -44,7 +45,9 @@ function App() {
                 <Route path="/" exact element={<Home accesstoken={true} />} />
                 <Route path="/dashboard" element={<Dashboard accesstoken={true} />} />
                 <Route path="/user-list" element={<List accesstoken={true} />} />
-                <Route path="*" element={<Navigate to="/"/>} />
+                <Route path="*" element={<Navigate to="/" />} />
+                <Route path="/login" element={<Navigate to="/" />} />
+                <Route path="/signup" element={<Navigate to="/" />} />
               </>
             );
           } else {
@@ -52,7 +55,9 @@ function App() {
               <>
                 <Route path="/" exact element={<Home accesstoken={false} />} />
                 <Route path="/dashboard" element={<Dashboard accesstoken={false} />} />
-                <Route path="*" element={<Navigate to="/"/>} />
+                <Route path="*" element={<Navigate to="/" />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
               </>
             );
           }

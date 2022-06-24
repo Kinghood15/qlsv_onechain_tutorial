@@ -204,8 +204,8 @@ export default function SignUp() {
                     let data = CryptoJS.AES.decrypt(token,ACCESS_TOKEN_SECRET);
                     data = data.toString(CryptoJS.enc.Utf8);
                     
-                    // console.log("data",data);
-                    // console.log("data.json",JSON.parse(data));
+                    console.log("data",data);
+                    console.log("data.json",JSON.parse(data));
 
                     alert('Đăng ký thành công tài khoản!');
                     navigate("/login");

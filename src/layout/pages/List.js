@@ -4,7 +4,7 @@ export default function List() {
 
     return (
         <>
-            <table class="table-auto">
+            <table class="table-fixed">
                 <thead>
                     <tr>
                         <th>Song</th>

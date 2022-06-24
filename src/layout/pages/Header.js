@@ -40,16 +40,17 @@ export default function Header(accesstoken) {
 
     }
     const getAvatar = () => {
-        let token = localStorage.getItem('Authorization').split(' ')[1];
-        console.log("token test app", token);
+        let token = localStorage.getItem('Authorization').trim().split(' ')[1];
         // Get data by token 
         let data = CryptoJS.AES.decrypt(token, ACCESS_TOKEN_SECRET);
         data = data.toString(CryptoJS.enc.Utf8);
         let dataJSON = JSON.parse(data);
         //Get document query parameters
-        return  dataJSON.avatar
+        console.log()
+        return  Object(dataJSON).avatar
     }
-    console.log(isShowSidebar)
+    // getAvatar();
+    let avatar = getAvatar();
     return (
         <div className="header 2xl h-20 bg-sky-500 flex justify-between block ease-in">
             <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
@@ -76,14 +77,14 @@ export default function Header(accesstoken) {
             </div>
             <div className="boxNotification w-65 flex justify-end mr-5 items-center">
                 {(() => {
-                    console.log("accesstoken Header before if check",accesstoken);
-                    if (accesstoken === true) {
-                        console.log("accesstoken Header after if check",accesstoken);
+                    // console.log("accesstoken Header before if check",accesstoken);
+                    if (Object(accesstoken).accesstoken === true) {
+                        // console.log("accesstoken Header after if check",accesstoken);
                         return (
                             <>
                                 <button href="/notification" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><MdNotifications size={28} /></button>
                                 {/* <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"><MdPerson size={28} /></button> */}
-                                <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><img className="rounded-full w-11 h-11" src={getAvatar} alt="user" /></button>
+                                <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><img className="rounded-full w-11 h-11" src={avatar} alt="user" /></button>
                             </>
                         )
                     } else {

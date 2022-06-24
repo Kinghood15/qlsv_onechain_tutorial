@@ -6,14 +6,11 @@ import { FaCopyright } from "react-icons/fa";
 import Header from './Header';
 import Footer from './Footer';
 export default function Home(accesstoken) {
-    // const [Foutt]
-    console.log("accesstoken Home :",accesstoken);
+
     return (
         <>
             {(() => {
-                console.log("accesstoken home before if:",accesstoken);
-                if (accesstoken === true) {
-                    console.log("accesstoken home after if check");
+                if (Object(accesstoken).accesstoken === true) {
                     return (
                         <main>
                             <Header accesstoken={true}/>
