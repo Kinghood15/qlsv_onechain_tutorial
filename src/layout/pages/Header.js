@@ -20,7 +20,6 @@ export default function Header(accesstoken) {
         }
 
     }
-    // console.log(isTable);
 
     // create an event listener
     useEffect(() => {
@@ -46,13 +45,12 @@ export default function Header(accesstoken) {
         data = data.toString(CryptoJS.enc.Utf8);
         let dataJSON = JSON.parse(data);
         //Get document query parameters
-        console.log()
         return  Object(dataJSON).avatar
     }
     // getAvatar();
     let avatar = getAvatar();
     return (
-        <div className="header 2xl h-20 bg-sky-500 flex justify-between block ease-in">
+        <div className="header 2xl w-full h-20 bg-sky-500 flex justify-between block ease-in fixed">
             <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
                 {(() => {
                     if (isMobile) {
@@ -77,9 +75,7 @@ export default function Header(accesstoken) {
             </div>
             <div className="boxNotification w-65 flex justify-end mr-5 items-center">
                 {(() => {
-                    // console.log("accesstoken Header before if check",accesstoken);
                     if (Object(accesstoken).accesstoken === true) {
-                        // console.log("accesstoken Header after if check",accesstoken);
                         return (
                             <>
                                 <button href="/notification" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><MdNotifications size={28} /></button>

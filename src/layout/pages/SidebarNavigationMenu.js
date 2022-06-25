@@ -60,12 +60,13 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
                     return (
                         <>
                             <div className="slidebar absolute top-20 left-0">
-                                <ul className="list-items-menu bg-sky-300 rounded-r-2xl py-2">
+                                <ul className="list-items-menu bg-sky-300 rounded-r-2xl py-1">
                                     {menuDefaults.map((item) => {
+                                        console.log()
                                         return (
                                             <Link to={item.url}>
                                                 {/* <Tippy content={`${item.name}`} placement="right" theme="translucent"> */}
-                                                    <li className={"item-menu w-11/12 flex items-center justify-between h-20 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
+                                                    <li className={"item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
                                                         <div className="icon mx-5">
                                                             {item.icon}
                                                         </div>
@@ -85,7 +86,7 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
                             <div className={props.isMobile ? 'slidebar active w-60 mt-8 ease-in-out' : (slidebar ? 'slidebar active w-60 mt-8 ease-in-out' : 'slidebar w-60 mt-8 ease-in-out')}>
                                 <ul className={props.isMobile ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : (slidebar ? 'list-items-menu active w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out' : 'list-items-menu w-full rounded-r-2xl bg-sky-300 py-2 ease-in-out')}>
                                     <Tippy content='Menu' placement="right" theme="translucent">
-                                        <li onClick={onClickSlidebar} className={"item-menu ease-in-out active w-11/12 flex items-center justify-between h-20 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
+                                        <li onClick={onClickSlidebar} className={"item-menu ease-in-out active w-11/12 flex items-center justify-between h-16 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
                                             <div className="icon ml-5 ">
                                                 <FiMenu size={24} />
                                             </div>
@@ -96,7 +97,7 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
                                         return (
                                             <Link to={item.url}>
                                                 <Tippy content={`${item.name}`} placement="right" theme="translucent">
-                                                    <li className={"item-menu w-11/12 flex items-center justify-between h-20 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
+                                                    <li className={"item-menu w-11/12 flex items-center justify-between h-16 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
                                                         <div className="icon mx-5">
                                                             {item.icon}
                                                         </div>

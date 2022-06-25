@@ -22,7 +22,7 @@ export default function Footer() {
         };
     })
     return (
-        <div className="footer xl bg-gray-900 w-full h-58">
+        <div className="footer xl bg-gray-900 w-full h-58 fixed bottom-0 left-0">
             <div className="footerHeader mt-5 p-4">
                 <h1 className="w-3/4 m-auto text-white font-bold text-3xl">Acodern University</h1>
                 <div className="w-3/4 h-15 m-auto grid grid-rows-2 grid-flow-col gap-2">
