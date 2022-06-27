@@ -46,7 +46,7 @@ export default function Footer() {
         //         <span className="text-white text-sm flex justify-center">Copyright <AiOutlineCopyrightCircle size={10} /> An Alex Nguyễn </span>
         //     </div>
         // </div>
-        <div className={isResizeHeight?  "footer bg-gray-900 xl w-full mt-3 " : "footer bg-gray-900 xl w-full mt-3 absolute bottom-0 "}>
+        <div className={isResizeHeight ?  "footer bg-gray-900 xl w-full mt-3 " : "footer bg-gray-900 xl w-full mt-3 bottom-0 "}>
             <div className="footerFooter w-3/4 mx-auto p-5 text-center border-top-1 text-white">
                 <span className="text-white text-sm flex justify-center">Copyright <AiOutlineCopyrightCircle size={10} /> An Alex Nguyễn </span>
             </div>

@@ -21,6 +21,9 @@
     -webkit-animation: bigcircle 0.7s ease-in-out linear;
     animation: bigcircle 1.6s ease-in-out linear;
 }
+.item-menu.active{
+    background-color:white;
+}
 @keyframes bigcircle{
     from{
         transform: translate(0,50%);

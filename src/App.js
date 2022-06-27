@@ -10,8 +10,19 @@ import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase
 import { db, auth } from "./layout/Firebase";
 import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './layout/env';
 import CryptoJS from 'crypto-js';
+import { useState } from 'react';
 function App() {
-  const AuthorizationCheck = async (stringToken) => {
+  const [isActive, setIsActive] = useState(false);
+  var checkToken = 0;
+  const querySnapshotFunction = async (query) => {
+    const querySnapshot = await getDocs(query);
+    querySnapshot.forEach((doc) => {
+      checkToken++;
+      // console.log("doc.data() in querySnapshot function", doc.data())
+    });
+    // console.log("checkToken in querySnapshot function", checkToken)
+  }
+  const AuthorizationCheck = (stringToken) => {
     let token = stringToken.trim().split(' ')[1];
     // Get data by token 
     let data = CryptoJS.AES.decrypt(token, ACCESS_TOKEN_SECRET);
@@ -20,12 +31,12 @@ function App() {
     //Get document query parameters
     const q = query(collection(db, "users"), where("studentId", "==", Object(dataJSON).studentId), where("email", "==", Object(dataJSON).email), where("firstName", "==", Object(dataJSON).firstName), where("lastName", "==", Object(dataJSON).lastName));
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      if (doc.data()) {
-
-      }
-    });
+    if (querySnapshotFunction(q)) {
+      // console.log("checkToken", checkToken);
+      if (checkToken === 1) {
+        return true;
+      } else return false;
+    }
   }
   return (
     <BrowserRouter>
@@ -33,13 +44,15 @@ function App() {
       <Routes>
         {/* <Route path="/" element={<App />} /> */}
         {(() => {
-          if (localStorage.getItem('Authorization') && AuthorizationCheck(localStorage.getItem('Authorization'))) {
+          // console.log("AuthorizationCheck(localStorage.getItem('Authorization'))", AuthorizationCheck(localStorage.getItem('Authorization')))
+          if (localStorage.getItem('Authorization')) {
             return (
               <>
                 <Route path="/" exact element={<Home accesstoken={true} />} />
-                <Route path="/dashboard" element={<Dashboard accesstoken={true} />} />
+                <Route path="/tong-quan" element={<Dashboard accesstoken={true} />} />
                 {/* <Route path="/user-list" element={<List accesstoken={true} />} /> */}
-                <Route path="/user-list" element={<MainPages accesstoken={true} page="List" />} />
+                <Route path="/sinh-vien" element={<MainPages page="List" accesstoken={true} />} />
+                <Route path="/sinh-vien/them-sinh-vien" element={<MainPages page="NewUser" accesstoken={true} />} />
                 <Route path="*" element={<Navigate to="/" />} />
                 <Route path="/login" element={<Navigate to="/" />} />
                 <Route path="/signup" element={<Navigate to="/" />} />

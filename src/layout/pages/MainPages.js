@@ -4,8 +4,9 @@ import FooterAdmin from './FooterAdmin';
 import SidebarNavigationMenu from './SidebarNavigationMenu';
 // import MainContainer from './MainContainerDashboard';
 import List from './List';
+import NewUser from './NewUser';
 import { useState, useEffect } from 'react';
-import '../css/dashboard.css';
+import '../css/mainpages.css';
 export default function MainPages(accesstoken,page) {
     const [isTable, setIsTable] = useState(false)
 
@@ -48,7 +49,8 @@ export default function MainPages(accesstoken,page) {
     const callbackFunction = (childData) => {
         setIsCheckMenu(childData);
     }
-    // console.log("isCheckMenu",isCheckMenu);
+    // console.log("Object(accesstoken)",Object(accesstoken));
+    // console.log("Object(page)",Object(page));
     return (
         <>
             {(() => {
@@ -56,7 +58,7 @@ export default function MainPages(accesstoken,page) {
                     return (
                         <>
                             <Header accesstoken={true} />
-                            <div className={isMobile ? "maincontainer block pt-20 pb-10 h-[80%]" : "maincontainer flex pt-20 pb-10"}>
+                            <div className={isMobile ? "maincontainer block w-11/12 pt-20 pb-10 h-[80%]" : "maincontainer w-11/12 flex pt-20 pb-10"}>
                                 <div className="sidebar">
                                     {(() => {
                                         if (isMobile) {
@@ -66,16 +68,23 @@ export default function MainPages(accesstoken,page) {
                                         }
                                     })()}
                                 </div>
-                                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm w-11/12 ease-in" : "container sm w-10/12 ease")}>
+                                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm w-11/12 m-8 ease-in" : "container sm w-10/12 m-8 ease")}>
                                     {/* <MainContainer /> */}
                                     {(() => {
-                                        console.log("page loaded", Object(page));
-                                        if(Object(page).page==='List'){
+                                        // console.log("page loaded", page);
+                                        if(Object(accesstoken).page==='List'){
                                             return(
                                                 <>
                                                     <List />
                                                 </>
                                             );
+                                        }
+                                        else if(Object(accesstoken).page==='NewUser'){
+                                            return (
+                                                <>
+                                                    <NewUser />
+                                                </>
+                                            )
                                         }
                                     })()}
                                 </div>

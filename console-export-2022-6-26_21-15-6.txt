@@ -1,0 +1,59 @@
+Warning: Cannot update a component (`MainPages`) while rendering a different component (`SidebarNavigationMenu`). To locate the bad setState() call inside `SidebarNavigationMenu`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+SidebarNavigationMenu@http://localhost:3000/static/js/bundle.js:4518:82
+div
+div
+MainPages@http://localhost:3000/static/js/bundle.js:4241:80
+Routes@http://localhost:3000/static/js/bundle.js:289358:7
+Router@http://localhost:3000/static/js/bundle.js:289295:7
+BrowserRouter@http://localhost:3000/static/js/bundle.js:288101:7
+App react-dom.development.js:86
+Warning: Each child in a list should have a unique "key" prop.
+
+Check the render method of `SidebarNavigationMenu`. See https://reactjs.org/link/warning-keys for more information.
+LinkWithRef@http://localhost:3000/static/js/bundle.js:288206:7
+SidebarNavigationMenu@http://localhost:3000/static/js/bundle.js:4518:82
+div
+div
+MainPages@http://localhost:3000/static/js/bundle.js:4241:80
+Routes@http://localhost:3000/static/js/bundle.js:289358:7
+Router@http://localhost:3000/static/js/bundle.js:289295:7
+BrowserRouter@http://localhost:3000/static/js/bundle.js:288101:7
+App react-jsx-dev-runtime.development.js:97
+InstallTrigger is deprecated and will be removed in the future. commons.js:2:1347975
+TypeError: cyclic object value
+    parseData http://localhost:3000/sinh-vien:8
+    i http://localhost:3000/sinh-vien:10
+    i http://localhost:3000/sinh-vien:10
+    _ http://localhost:3000/sinh-vien:10
+    _ http://localhost:3000/sinh-vien:10
+    l http://localhost:3000/sinh-vien:10
+    emit http://localhost:3000/sinh-vien:334
+    emit http://localhost:3000/sinh-vien:334
+    attachRenderer moz-extension://b9062c86-6e8c-4fda-a864-4b2c0e33611e/build/react_devtools_backend.js:16201
+    initBackend moz-extension://b9062c86-6e8c-4fda-a864-4b2c0e33611e/build/react_devtools_backend.js:16213
+    initBackend moz-extension://b9062c86-6e8c-4fda-a864-4b2c0e33611e/build/react_devtools_backend.js:16212
+    setup moz-extension://b9062c86-6e8c-4fda-a864-4b2c0e33611e/build/react_devtools_backend.js:13122
+    welcome moz-extension://b9062c86-6e8c-4fda-a864-4b2c0e33611e/build/react_devtools_backend.js:13068
+    EventListener.handleEvent* moz-extension://b9062c86-6e8c-4fda-a864-4b2c0e33611e/build/react_devtools_backend.js:13071
+    __webpack_require__ moz-extension://b9062c86-6e8c-4fda-a864-4b2c0e33611e/build/react_devtools_backend.js:20
+    <anonymous> moz-extension://b9062c86-6e8c-4fda-a864-4b2c0e33611e/build/react_devtools_backend.js:84
+    <anonymous> moz-extension://b9062c86-6e8c-4fda-a864-4b2c0e33611e/build/react_devtools_backend.js:87
+react_devtools_backend.js:4026:25
+querySnapshot 
+Object { _firestore: {…}, _userDataWriter: {…}, _snapshot: {…}, metadata: {…}, query: {…} }
+App.js:24
+testQuery 
+Object { converter: null, _query: {…}, type: "collection", firestore: {…}, _path: {…} }
+App.js:33
+querySnapshot 
+Object { _firestore: {…}, _userDataWriter: {…}, _snapshot: {…}, metadata: {…}, query: {…} }
+App.js:24
+testQuery 
+Object { converter: null, _query: {…}, type: "collection", firestore: {…}, _path: {…} }
+App.js:33
+querySnapshot 
+Object { _firestore: {…}, _userDataWriter: {…}, _snapshot: {…}, metadata: {…}, query: {…} }
+App.js:24
+testQuery 
+Object { converter: null, _query: {…}, type: "collection", firestore: {…}, _path: {…} }
+App.js:33
