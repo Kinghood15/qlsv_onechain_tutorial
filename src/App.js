@@ -4,6 +4,8 @@ import SignUp from './layout/SignUpStudent';
 import Home from './layout/pages/Home';
 import Dashboard from './layout/pages/Dashboard';
 import MainPages from './layout/pages/MainPages';
+import LoginTeacher from './layout/LoginTeacher';
+import SignUpTeacher from './layout/SignUpTeacher';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NotificationMessageProvider from './layout/Provider/NotificationMessageProvider';
 import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
@@ -11,6 +13,7 @@ import { db, auth } from "./layout/Firebase";
 import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './layout/env';
 import CryptoJS from 'crypto-js';
 import { useState } from 'react';
+import { userContext  } from './layout/Provider/AuthContextProvider';
 function App() {
   const [isActive, setIsActive] = useState(false);
   var checkToken = 0;
@@ -54,7 +57,9 @@ function App() {
                 <Route path="/sinh-vien" element={<MainPages page="List" accesstoken={true} />} />
                 <Route path="/sinh-vien/them-sinh-vien" element={<MainPages page="NewUser" accesstoken={true} />} />
                 <Route path="*" element={<Navigate to="/" />} />
-                <Route path="/login" element={<Navigate to="/" />} />
+                <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} />
+                <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
+                <Route path="/signup" element={<Navigate to="/" />} />
                 <Route path="/signup" element={<Navigate to="/" />} />
               </>
             );
@@ -66,6 +71,8 @@ function App() {
                 <Route path="*" element={<Navigate to="/" />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/giao-vien/dang-nhap" element={<Navigate to="/" />} />
+                <Route path="/giao-vien/dang-ky" element={<Navigate to="/" />} />
               </>
             );
           }

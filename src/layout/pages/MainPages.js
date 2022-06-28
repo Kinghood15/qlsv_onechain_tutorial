@@ -58,7 +58,7 @@ export default function MainPages(accesstoken,page) {
                     return (
                         <>
                             <Header accesstoken={true} />
-                            <div className={isMobile ? "maincontainer block w-11/12 pt-20 pb-10 h-[80%]" : "maincontainer w-11/12 flex pt-20 pb-10"}>
+                            <div className={isMobile ? "maincontainer block w-11/12 pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer w-11/12 flex pt-20 pb-10  h-[calc(100vh-14px-60px)]"}>
                                 <div className="sidebar">
                                     {(() => {
                                         if (isMobile) {

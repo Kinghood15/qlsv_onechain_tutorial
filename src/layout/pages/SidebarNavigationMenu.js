@@ -6,45 +6,45 @@ import { MdMeetingRoom } from "react-icons/md";
 import { GrScorecard } from "react-icons/gr";
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../css/SidebarNavigationMenu.css';
-export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
+export default function SidebarNavigationMenu(props, isMobile, isShowSidebar) {
     const menuDefaults = [{
         id: 1,
         name: 'Trang chủ',
         icon: <FiHome size={24} />,
-        url: '/tong-quan',
+        url: 'tong-quan',
     }, {
         id: 2,
         name: 'Tin tức',
         icon: <FaNewspaper size={24} />,
-        url: '/tin-tuc',
+        url: 'tin-tuc',
     }, {
         id: 3,
         name: 'Sinh viên',
         icon: <AiOutlineTeam size={24} />,
-        url: '/sinh-vien',
+        url: 'sinh-vien',
     }, {
         id: 4,
         name: 'Môn học',
         icon: <FaBookReader size={24} />,
-        url: '/mon',
+        url: 'mon',
     }, {
         id: 5,
         name: 'Khoa ngành',
         icon: <MdMeetingRoom size={24} />,
-        url: '/khoa',
+        url: 'khoa',
     }, {
         id: 6,
         name: 'Lớp',
         icon: <MdMeetingRoom size={24} />,
-        url: '/lop',
+        url: 'lop',
     }, {
         id: 7,
         name: 'Điểm',
         icon: <GrScorecard size={24} />,
-        url: '/diem',
+        url: 'diem',
     }]
     const [slidebar, setSlidebar] = useState(false);
     const location = useLocation();
@@ -56,11 +56,13 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
     props.parentCallback(slidebar);
     // console.log("slidebar",slidebar)
     useEffect(() => {
-       menuDefaults.map((item) => {
-        if(location.pathname === item.url) {
-            setActiveTab(item.id);
-        }
-       });
+        menuDefaults.map((item) => {
+            const linkLocation = location.pathname.split('/')[1];
+            // console.log("linkLocation",linkLocation);
+            if (linkLocation === item.url) {
+                setActiveTab(item.id);
+            }
+        });
     })
     return (
         <>
@@ -75,12 +77,12 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
                                         return (
                                             <Link to={item.url}>
                                                 {/* <Tippy content={`${item.name}`} placement="right" theme="translucent"> */}
-                                                    <li className={(activeTab === item.id) ? "item-menu active w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
-                                                        <div className="icon mx-5">
-                                                            {item.icon}
-                                                        </div>
-                                                        <div className="title mr-5 w-20">{item.name}</div>
-                                                    </li>
+                                                <li className={(activeTab === item.id) ? "item-menu active w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
+                                                    <div className="icon mx-5">
+                                                        {item.icon}
+                                                    </div>
+                                                    <div className="title mr-5 w-20">{item.name}</div>
+                                                </li>
                                                 {/* </Tippy> */}
                                             </Link>
                                         )
@@ -106,7 +108,7 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar ) {
                                         return (
                                             <Link to={item.url}>
                                                 <Tippy content={`${item.name}`} placement="right" theme="translucent">
-                                                <li className={(activeTab === item.id) ? "item-menu active w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>   
+                                                    <li className={(activeTab === item.id) ? "item-menu active w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
                                                         <div className="icon mx-5">
                                                             {item.icon}
                                                         </div>

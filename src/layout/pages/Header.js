@@ -50,7 +50,7 @@ export default function Header(accesstoken) {
     // getAvatar();
     let avatar = getAvatar();
     return (
-        <div className="header 2xl w-full h-20 bg-sky-500 flex justify-between block ease-in fixed z-50">
+        <div className="header 2xl w-full h-20 bg-sky-500 flex justify-between block ease-in absolute top-0 z-50">
             <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
                 {(() => {
                     if (isMobile) {
