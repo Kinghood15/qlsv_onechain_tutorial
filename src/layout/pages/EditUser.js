@@ -9,8 +9,7 @@ import { ACCESS_TOKEN_SECRET, AVATAR_USER } from '../env';
 import { useNavigate } from 'react-router-dom';
 // import { isEmpty } from "validator";
 import isEmail from 'validator/es/lib/isEmail';
-import {AiOutlineArrowLeft} from "react-icons/ai";
-export default function NewUser() {
+export default function EditUser({id}) {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState({
         'studentId': '',
@@ -52,7 +51,7 @@ export default function NewUser() {
         const segments = data._key;
         console.log("segments.segments", segments.path.segments[1]);
         setIdUpdate(segments.path.segments[1]);
-        // return <NewUser studentId={segments.path.segments[1]} />
+        // return <EditUser studentId={segments.path.segments[1]} />
         // navigate('/sinh-vien/them-sinh-vien')
 
     }
@@ -81,7 +80,7 @@ export default function NewUser() {
         // setIsInputForm({ ...isInputForm, 'studentId': isStudentId });
         // console.log("isStudentId",isStudentId);
     }
-    // console.log("isStudentId in NewUser:",isStudentId);
+    // console.log("isStudentId in EditUser:",isStudentId);
     const [isScienceBranch, setIsScienceBranch] = useState([]);
     const getScienceBratch = async () => {
         try {
@@ -116,7 +115,7 @@ export default function NewUser() {
                 setValidateInput({...validateInput,'studentId':''})
                 setColorInput({...colorInput,'studentId':'border-green-300'});
                 try {
-                    await UserDataService.addUser({...isInputForm});
+                    await UserDataService.updateUser({...isInputForm});
                     alert("User added successfully")
                     ;
                     setIsInputForm({...value});
@@ -137,7 +136,7 @@ export default function NewUser() {
     }
     const SaveAndModal = () => {
         onSubmit();
-
+        
     }
     const onReset = (value) => {
         setIsInputForm({ ...value });
@@ -224,9 +223,6 @@ export default function NewUser() {
                 <div className="container bg-white flex-1 rounded-xl" >
                     <div className="headerForm p-5 flex justify-between">
                         <div className="headerForm-left">
-                            <button onClick={() => navigate(-1)}>
-                                <AiOutlineArrowLeft size={24} />
-                            </button>
                             <h1 className="text-black font-bold">Thêm sinh viên</h1>
                         </div>
                         <div className="headerForm-right">

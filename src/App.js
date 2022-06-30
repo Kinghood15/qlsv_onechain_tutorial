@@ -7,6 +7,8 @@ import MainPages from './layout/pages/MainPages';
 import LoginTeacher from './layout/LoginTeacher';
 import Error404 from './layout/pages/404';
 import SignUpTeacher from './layout/SignUpTeacher';
+import EditUser from './layout/pages/EditUser';
+import MainProfile from './layout/pages/MainProfile';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NotificationMessageProvider from './layout/Provider/NotificationMessageProvider';
 import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
@@ -104,6 +106,16 @@ function App() {
           <Route path="/giao-vien/sinh-vien/them-sinh-vien" element={
             <ProtectedRoute>
               <MainPages page="NewUser" />
+            </ProtectedRoute>
+          } />
+          <Route path="/giao-vien/sinh-vien/sua-sinh-vien/?id=  " element={
+            <ProtectedRoute>
+              <MainPages page="EditUser" />
+            </ProtectedRoute>
+          } />
+          <Route path="/giao-vien/thong-tin-ca-nhan " element={
+            <ProtectedRoute>
+              <MainProfile page="EditUser" />
             </ProtectedRoute>
           } />
           <Route path="/404" element={<Error404 />} />

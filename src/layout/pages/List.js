@@ -14,6 +14,22 @@ import Dropdown from '../js/Dropdown';
 import { AiOutlineFilter } from "react-icons/ai";
 
 export default function List() {
+    const [popupContent,setPopupContent] = useState([]);
+    const [ popupToggle,setPopupToggle] = useState(false);
+    const [styling,setStyling] = useState(null);
+    const changeContent = (user) => {
+        setPopupContent([user]);
+        setPopupToggle(!popupToggle);
+        if(styling === null) {
+            setStyling({
+                position:"fixed",
+            });
+        }else{
+            setStyling(null);
+
+        }
+    }
+
     const [isActive, setIsActive] = useState(false);
     const [isData, setIsData] = useState([]);
     const [isOpenModalView, setIsOpenModalView] = useState(false);
@@ -23,7 +39,6 @@ export default function List() {
     const navigate = useNavigate();
     useEffect(() => {
         getUsers();
-        
     }, []);
 
     // const [isNameCollection, setIsNameCollection] = useState([]);
@@ -79,7 +94,6 @@ export default function List() {
     }
     const handleChangeInputSearch = (e) => {
         setQuery(e.target.value);
-        // console.log("query",query)
     }
 
     const search = (data) => {
@@ -145,6 +159,18 @@ export default function List() {
                             <select name="filter" id="filter" className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
                                 <option name="" value="">Mã sinh viên tăng dần </option>
                                 <option name="" value="">Mã sinh viên giảm dần </option>
+                                <option name="" value="">Tên sinh viên tăng dần </option>
+                                <option name="" value="">Tên sinh viên giảm dần </option>
+                                <option name="" value="">Email sinh viên tăng dần </option>
+                                <option name="" value="">Email sinh viên giảm dần </option>
+                                <option name="" value="">Địa chỉ sinh viên tăng dần </option>
+                                <option name="" value="">Địa chỉ sinh viên giảm dần </option>
+                                <option name="" value="">Khoa sinh viên tăng dần </option>
+                                <option name="" value="">Khoa sinh viên giảm dần </option>
+                                <option name="" value="">Lớp sinh viên tăng dần </option>
+                                <option name="" value="">Lớp sinh viên giảm dần </option>
+                                <option name="" value="">Giới tính nam </option>
+                                <option name="" value="">Giới tính nữ </option>
                             </select>
                             {/* </div> */}
                         </div>
@@ -156,18 +182,31 @@ export default function List() {
                                     <th className="p-3 border border-slate-600 w-10 text-sm font-semibold tracking-wide">STT</th>
                                     <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Tên sinh viên</th>
                                     <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Mã sinh viên</th>
+                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Email</th>
+                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Địa chỉ</th>
+                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Ngày sinh</th>
+                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Giới tính</th>
+                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Khoa ngành</th>
+                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Lớp</th>
                                     <th className="p-3 border border-slate-600 w-52 text-sm font-semibold tracking-wide">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     currentPosts.length > 0 && currentPosts.map((doc, index) => {
+                                        
                                         return (
                                             <>
                                                 <tr className={isActive ? "bg-white " : "bg-gray"}>
                                                     <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{index + 1}</td>
                                                     <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-left"><div className="content-table flex items-center"><img className="w-10 h-10 rounded-xl mx-3" src={doc.avatar ? doc.avatar : ''} alt={"avatar " + doc.lastName ? doc.lastName : ''} />{(doc.firstName ? doc.firstName : '') + ' ' + (doc.lastName ? doc.lastName : '')}</div></td>
                                                     <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.studentId}</td>
+                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.email}</td>
+                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.address}</td>
+                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.birthday}</td>
+                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.gender}</td>
+                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.scienceBranch}</td>
+                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.nameClass}</td>
                                                     <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center ">
                                                         <div className="content-table flex justify-around items-around">
                                                             <button className="p-3 rounded-xl bg-sky-200" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
@@ -177,7 +216,7 @@ export default function List() {
                                                     </td>
                                                 </tr>
                                                 {isOpenModalView && <Modal modal={"view"} data={doc} closeModal={setIsOpenModalView} key={doc.id} />}
-                                                {isOpenModalEdit && <Modal modal={"edit"} data={doc} />}
+                                                {isOpenModalEdit && <Modal modal={"edit"} data={doc} closeModal={""} />}
                                             </>
                                         )
                                     })
@@ -194,11 +233,15 @@ export default function List() {
                                         </svg>
                                     </button> */}
                                     {pageNumbers.map((number) => {
-                                        return (
-                                            <button key={number+1} onClick={() => paginate(number)} className="hidden md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300" title={`Page +${number+1}`}>
-                                                {number+1}
-                                            </button>
-                                        );
+                                        
+                                        if(number+1 < pageNumbers.length){
+                                            return (
+                                                <button key={number+1} onClick={() => paginate(number+1)} className="hidden md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300" title={`Page ${number+1}`}>
+                                                    {number+1}
+                                                </button>
+                                            ); 
+                                        }
+                                        
                                     })}
                                     {/* <button className="flex w-10 h-10 ml-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300" title="Next Page">
                                         <span className="sr-only">Next Page</span>

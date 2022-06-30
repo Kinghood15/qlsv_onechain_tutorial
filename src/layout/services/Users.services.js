@@ -66,18 +66,15 @@ class UsersDataService {
         const userDoc = doc(db, "users", id);
         return getDoc(userDoc).studentId;
     };
-    getUserByStudentId = async (studentId) => {
+    getUserByStudentId = (studentId) => {
+        console.log("studentId in getUserByStudentId",studentId);
         const userDoc = doc(db, "users", where("studentId", "==", studentId));
         return getDoc(userDoc);
 
     }
-    checkUserByStudentId = async (studentId) => {
-        const userDoc = query(usersCollectionRef, where("studentId", "==", studentId));
-        return await getDocs(userDoc);
-        // var studentIdTrue;
-        // querySnapshotStudentIdCheck.forEach((doc) => {
-        //     return doc
-        // })
+    checkUserByStudentId = (studentId) => {
+        const userDoc =query(collection(db, "users"), where("studentId", "==", studentId));
+        return getDocs(userDoc);
     }
 }
 export default new UsersDataService();

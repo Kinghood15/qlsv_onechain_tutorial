@@ -58,7 +58,7 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar) {
     useEffect(() => {
         menuDefaults.map((item) => {
             const linkLocation = location.pathname;
-            console.log("linkLocation",linkLocation);
+            // console.log("linkLocation",linkLocation);
             if (linkLocation === item.url) {
                 setActiveTab(item.id);
             }
