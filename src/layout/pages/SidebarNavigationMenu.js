@@ -14,37 +14,37 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar) {
         id: 1,
         name: 'Trang chủ',
         icon: <FiHome size={24} />,
-        url: 'tong-quan',
+        url: '/giao-vien/tong-quan',
     }, {
         id: 2,
         name: 'Tin tức',
         icon: <FaNewspaper size={24} />,
-        url: 'tin-tuc',
+        url: '/giao-vien/tin-tuc',
     }, {
         id: 3,
         name: 'Sinh viên',
         icon: <AiOutlineTeam size={24} />,
-        url: 'sinh-vien',
+        url: '/giao-vien/sinh-vien',
     }, {
         id: 4,
         name: 'Môn học',
         icon: <FaBookReader size={24} />,
-        url: 'mon',
+        url: '/giao-vien/mon',
     }, {
         id: 5,
         name: 'Khoa ngành',
         icon: <MdMeetingRoom size={24} />,
-        url: 'khoa',
+        url: '/giao-vien/khoa',
     }, {
         id: 6,
         name: 'Lớp',
         icon: <MdMeetingRoom size={24} />,
-        url: 'lop',
+        url: '/giao-vien/lop',
     }, {
         id: 7,
         name: 'Điểm',
         icon: <GrScorecard size={24} />,
-        url: 'diem',
+        url: '/giao-vien/diem',
     }]
     const [slidebar, setSlidebar] = useState(false);
     const location = useLocation();
@@ -57,8 +57,8 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar) {
     // console.log("slidebar",slidebar)
     useEffect(() => {
         menuDefaults.map((item) => {
-            const linkLocation = location.pathname.split('/')[1];
-            // console.log("linkLocation",linkLocation);
+            const linkLocation = location.pathname;
+            console.log("linkLocation",linkLocation);
             if (linkLocation === item.url) {
                 setActiveTab(item.id);
             }

@@ -1,26 +1,62 @@
-// import { createContext, useReducer, useEffect } from 'react';
-import { authReducer } from '../reducer/AuthReducer';
-import { apiUrl, LOCAL_STORAGE_TOKEN_NAME, SET_AUTH } from '../context/Constants';
-import axios from 'axios';
-import setAuthToken  from '../utils/setAuthToken';
-import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { app } from "../Firebase";
-import React,{useState,useEffect} from "react";
-export const AuthContext = React.createContext(null);
+// // import { createContext, useReducer, useEffect } from 'react';
+// import { authReducer } from '../reducer/AuthReducer';
+// import { apiUrl, LOCAL_STORAGE_TOKEN_NAME, SET_AUTH } from '../context/Constants';
+// import axios from 'axios';
+// import setAuthToken  from '../utils/setAuthToken';
+// import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
+// import { app } from "../Firebase";
+// import React,{useState,useEffect,createContext} from "react";
+// import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 
-export const AuthProvider = ({children}) => {
-    const [currentUser,setCurrentUser] = useState(null);
-    useEffect(() => {
-        app.auth().onAuthStateChanged(setCurrentUser);
+import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from 'firebase/auth';
+import { auth } from '../Firebase';
 
-    },[]);
-    return(
-     <AuthContext.Provider value={{currentUser}}>
-        {children}
-     </AuthContext.Provider>
-    );
-}
+const UserContext = createContext();
 
+export const AuthContextProvider = ({ children }) => {
+  const [user, setUser] = useState({});
+
+  const createUser = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+   const signIn = (email, password) =>  {
+    return signInWithEmailAndPassword(auth, email, password)
+   }
+
+  const logout = () => {
+      return signOut(auth)
+  }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      // console.log(currentUser);
+      setUser(currentUser);
+      console.log("AuthContextProvider",user)
+      localStorage.setItem('user', user);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  return (
+    <UserContext.Provider value={{ createUser, user, logout, signIn }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+export const UserAuth = () => {
+  // console.log("UserContext",UserContext)
+  return useContext(UserContext);
+};
 
 // import {createContext, useReducer, useEffect} from 'react';
 // import {authReducer} from '../reducers/AuthReducer';

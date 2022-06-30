@@ -70,11 +70,11 @@ export default function List() {
 
     }
     const newHandler = async () => {
-        const data = await UserDataService.addStudentId();
-        const segments = data._key;
-        console.log("segments.segments", segments.path.segments[1]);
+        // const data = await UserDataService.addStudentId();
+        // const segments = data._key;
+        // console.log("segments.segments", segments.path.segments[1]);
         // return <NewUser studentId={segments.path.segments[1]} />
-        // navigate('/sinh-vien/them-sinh-vien')
+        navigate('/giao-vien/sinh-vien/them-sinh-vien')
 
     }
     const handleChangeInputSearch = (e) => {

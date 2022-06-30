@@ -5,7 +5,7 @@ import Home from './layout/pages/Home';
 import Dashboard from './layout/pages/Dashboard';
 import MainPages from './layout/pages/MainPages';
 import LoginTeacher from './layout/LoginTeacher';
-import Test from './layout/test'
+import Error404 from './layout/pages/404';
 import SignUpTeacher from './layout/SignUpTeacher';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NotificationMessageProvider from './layout/Provider/NotificationMessageProvider';
@@ -14,8 +14,9 @@ import { db, auth } from "./layout/Firebase";
 import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './layout/env';
 import CryptoJS from 'crypto-js';
 import { useState } from 'react';
-import { AuthProvider } from './layout/Provider/AuthContextProvider';
-import PrivateRoute from './PrivateRoute';
+import { AuthContextProvider } from './layout/Provider/AuthContextProvider';
+import ProtectedRoute from './router/Protected.Route';
+// import PrivateRoute from './PrivateRoute';
 function App() {
   const [isActive, setIsActive] = useState(false);
   var checkToken = 0;
@@ -86,22 +87,32 @@ function App() {
     //  </NotificationMessageProvider> */}
     // </BrowserRouter>
     <BrowserRouter>
-      <AuthProvider>
+      <AuthContextProvider>
         <Routes>
-          <div>
-            <Route path="/" exact element={<Home accesstoken={true} />} />
-            <PrivateRoute path="/tong-quan" element={<Dashboard accesstoken={true} />} />
-            {/* <Route path="/user-list" element={<List accesstoken={true} />} /> */}
-            <PrivateRoute path="/sinh-vien" element={<MainPages page="List" accesstoken={true} />} />
-            <PrivateRoute path="/sinh-vien/them-sinh-vien" element={<MainPages page="NewUser" accesstoken={true} />} />
-            <Route path="*" element={<Navigate to="/" />} />
-            {/* <Route path="/test" element={<Test />} /> */}
-            <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} />
-            <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
-            <Route path="/signup" element={<Navigate to="/" />} />
-          </div>
+          {/* <div> */}
+          <Route path="/" exact element={<Home accesstoken={true} />} />
+          <Route path="/giao-vien/tong-quan" element={
+            <ProtectedRoute>
+              <Dashboard accesstoken={true} />
+            </ProtectedRoute>
+          } />
+          <Route path="/giao-vien/sinh-vien" element={
+            <ProtectedRoute>
+              <MainPages page="List" />
+            </ProtectedRoute>
+          } />
+          <Route path="/giao-vien/sinh-vien/them-sinh-vien" element={
+            <ProtectedRoute>
+              <MainPages page="NewUser" />
+            </ProtectedRoute>
+          } />
+          <Route path="/404" element={<Error404 />} />
+          <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} />
+          <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
+          <Route path="/signup" element={<Navigate to="/" />} />
+          {/* </div> */}
         </Routes>
-      </AuthProvider>
+      </AuthContextProvider>
     </BrowserRouter>
   );
 }

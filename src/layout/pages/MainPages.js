@@ -7,9 +7,8 @@ import List from './List';
 import NewUser from './NewUser';
 import { useState, useEffect } from 'react';
 import '../css/mainpages.css';
-export default function MainPages(accesstoken,page) {
+export default function MainPages(page) {
     const [isTable, setIsTable] = useState(false)
-
     //choose the screen size 
     const handleResize = () => {
         if (window.innerWidth < 1200) {
@@ -19,7 +18,6 @@ export default function MainPages(accesstoken,page) {
             setIsTable(false)
         }
     }
-    // console.log(isTable);
 
     // create an event listener
     useEffect(() => {
@@ -36,7 +34,6 @@ export default function MainPages(accesstoken,page) {
             setIsMobile(false)
         }
     }
-    // console.log(isTable);
 
     // create an event listener
     useEffect(() => {
@@ -49,51 +46,41 @@ export default function MainPages(accesstoken,page) {
     const callbackFunction = (childData) => {
         setIsCheckMenu(childData);
     }
-    // console.log("Object(accesstoken)",Object(accesstoken));
-    // console.log("Object(page)",Object(page));
+
     return (
         <>
-            {(() => {
-                if (Object(accesstoken).accesstoken === true) {
-                    return (
-                        <>
-                            <Header accesstoken={true} />
-                            <div className={isMobile ? "maincontainer block w-11/12 pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer w-11/12 flex pt-20 pb-10  h-[calc(100vh-14px-60px)]"}>
-                                <div className="sidebar">
-                                    {(() => {
-                                        if (isMobile) {
-                                            return;
-                                        } else {
-                                            return <SidebarNavigationMenu isMobile={isTable} isShowSidebar="" parentCallback={callbackFunction} />
-                                        }
-                                    })()}
-                                </div>
-                                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm w-11/12 m-8 ease-in" : "container sm w-10/12 m-8 ease")}>
-                                    {/* <MainContainer /> */}
-                                    {(() => {
-                                        // console.log("page loaded", page);
-                                        if(Object(accesstoken).page==='List'){
-                                            return(
-                                                <>
-                                                    <List />
-                                                </>
-                                            );
-                                        }
-                                        else if(Object(accesstoken).page==='NewUser'){
-                                            return (
-                                                <>
-                                                    <NewUser />
-                                                </>
-                                            )
-                                        }
-                                    })()}
-                                </div>
-                            </div>
-                            <FooterAdmin />
-                        </>
-                    );
-                }
-            })()}
+            <Header accesstoken={true} />
+            <div className={isMobile ? "maincontainer block w-11/12 pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer w-11/12 flex pt-20 pb-10  h-[calc(100vh-14px-60px)]"}>
+                <div className="sidebar">
+                    {(() => {
+                        if (isMobile) {
+                            return;
+                        } else {
+                            return <SidebarNavigationMenu isMobile={isTable} isShowSidebar="" parentCallback={callbackFunction} />
+                        }
+                    })()}
+                </div>
+                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm w-11/12 m-8 ease-in" : "container sm w-10/12 m-8 ease")}>
+                    {/* <MainContainer /> */}
+                    {(() => {
+                        if (Object(page).page === 'List'){
+                            return (
+                                <>
+                                    <List />
+                                </>
+                            );
+                        }
+                        else if (Object(page).page === 'NewUser') {
+                            return (
+                                <>
+                                    <NewUser />
+                                </>
+                            )
+                        }
+                    })()}
+                </div>
+            </div>
+            <FooterAdmin />
         </>
     );
 }; 

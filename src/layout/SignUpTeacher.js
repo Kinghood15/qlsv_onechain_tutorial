@@ -5,7 +5,10 @@ import { db, auth } from "./Firebase";
 import { isEmpty } from "validator";
 import ScienceBratchServices from "./services/ScienceBratch.services";
 import UsersTeacherServices from "./services/UsersTeacher.services";
+import { UserAuth } from "./Provider/AuthContextProvider";
+import { useNavigate } from 'react-router-dom';
 const SignUpTeacher = ({history}) => {
+    const navigate = useNavigate();
     // const auth = getAuth();
     const [inputForm, setInputForm] = useState({
         firstName: "",
@@ -17,12 +20,13 @@ const SignUpTeacher = ({history}) => {
         nameScienceBranch: "",
         gender: "",
     });
+    const { createUser } = UserAuth();
     const [error, setError] = useState(false)
-    const handleSignUp = useCallback(async (e) => {
+    // const handleSignUp = useCallback(async (e) => {
+    //     e.preventDefault();
+    //     // const { email}
+    // })
 
-    })
-    const [emailTest, setEmailTest] = useState('');
-    const [passwordTest, setPasswordTest] = useState('');
     const [isScienceBranch, setIsScienceBranch] = useState([]);
     const getScienceBratch = async () => {
         try {
@@ -39,41 +43,41 @@ const SignUpTeacher = ({history}) => {
         const name = target.name;
         // console.log("name: " + name, target.name);
         setInputForm({ ...inputForm, [name]: value });
-        console.log("isInputForm", inputForm);
+        // console.log("isInputForm", inputForm);
     }
     const onReset = (value) => {
         setInputForm({ ...value });
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (inputForm.email && inputForm.password && inputForm.password.trim() === inputForm.confirmPassword.trim() && inputForm.firstName && inputForm.lastName && inputForm.gender && inputForm.position && inputForm.birthday && inputForm.nameScienceBranch) {
-            createUserWithEmailAndPassword(auth, inputForm.email, inputForm.password)
-                .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user
-                    console.log(user)
-                    alert("Thanh cong")
-
-                    // ...
-                })
-                .catch((error) => {
-                    // setError(true)
-                    alert(error)
-                    // ..
-                })
+            try{
+                await createUser(inputForm.email, inputForm.password);
+                try{
+                    if(await UsersTeacherServices.addUserTeacher(inputForm)){
+                        alert("Đăng ký tài khoản thành công !")
+                        navigate("/giao-vien/dang-nhap")
+                    }else return alert("Đăng ký tài khoản không thành công !")
+                    
+                }catch(err){
+                    console.log("Save data user teacher failed", err);
+                }
+            }catch(e){
+                console.log("Create user teacher authtication failed",e);
+            }
         }
 
     }
+    useEffect(() => {
+        getScienceBratch();
+    })
     return (
         <>
             <section className="h-screen">
                 <div className="px-6 h-full text-gray-800">
                     <div className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">
                         <div className="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                                className="w-full"
-                                alt="Sample image"
-                            />
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" className="w-full" alt="Sample image" />
                         </div>
                         <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
                             <h1>Đăng ký tài khoản Giáo Viên</h1>
@@ -141,9 +145,9 @@ const SignUpTeacher = ({history}) => {
                                     </select>
                                 </div>
                                 <div className="form-group form-check text-center mb-6">
-                                    <label className="form-check-label inline-block text-gray-800" >Tôi đồng ý với điều khoản và chính sách của nhà trường</label>
+                                    {/* <label className="form-check-label inline-block text-gray-800" >Tôi đồng ý với điều khoản và chính sách của nhà trường</label> */}
                                 </div>
-                                <button className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Sign up</button>
+                                <button className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Đăng ký</button>
                             </form>
                         </div>
                     </div>
