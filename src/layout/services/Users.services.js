@@ -76,5 +76,53 @@ class UsersDataService {
         const userDoc =query(collection(db, "users"), where("studentId", "==", studentId));
         return getDocs(userDoc);
     }
+    getUsersByStudentIdAsc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("studentId",'asc'));
+        return getDocs(userDoc);
+    }
+    getUsersByStudentIdDesc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("studentId",'desc'));
+        return getDocs(userDoc);
+    }
+    getUsersByEmailAsc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("email",'asc'));
+        return getDocs(userDoc);
+    }
+    getUsersByEmailDesc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("email",'desc'));
+        return getDocs(userDoc);
+    }
+    getUsersByAddressAsc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("address",'asc'));
+        return getDocs(userDoc);
+    }
+    getUsersByAddressDesc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("address",'desc'));
+        return getDocs(userDoc);
+    }
+    getUsersByScienceBranchAsc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("scienceBranch",'asc'));
+        return getDocs(userDoc);
+    }
+    getUsersByScienceBranchDesc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("scienceBranch",'desc'));
+        return getDocs(userDoc);
+    }
+    getUsersByNameClassAsc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("nameClass",'asc'));
+        return getDocs(userDoc);
+    }
+    getUsersByNameClassDesc = () => {
+        const userDoc = query(collection(db, "users"), orderBy("nameClass",'desc'));
+        return getDocs(userDoc);
+    }
+    getUsersByGenderMale = () => {
+        const userDoc = query(collection(db, "users"), where("gender",'==','Nam'));
+        return getDocs(userDoc);
+    }
+    getUsersByGenderFemale = () => {
+        const userDoc = query(collection(db, "users"), where("gender",'==','Nữ'));
+        return getDocs(userDoc);
+    }
 }
 export default new UsersDataService();

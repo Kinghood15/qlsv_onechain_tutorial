@@ -14,17 +14,17 @@ import Dropdown from '../js/Dropdown';
 import { AiOutlineFilter } from "react-icons/ai";
 
 export default function List() {
-    const [popupContent,setPopupContent] = useState([]);
-    const [ popupToggle,setPopupToggle] = useState(false);
-    const [styling,setStyling] = useState(null);
+    const [popupContent, setPopupContent] = useState([]);
+    // const [popupToggle, setPopupToggle] = useState(false);
+    const [styling, setStyling] = useState(null);
     const changeContent = (user) => {
         setPopupContent([user]);
-        setPopupToggle(!popupToggle);
-        if(styling === null) {
+        // setPopupToggle(!popupToggle);
+        if (styling === null) {
             setStyling({
-                position:"fixed",
+                position: "fixed",
             });
-        }else{
+        } else {
             setStyling(null);
 
         }
@@ -39,6 +39,8 @@ export default function List() {
     const navigate = useNavigate();
     useEffect(() => {
         getUsers();
+        // changeFilter();
+        getUsersStudent();
     }, []);
 
     // const [isNameCollection, setIsNameCollection] = useState([]);
@@ -62,7 +64,7 @@ export default function List() {
                     onClick: async () => {
                         await UserDataService.deleteUser(id);
                         getUsers();
-                        
+
                     }
                 },
                 {
@@ -78,10 +80,19 @@ export default function List() {
     // const confirmCheck = confirm("Bạn có chắc chắn muốn xóa sinh viên này không ?" ? "Yes" : "No")
 
 
-
+    const [isModalData, setIsModalData] = useState();
     // }
     const viewUserId = async (id) => {
-        // setIsOpenModalView(true);
+        
+        // console.log("UserServices getUser",UserDataService.getUser(id));
+        const docSnap = await UserDataService.getUser(id);
+        if (docSnap.exists()) {
+            setIsModalData(docSnap.data());
+            setIsOpenModalView(true);
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+          }
 
     }
     const newHandler = async () => {
@@ -120,13 +131,81 @@ export default function List() {
     const currentPosts = dataSearch.slice(indexOfFirstPost, indexOfLastPost);
     const pageNumbers = [];
     const totalUsers = dataSearch.length;
-    
+
     for (let i = 0; i <= Math.ceil(totalUsers / usersPerPage); i++) {
         pageNumbers.push(i);
     }
     var paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     }
+    const [isFilter, setIsFilter] = useState('StudentIdAsc');
+    const changeFilter = (e) => {
+        e.preventDefault();
+        setIsFilter(e.target.value)
+        // console.log("isFilter", isFilter);
+        getUsersStudent();
+    }
+    const getUsersStudent = async () => {
+        // e.preventDefault();
+        // setIsFilter(e.target.value)
+        switch (isFilter) {
+            case 'StudentIdAsc': {
+                const dataList = await UserDataService.getUsersByStudentIdAsc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'StudentIdDesc': {
+                const dataList = await UserDataService.getUsersByStudentIdDesc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'EmailAsc': {
+                const dataList = await UserDataService.getUsersByEmailAsc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+
+            }
+            case 'EmailDesc': {
+                const dataList = await UserDataService.getUsersByEmailDesc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'AddressAsc': {
+                const dataList = await UserDataService.getUsersByAddressAsc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'AddressDesc': {
+                const dataList = await UserDataService.getUsersByAddressDesc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'ScienceBranchAsc': {
+                const dataList = await UserDataService.getUsersByScienceBranchAsc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'ScienceBranchDesc': {
+                const dataList = await UserDataService.getUsersByScienceBranchDesc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'NameClassAsc': {
+                const dataList = await UserDataService.getUsersByNameClassAsc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'NameClassDesc': {
+                const dataList = await UserDataService.getUsersByNameClassDesc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'GenderMale': {
+                const dataList = await UserDataService.getUsersByGenderMale();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            case 'GenderFemale': {
+                const dataList = await UserDataService.getUsersByGenderFemale();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+            }
+            default: {
+                const dataList = await UserDataService.getUsersByStudentIdAsc();
+                return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
+            }
+        }
+        
+    }
+    const [isClick,setIsClick] = useState(false);
     return (
         <main>
             {/* <pre>{JSON.stringify(isData,undefined,2)}</pre> */}
@@ -156,25 +235,26 @@ export default function List() {
                         <div className="functiontable-right">
                             {/* <div className="mb-10 xl:w-96"> */}
                             {/* <label className="form-label inline-block mb-2 text-gray-700" for="scienceBranch"><AiOutlineFilter />Lọc :</label> */}
-                            <select name="filter" id="filter" className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
-                                <option name="" value="">Mã sinh viên tăng dần </option>
-                                <option name="" value="">Mã sinh viên giảm dần </option>
-                                <option name="" value="">Tên sinh viên tăng dần </option>
-                                <option name="" value="">Tên sinh viên giảm dần </option>
-                                <option name="" value="">Email sinh viên tăng dần </option>
-                                <option name="" value="">Email sinh viên giảm dần </option>
-                                <option name="" value="">Địa chỉ sinh viên tăng dần </option>
-                                <option name="" value="">Địa chỉ sinh viên giảm dần </option>
-                                <option name="" value="">Khoa sinh viên tăng dần </option>
-                                <option name="" value="">Khoa sinh viên giảm dần </option>
-                                <option name="" value="">Lớp sinh viên tăng dần </option>
-                                <option name="" value="">Lớp sinh viên giảm dần </option>
-                                <option name="" value="">Giới tính nam </option>
-                                <option name="" value="">Giới tính nữ </option>
+                            <select name="filter" id="filter" onClick={changeFilter} className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
+                                <option name="filter" value='StudentIdAsc'>Mã sinh viên tăng dần </option>
+                                <option name="filter" value='StudentIdDesc'>Mã sinh viên giảm dần </option>
+                                {/* <option name="filter" value={isFiltvalue=ter('Asc')}}>Tên sinh viên tăng dần </option> */}
+                                {/* <option name="filter" value={isFiltvalue=ter('Asc')}}>Tên sinh viên giảm dần </option> */}
+                                <option name="filter" value='EmailAsc'>Email sinh viên tăng dần </option>
+                                <option name="filter" value='EmailDesc'>Email sinh viên giảm dần </option>
+                                <option name="filter" value='AddressAsc'>Địa chỉ sinh viên tăng dần </option>
+                                <option name="filter" value='AddressDesc'>Địa chỉ sinh viên giảm dần </option>
+                                <option name="filter" value='ScienceBranchAsc'>Khoa sinh viên tăng dần </option>
+                                <option name="filter" value='ScienceBranchDesc'>Khoa sinh viên giảm dần </option>
+                                <option name="filter" value='NameClassAsc'>Lớp sinh viên tăng dần </option>
+                                <option name="filter" value='NameClassDesc'>Lớp sinh viên giảm dần </option>
+                                <option name="filter" value='GenderMale'>Giới tính nam </option>
+                                <option name="filter" value='GenderFemale'>Giới tính nữ </option>
                             </select>
                             {/* </div> */}
                         </div>
                     </div>
+
                     <div className="main-table m-8 p-5 ">
                         <table className=" w-full rounded-xl ">
                             <thead className="bg-gray-50">
@@ -194,7 +274,6 @@ export default function List() {
                             <tbody>
                                 {
                                     currentPosts.length > 0 && currentPosts.map((doc, index) => {
-                                        
                                         return (
                                             <>
                                                 <tr className={isActive ? "bg-white " : "bg-gray"}>
@@ -215,11 +294,17 @@ export default function List() {
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                {isOpenModalView && <Modal modal={"view"} data={doc} closeModal={setIsOpenModalView} key={doc.id} />}
-                                                {isOpenModalEdit && <Modal modal={"edit"} data={doc} closeModal={""} />}
+                                                {/* {isOpenModalView && <Modal modal={"view"} data={doc} closeModal={setIsOpenModalView} key={doc.id} />} */}
+                                                {/* {isOpenModalEdit && <Modal modal={"edit"} data={doc} closeModal={""} />} */}
                                             </>
                                         )
                                     })
+                                }
+                                {
+                                    isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
+                                }
+                                {
+                                    isOpenModalEdit && <Modal modal={"edit"} data={isModalData} closeModal={setIsOpenModalEdit} />
                                 }
                             </tbody>
                         </table>
@@ -233,15 +318,15 @@ export default function List() {
                                         </svg>
                                     </button> */}
                                     {pageNumbers.map((number) => {
-                                        
-                                        if(number+1 < pageNumbers.length){
+
+                                        if (number + 1 < pageNumbers.length) {
                                             return (
-                                                <button key={number+1} onClick={() => paginate(number+1)} className="hidden md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300" title={`Page ${number+1}`}>
-                                                    {number+1}
+                                                <button key={number + 1} onClick={() => paginate(number + 1)} className="hidden md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300" title={`Page ${number + 1}`}>
+                                                    {number + 1}
                                                 </button>
-                                            ); 
+                                            );
                                         }
-                                        
+
                                     })}
                                     {/* <button className="flex w-10 h-10 ml-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300" title="Next Page">
                                         <span className="sr-only">Next Page</span>

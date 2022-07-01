@@ -117,9 +117,9 @@ export default function NewUser() {
                 setColorInput({...colorInput,'studentId':'border-green-300'});
                 try {
                     await UserDataService.addUser({...isInputForm});
-                    alert("User added successfully")
-                    ;
+                    alert("User added successfully");
                     setIsInputForm({...value});
+                    navigate('/giao-vien/sinh-vien')
                 } catch (error) {
                     alert("User added failed")
                 }
