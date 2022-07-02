@@ -9,7 +9,8 @@ import { ACCESS_TOKEN_SECRET, AVATAR_USER } from '../env';
 import { useNavigate } from 'react-router-dom';
 // import { isEmpty } from "validator";
 import isEmail from 'validator/es/lib/isEmail';
-import {AiOutlineArrowLeft} from "react-icons/ai";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import Modal from '../components/Modal';
 export default function NewUser() {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState({
@@ -23,7 +24,7 @@ export default function NewUser() {
         'scienceBranch': '',
         'gender': '',
     })
-    const [isStudentId,setIsStudentId] = useState();
+    const [isStudentId, setIsStudentId] = useState();
     const [colorInput, setColorInput] = useState({
         'studentId': 'border-gray-300',
         'firstName': 'border-gray-300',
@@ -50,16 +51,16 @@ export default function NewUser() {
     const newHandler = async () => {
         const data = await UserDataService.addStudentId();
         const segments = data._key;
-        console.log("segments.segments", segments.path.segments[1]);
+        // console.log("segments.segments", segments.path.segments[1]);
         setIdUpdate(segments.path.segments[1]);
         // return <NewUser studentId={segments.path.segments[1]} />
         // navigate('/sinh-vien/them-sinh-vien')
 
     }
-    
-    
+
+
     const [isInputForm, setIsInputForm] = useState({
-        'studentId':'',
+        'studentId': '',
         'firstName': '',
         'lastName': '',
         'nameClass': '',
@@ -70,7 +71,7 @@ export default function NewUser() {
         'gender': '',
         'avatar': AVATAR_USER
     });
-    const [isData,setIsData] = useState({})
+    const [isData, setIsData] = useState({})
     const getUsers = async () => {
         const data = await UserDataService.getAllUsers();
         setIsData(data.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
@@ -97,102 +98,120 @@ export default function NewUser() {
         setIsClass(data.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
     }
     const [isUser, setIsUser] = useState([]);
-    const onSubmit =  async(value) => {
+    const [isOpenModalView, setIsOpenModalView] = useState(false);
+    const onSubmit = async (value) => {
         try {
-            console.log("isInputForm.studentId in event on Submit by New User",isInputForm.studentId);
-            const checkStudentIds = await UserDataService.checkUserByStudentId(isInputForm.studentId);
-            var countCheckStudentId = 0;
-            checkStudentIds.forEach((studentId) =>{
-                console.log("studentId.data()",studentId.data());
-                if(studentId.data()){
-                    countCheckStudentId+=1;
-                }
-            })
-            console.log("countCheckStudentId",countCheckStudentId);
-            if(countCheckStudentId > 0){
-                setValidateInput({...validateInput,'studentId':'Mã sinh viên này đã được sử dụng. Yêu cầu bạn nhập số khác!'})
-                setColorInput({...colorInput,'studentId':'border-red-300'});
-            }else {
-                setValidateInput({...validateInput,'studentId':''})
-                setColorInput({...colorInput,'studentId':'border-green-300'});
-                try {
-                    await UserDataService.addUser({...isInputForm});
-                    alert("User added successfully");
-                    setIsInputForm({...value});
-                    navigate('/giao-vien/sinh-vien')
-                } catch (error) {
-                    alert("User added failed")
+            // console.log("isInputForm.studentId in event on Submit by New User", isInputForm.studentId);
+            if (isInputForm.studentId && isInputForm.firstName && isInputForm.lastName && isInputForm.email && isInputForm.nameClass && isInputForm.address && isInputForm.scienceBranch && isInputForm.gender && isInputForm.birthday && isInputForm.avatar) {
+                const checkStudentIds = await UserDataService.checkUserByStudentId(isInputForm.studentId);
+                var countCheckStudentId = 0;
+                checkStudentIds.forEach((studentId) => {
+                    // console.log("studentId.data()", studentId.data());
+                    if (studentId.data()) {
+                        countCheckStudentId += 1;
+                    }
+                })
+                // console.log("countCheckStudentId", countCheckStudentId);
+                if (countCheckStudentId > 0) {
+                    setValidateInput({ ...validateInput, 'studentId': 'Mã sinh viên này đã được sử dụng. Yêu cầu bạn nhập số khác!' })
+                    setColorInput({ ...colorInput, 'studentId': 'border-red-300' });
+                } else if(countCheckStudentId === 0){
+                    const checkStudentIds = await UserDataService.checkUserByEmail(isInputForm.email);
+                    countCheckStudentId = 0;
+                    checkStudentIds.forEach((studentId) => {
+                    // console.log("studentId.data()", studentId.data());
+                        if (studentId.data()) {
+                            countCheckStudentId += 1;
+                        }
+                    }) 
+                    if(countCheckStudentId > 0) {
+                        setValidateInput({ ...validateInput, 'email': 'Email này đã được sử dụng. Yêu cầu bạn nhập email khác!' })
+                        setColorInput({ ...colorInput, 'email': 'border-red-300' });
+                    }else{
+                        setValidateInput({ ...validateInput, 'email': '' })
+                        setColorInput({ ...colorInput, 'email': 'border-green-300' });
+                        try {
+                            if(await UserDataService.addUser({ ...isInputForm })){
+                                alert("User added successfully");
+                            }else alert("User not added successfully");
+                            // onReset(true);
+                        } catch (error) {
+                            return alert("User added failed")
+                        }
+                    }
+                    
                 }
             }
             // console.log("value in onSubmit", value);
             // UserDataService.addUser({...value});
-            
+
         } catch (error) {
-            console.log("onClick submit in add new user ",error);
+            console.log("onClick submit in add new user ", error);
         }
     };
     const SaveAndGoBack = () => {
-        onSubmit();
-        navigate(-1);
+        // onSubmit();
+        // navigate(-1);
     }
     const SaveAndModal = () => {
-        onSubmit();
+        // onSubmit();
+        // return {isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />}
 
     }
     const onReset = (value) => {
         setIsInputForm({ ...value });
     }
-    
+
     function handleChange(env) {
         const target = env.target;
 
         const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
-        console.log("isInputForm.firstName.length",isInputForm.firstName.length)
+        console.log("isInputForm.firstName.length", isInputForm.firstName.length)
         setIsInputForm({ ...isInputForm, [name]: value });
-        if(isInputForm.studentId.length > 0 && isInputForm.studentId.length < 7){
-            setValidateInput({...validateInput,'studentId':''});
-            setColorInput({...colorInput,'studentId':'border-green-300'});
-        }else if(isInputForm.studentId.length >7){
-            setValidateInput({...validateInput,'studentId':'Bạn phải nhập đủ 6 ký tự'});
-            setColorInput({...colorInput,'studentId':'border-red-300'});
+        if (isInputForm.studentId.length > 0 && isInputForm.studentId.length < 7) {
+            setValidateInput({ ...validateInput, 'studentId': '' });
+            setColorInput({ ...colorInput, 'studentId': 'border-green-300' });
+        } else if (isInputForm.studentId.length > 7) {
+            setValidateInput({ ...validateInput, 'studentId': 'Bạn phải nhập đủ 6 ký tự' });
+            setColorInput({ ...colorInput, 'studentId': 'border-red-300' });
         }
-        if(isInputForm.firstName.length < 2){
-           setValidateInput({...validateInput,'firstName':'Bạn phải nhiều hơn 2 ký tự'});
-           setColorInput({...colorInput,'firstName':'border-green-300'});
-        }else if(isInputForm.firstName.length >=2){
-            setValidateInput({...validateInput,'firstName':''});
-            setColorInput({...colorInput,'firstName':'border-green-300'});
+        if (isInputForm.firstName.length < 2) {
+            setValidateInput({ ...validateInput, 'firstName': 'Bạn phải nhiều hơn 2 ký tự' });
+            setColorInput({ ...colorInput, 'firstName': 'border-green-300' });
+        } else if (isInputForm.firstName.length >= 2) {
+            setValidateInput({ ...validateInput, 'firstName': '' });
+            setColorInput({ ...colorInput, 'firstName': 'border-green-300' });
         }
-        if(isInputForm.lastName.length < 2){
-            setValidateInput({...validateInput,'lastName':'Bạn phải nhiều hơn 2 ký tự'})
-            setColorInput({...colorInput,'lastName':'border-green-300'});
-        }else if(isInputForm.lastName.length >1){
-            setValidateInput({...validateInput,'lastName':''});
-            setColorInput({...colorInput,'lastName':'border-green-300'});
+        if (isInputForm.lastName.length < 2) {
+            setValidateInput({ ...validateInput, 'lastName': 'Bạn phải nhiều hơn 2 ký tự' })
+            setColorInput({ ...colorInput, 'lastName': 'border-green-300' });
+        } else if (isInputForm.lastName.length > 1) {
+            setValidateInput({ ...validateInput, 'lastName': '' });
+            setColorInput({ ...colorInput, 'lastName': 'border-green-300' });
         }
-        if(isInputForm.address.length<2){
-            setValidateInput({...validateInput,'address':'Bạn phải nhiều hơn 2 ký tự'})
-            setColorInput({...colorInput,'address':'border-green-300'})
-        }else if(isInputForm.address.length>1){
-            setValidateInput({...validateInput,'address':''});
-            setColorInput({...colorInput,'address':'border-green-300'});
+        if (isInputForm.address.length < 2) {
+            setValidateInput({ ...validateInput, 'address': 'Bạn phải nhiều hơn 2 ký tự' })
+            setColorInput({ ...colorInput, 'address': 'border-green-300' })
+        } else if (isInputForm.address.length > 1) {
+            setValidateInput({ ...validateInput, 'address': '' });
+            setColorInput({ ...colorInput, 'address': 'border-green-300' });
         }
-        if(isInputForm.email.length < 2){
-            setValidateInput({...validateInput,'email':'Bạn phải nhiều hơn 2 ký tự'})
-            setColorInput({...colorInput,'email':'border-green-300'})
-        }else if(isInputForm.email.length > 1){
-           setValidateInput({...validateInput,'email':''});
-           setColorInput({...colorInput,'email':'border-green-300'});
+        if (isInputForm.email.length < 2) {
+            setValidateInput({ ...validateInput, 'email': 'Bạn phải nhiều hơn 2 ký tự' })
+            setColorInput({ ...colorInput, 'email': 'border-green-300' })
+        } else if (isInputForm.email.length > 1) {
+            setValidateInput({ ...validateInput, 'email': '' });
+            setColorInput({ ...colorInput, 'email': 'border-green-300' });
         }
-        if(isEmail(isInputForm.email)){
-            setValidateInput({...validateInput,'email':'Email của bạn không hợp lệ'})
-            setColorInput({...colorInput,'email':'border-green-300'})
-        }else if(!isEmail(isInputForm.email)){
-            setValidateInput({...validateInput,'email':''})
-            setColorInput({...colorInput,'email':'border-green-300'})
+        if (isEmail(isInputForm.email)) {
+            setValidateInput({ ...validateInput, 'email': 'Email của bạn hợp lệ' })
+            setColorInput({ ...colorInput, 'email': 'border-green-300' })
+        } else if (!isEmail(isInputForm.email)) {
+            setValidateInput({ ...validateInput, 'email': 'Email của bạn không hợp lệ' })
+            setColorInput({ ...colorInput, 'email': 'border-red-300' })
         }
-        if(isInputForm.birthday){
+        if (isInputForm.birthday) {
 
         }
         // if(isInputForm.gender.length < 2){
@@ -204,9 +223,9 @@ export default function NewUser() {
         //     setValidateInput({...validateInput,'scienceBranch':'Bạn phải chọn khoa ngành'})
         //     setColorInput({...colorInput,'scienceBranch':'border-green-300'})
         // }
-        console.log("isInputForm",isInputForm);
-        console.log("validateInput",validateInput);
-        console.log("colorInput",colorInput);
+        // console.log("isInputForm", isInputForm);
+        // console.log("validateInput", validateInput);
+        // console.log("colorInput", colorInput);
 
     }
     const { validator, handleReset, handleSubmit } = useValidator({
@@ -237,7 +256,7 @@ export default function NewUser() {
                         <form onReset={handleReset(onReset)} onSubmit={handleSubmit(onSubmit)} onChange={handleChange}>
                             <div className="mb-10 xl:w-96">
                                 <label className="form-label inline-block mb-2 text-gray-700" for="studentId">Mã sinh viên</label>
-                                <input name="studentId" required type="text" className={`${colorInput.studentId} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="studentId" placeholder="Mã sinh viên"/>
+                                <input name="studentId" required type="text" className={`${colorInput.studentId} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="studentId" placeholder="Mã sinh viên" />
                                 <span className={`${colorInput.studentId}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.studentId}</span>
                             </div>
                             <div class="grid grid-cols-2 gap-4">
@@ -269,8 +288,8 @@ export default function NewUser() {
                                 <div className="mb-10 xl:w-96">
                                     <label className="form-label inline-block mb-2 text-gray-700" for="gender">Giới tính:</label>
                                     <select name="gender" id="gender" className={`${colorInput.gender} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="gender">
-                                        <option name="gender" defaultValue="male">Nam</option>
-                                        <option name="gender" value="female">Nữ</option>
+                                        <option name="gender" value="Nam" selected>Nam</option>
+                                        <option name="gender" value="Nữ">Nữ</option>
                                     </select>
                                 </div>
                             </div>
@@ -283,7 +302,7 @@ export default function NewUser() {
                                                 i++;
                                                 return (
                                                     <>
-                                                        <option name="scienceBranch" key={item.id}  defaultValue={item.nameScienceBranch}>{item.nameScienceBranch}</option>
+                                                        <option name="scienceBranch" key={item.id} value={item.nameScienceBranch} selected>{item.nameScienceBranch}</option>
                                                     </>
                                                 );
                                             } else {
@@ -305,7 +324,7 @@ export default function NewUser() {
                                                 i++;
                                                 return (
                                                     <>
-                                                        <option name="nameClass" key={item.id} defaultValue={item.nameClass}>{item.nameClass}</option>
+                                                        <option name="nameClass" key={item.id} value={item.nameClass} selected>{item.nameClass}</option>
                                                     </>
                                                 );
                                             } else {
@@ -321,7 +340,7 @@ export default function NewUser() {
                             </div>
                             <div class="grid grid-cols-3 gap-4">
                                 <button type="reset" className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Xóa hết</button>
-                                <button type="button" onClick={""} className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và quay trở lại!</button>
+                                <button type="button" onClick={SaveAndGoBack()} className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và quay trở lại!</button>
                                 <button type="submit" className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và xem trước thông tin</button>
                             </div>
                         </form>

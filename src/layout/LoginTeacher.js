@@ -92,9 +92,6 @@ export default function LoginTeacher() {
         // console.log(errorMessage);
         e.preventDefault();
         try {
-            // if(inputForm.email && inputForm.password){
-                console.log(inputForm.email);
-                console.log(inputForm.password);
             
                 if(await signIn(inputForm.email, inputForm.password)){
                     alert("Đăng nhập thành công !")

@@ -14,22 +14,6 @@ import Dropdown from '../js/Dropdown';
 import { AiOutlineFilter } from "react-icons/ai";
 
 export default function List() {
-    const [popupContent, setPopupContent] = useState([]);
-    // const [popupToggle, setPopupToggle] = useState(false);
-    const [styling, setStyling] = useState(null);
-    const changeContent = (user) => {
-        setPopupContent([user]);
-        // setPopupToggle(!popupToggle);
-        if (styling === null) {
-            setStyling({
-                position: "fixed",
-            });
-        } else {
-            setStyling(null);
-
-        }
-    }
-
     const [isActive, setIsActive] = useState(false);
     const [isData, setIsData] = useState([]);
     const [isOpenModalView, setIsOpenModalView] = useState(false);
@@ -39,20 +23,26 @@ export default function List() {
     const navigate = useNavigate();
     useEffect(() => {
         getUsers();
-        // changeFilter();
         getUsersStudent();
     }, []);
-
-    // const [isNameCollection, setIsNameCollection] = useState([]);
 
     const getUsers = async () => {
         const data = await UserDataService.getAllUsers();
         setIsData(data.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
     }
     const getUserId = async (id) => {
-        setIsOpenModalEdit(true);
-        const data = await UserDataService.getUser(id);
-
+        try {
+            const docSnap = await UserDataService.getUser(id);
+            if (docSnap.exists()) {
+                setIsModalData({ ...docSnap.data(), "id": id });
+                setIsOpenModalEdit(true);
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        } catch (error) {
+            console.log("Error: " + error);
+        }
     }
     const deleteHandler = (id) => {
         confirmAlert({
@@ -75,33 +65,19 @@ export default function List() {
         })
     };
 
-    // const deleteHandler = async (id) => {
-    // setIsOpenModalDelete(true);
-    // const confirmCheck = confirm("Bạn có chắc chắn muốn xóa sinh viên này không ?" ? "Yes" : "No")
-
-
     const [isModalData, setIsModalData] = useState();
     // }
     const viewUserId = async (id) => {
-        
-        // console.log("UserServices getUser",UserDataService.getUser(id));
         const docSnap = await UserDataService.getUser(id);
         if (docSnap.exists()) {
             setIsModalData(docSnap.data());
             setIsOpenModalView(true);
-          } else {
-            // doc.data() will be undefined in this case
+        } else {
             console.log("No such document!");
-          }
-
+        }
     }
     const newHandler = async () => {
-        // const data = await UserDataService.addStudentId();
-        // const segments = data._key;
-        // console.log("segments.segments", segments.path.segments[1]);
-        // return <NewUser studentId={segments.path.segments[1]} />
         navigate('/giao-vien/sinh-vien/them-sinh-vien')
-
     }
     const handleChangeInputSearch = (e) => {
         setQuery(e.target.value);
@@ -112,10 +88,10 @@ export default function List() {
 
             if (query === "") {
                 return user;
-                // }else if(user.firstName !== "" || user.lastName !== "" || user.studentId !== ""){
-                // if(user.firstName.toLowerCase().includes(query) || user.lastName.toLowerCase().includes(query) || user.studentId.includes(query)){
-                // return user;
-                // }
+            } else if (user.firstName !== "" || user.lastName !== "" || user.studentId !== "") {
+                if (user.firstName.toLowerCase().includes(query) || user.lastName.toLowerCase().includes(query) || user.studentId.includes(query)) {
+                    return user;
+                }
             } else {
 
                 return user;
@@ -203,9 +179,9 @@ export default function List() {
                 return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
             }
         }
-        
+
     }
-    const [isClick,setIsClick] = useState(false);
+    const [isClick, setIsClick] = useState(false);
     return (
         <main>
             {/* <pre>{JSON.stringify(isData,undefined,2)}</pre> */}

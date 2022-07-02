@@ -1,7 +1,6 @@
 import { MdNotifications } from "react-icons/md";
 import { FiMenu, FiHome } from "react-icons/fi";
 import { MdPerson } from "react-icons/md";
-import an from '../../img/an.jpg';
 import Tippy from '@tippyjs/react';
 import React, { useState, useEffect } from "react";
 import SidebarNavigationMenu from './SidebarNavigationMenu';

@@ -76,6 +76,10 @@ class UsersDataService {
         const userDoc =query(collection(db, "users"), where("studentId", "==", studentId));
         return getDocs(userDoc);
     }
+    checkUserByEmail = (email) => {
+        const userDoc =query(collection(db, "users"), where("email", "==", email));
+        return getDocs(userDoc);
+    }
     getUsersByStudentIdAsc = () => {
         const userDoc = query(collection(db, "users"), orderBy("studentId",'asc'));
         return getDocs(userDoc);
