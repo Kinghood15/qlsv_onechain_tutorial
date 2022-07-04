@@ -114,7 +114,7 @@ export default function List() {
     var paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     }
-    const [pageNumberActive,setPageNumberActive] = useState(0);
+    const [pageNumberActive, setPageNumberActive] = useState(0);
     const [isFilter, setIsFilter] = useState('StudentIdAsc');
     const changeFilter = (e) => {
         e.preventDefault();
@@ -182,7 +182,8 @@ export default function List() {
         }
 
     }
-    const [isClick, setIsClick] = useState(false);
+    const [toggleState, setToggleState] = useState(1);
+
     return (
         <main>
             {/* <pre>{JSON.stringify(isData,undefined,2)}</pre> */}
@@ -231,75 +232,117 @@ export default function List() {
                             {/* </div> */}
                         </div>
                     </div>
+                    <ul className="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none p-3 border-b">
+                        <li className="nav-item" role="presentation">
+                            <button onClick={() => setToggleState(1)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 1 ? "bg-sky-400 text-white" : "bg-white text-black"}`} >Xem danh sách theo kiểu bảng</button>
+                        </li>
+                        <li className="nav-item" role="presentation">
+                            <button onClick={() => setToggleState(2)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 2 ? "bg-sky-400 text-white" : "bg-white text-black"}`} >Xem danh sách theo kiểu thẻ</button>
+                        </li>
+                    </ul>
+                    <div className="tab-content" id="tabs-tabContent">
+                        <div className={"tab-pane fade show active " + `${toggleState === 1 ? 'block' : 'hidden'}`} id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
+                            {/* Tab content table */}
+                            <div className="main-table m-8">
+                                <table className=" w-full rounded-xl ">
+                                    <thead className="bg-gray-50">
+                                        <tr className="bg-gray">
+                                            <th className="p-3 border border-slate-600 w-10 text-sm font-semibold tracking-wide">STT</th>
+                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Tên sinh viên</th>
+                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Mã sinh viên</th>
+                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Email</th>
+                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Địa chỉ</th>
+                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Ngày sinh</th>
+                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Giới tính</th>
+                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Khoa ngành</th>
+                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Lớp</th>
+                                            <th className="p-3 border border-slate-600 w-52 text-sm font-semibold tracking-wide">Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            currentPosts.length > 0 && currentPosts.map((doc, index) => {
+                                                return (
+                                                    <>
+                                                        <tr className={isActive ? "bg-white " : "bg-gray"}>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{index + 1}</td>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-left"><div className="content-table flex items-center"><img className="w-10 h-10 rounded-xl mx-3" src={doc.avatar ? doc.avatar : ''} alt={"avatar " + doc.lastName ? doc.lastName : ''} />{(doc.firstName ? doc.firstName : '') + ' ' + (doc.lastName ? doc.lastName : '')}</div></td>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.studentId}</td>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.email}</td>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.address}</td>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.birthday}</td>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.gender}</td>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.scienceBranch}</td>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.nameClass}</td>
+                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center ">
+                                                                <div className="content-table flex justify-around items-around">
+                                                                    <button className="p-3 rounded-xl bg-sky-200" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
+                                                                    <button className="p-3 rounded-xl bg-sky-200" onClick={() => getUserId(doc.id)}><AiOutlineEdit size={20} /></button>
+                                                                    <button className="p-3 rounded-xl bg-red-200" onClick={() => deleteHandler(doc.id)}><AiOutlineDelete size={20} /></button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {/* {isOpenModalView && <Modal modal={"view"} data={doc} closeModal={setIsOpenModalView} key={doc.id} />} */}
+                                                        {/* {isOpenModalEdit && <Modal modal={"edit"} data={doc} closeModal={""} />} */}
+                                                    </>
+                                                )
+                                            })
+                                        }
+                                        {
+                                            isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
+                                        }
+                                        {
+                                            isOpenModalEdit && <Modal modal={"edit"} data={isModalData} closeModal={setIsOpenModalEdit} />
+                                        }
+                                    </tbody>
+                                </table>
 
-                    <div className="main-table m-8 p-5 ">
-                        <table className=" w-full rounded-xl ">
-                            <thead className="bg-gray-50">
-                                <tr className="bg-gray">
-                                    <th className="p-3 border border-slate-600 w-10 text-sm font-semibold tracking-wide">STT</th>
-                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Tên sinh viên</th>
-                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Mã sinh viên</th>
-                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Email</th>
-                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Địa chỉ</th>
-                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Ngày sinh</th>
-                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Giới tính</th>
-                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Khoa ngành</th>
-                                    <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Lớp</th>
-                                    <th className="p-3 border border-slate-600 w-52 text-sm font-semibold tracking-wide">Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                            </div>
+                        </div>
+                        <div className={"tab-pane fade show active " + `${toggleState === 2 ? 'block' : 'hidden'}`} id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
+                            {/* Tab content grid */}
+                            <div className="grid grid-cols-3 gap-3 m-8">
                                 {
                                     currentPosts.length > 0 && currentPosts.map((doc, index) => {
                                         return (
                                             <>
-                                                <tr className={isActive ? "bg-white " : "bg-gray"}>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{index + 1}</td>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-left"><div className="content-table flex items-center"><img className="w-10 h-10 rounded-xl mx-3" src={doc.avatar ? doc.avatar : ''} alt={"avatar " + doc.lastName ? doc.lastName : ''} />{(doc.firstName ? doc.firstName : '') + ' ' + (doc.lastName ? doc.lastName : '')}</div></td>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.studentId}</td>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.email}</td>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.address}</td>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.birthday}</td>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.gender}</td>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.scienceBranch}</td>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.nameClass}</td>
-                                                    <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center ">
-                                                        <div className="content-table flex justify-around items-around">
-                                                            <button className="p-3 rounded-xl bg-sky-200" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
-                                                            <button className="p-3 rounded-xl bg-sky-200" onClick={() => getUserId(doc.id)}><AiOutlineEdit size={20} /></button>
-                                                            <button className="p-3 rounded-xl bg-red-200" onClick={() => deleteHandler(doc.id)}><AiOutlineDelete size={20} /></button>
+                                                <div className="card">
+                                                    <div className="flex justify-center">
+                                                        <div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg w-96">
+                                                            <img className=" w-28 h-28 object-cover p-3 rounded-lg" src={doc.avatar} alt="" />
+                                                            <div className="p-6 flex flex-col justify-start">
+                                                                <h5 className="text-gray-900 text-xl font-medium mb-2">{doc.firstName + " " + doc.lastName}</h5>
+                                                                <p className="text-gray-700 text-base mb-4">Mã sinh viên: {doc.studentId}</p>
+                                                                <p className="text-gray-700 text-base mb-4">Lớp : {doc.nameClass}</p>
+                                                                <p className="text-gray-700 text-base mb-4">Khoa : {doc.scienceBranch}</p>
+                                                                {/* <p className="text-gray-600 text-xs">Last updated 3 mins ago</p> */}
+                                                            </div>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                                {/* {isOpenModalView && <Modal modal={"view"} data={doc} closeModal={setIsOpenModalView} key={doc.id} />} */}
-                                                {/* {isOpenModalEdit && <Modal modal={"edit"} data={doc} closeModal={""} />} */}
+                                                    </div>
+                                                </div>
                                             </>
-                                        )
+                                        );
                                     })
                                 }
-                                {
-                                    isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
-                                }
-                                {
-                                    isOpenModalEdit && <Modal modal={"edit"} data={isModalData} closeModal={setIsOpenModalEdit} />
-                                }
-                            </tbody>
-                        </table>
-                        <div className="p-5">
-                            <div className="container mx-auto px-4">
-                                <nav className="flex flex-row flex-nowrap justify-between md:justify-center items-center" aria-label="Pagination">
-                                    {pageNumbers.map((number) => {
+                            </div>
+                        </div>
+                        <div className="tab-footer">
+                            <div className="p-5">
+                                <div className="container mx-auto px-4">
+                                    <nav className="flex flex-row flex-nowrap justify-between md:justify-center items-center" aria-label="Pagination">
+                                        {pageNumbers.map((number) => {
 
-                                        if (number + 1 < pageNumbers.length) {
-                                            return (
-                                                <button key={number + 1} onClick={() =>{ paginate(number + 1); setPageNumberActive(number+1)}} className={"hidden md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300"+`${pageNumberActive === number +1 ? " bg-sky-300" : ""}`} title={`Page ${number + 1}`}>
-                                                    {number + 1}
-                                                </button>
-                                            );
-                                        }
+                                            if (number + 1 < pageNumbers.length) {
+                                                return (
+                                                    <button key={number + 1} onClick={() => { paginate(number + 1); setPageNumberActive(number + 1) }} className={"hidden md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300" + `${pageNumberActive === number + 1 ? " bg-sky-300" : ""}`} title={`Page ${number + 1}`}>
+                                                        {number + 1}
+                                                    </button>
+                                                );
+                                            }
 
-                                    })}
-                                </nav>
+                                        })}
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
