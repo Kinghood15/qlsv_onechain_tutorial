@@ -18,15 +18,19 @@ class UsersTeacherDataService {
 
     }
 
-    getAllUsers = () => {
+    getAllUsersTeacher = () => {
         // console.log("getAllUsers",getDocs(usersCollectionRef))
         return getDocs(usersCollectionRef);
     }
-    getUser = (id) => {
+    getUserTeacher = (id) => {
         const userDoc = doc(db, "userTeachers", id);
         return getDoc(userDoc);
     };
-    getUserById = (id) => {
+    getUserTeacherByEmail = (email) => {
+        const userDoc = query(collection(db, "userTeachers"), where("email", "==", email));
+        return getDocs(userDoc);
+    }
+    getUserTeacherById = (id) => {
         const userDoc = doc(db, "userTeachers", id);
         return getDoc(userDoc).studentId;
     };

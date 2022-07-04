@@ -7,6 +7,7 @@ import ScienceBratchServices from "./services/ScienceBratch.services";
 import UsersTeacherServices from "./services/UsersTeacher.services";
 import { UserAuth } from "./Provider/AuthContextProvider";
 import { useNavigate } from 'react-router-dom';
+import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './env';
 const SignUpTeacher = ({history}) => {
     const navigate = useNavigate();
     // const auth = getAuth();
@@ -19,6 +20,7 @@ const SignUpTeacher = ({history}) => {
         birthday: "",
         nameScienceBranch: "",
         gender: "",
+        avatar: AVATAR_USER,
     });
     const { createUser } = UserAuth();
     const [error, setError] = useState(false)

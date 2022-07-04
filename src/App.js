@@ -108,12 +108,12 @@ function App() {
               <MainPages page="NewUser" />
             </ProtectedRoute>
           } />
-          <Route path="/giao-vien/sinh-vien/sua-sinh-vien/?id=  " element={
+          <Route path="/giao-vien/thong-tin-ca-nhan" element={
             <ProtectedRoute>
-              <MainPages page="EditUser" />
+              <MainProfile page="ShowUser" />
             </ProtectedRoute>
           } />
-          <Route path="/giao-vien/thong-tin-ca-nhan " element={
+           <Route path="/giao-vien/thong-tin-ca-nhan/chinh-sua-thong-tin-ca-nhan" element={
             <ProtectedRoute>
               <MainProfile page="EditUser" />
             </ProtectedRoute>

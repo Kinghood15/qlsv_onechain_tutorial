@@ -21,6 +21,7 @@ export const AuthContextProvider = ({ children }) => {
    }
 
   const logout = () => {
+      localStorage.getItem('Authorization');
       return signOut(auth)
   }
 
@@ -28,7 +29,7 @@ export const AuthContextProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       // console.log(currentUser);
       setUser(currentUser);
-      console.log("AuthContextProvider",currentUser)
+      // console.log("AuthContextProvider",currentUser)
       localStorage.setItem('Authorization', JSON.stringify(currentUser));
     });
     return () => {

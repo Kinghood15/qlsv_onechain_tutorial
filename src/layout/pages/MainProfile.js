@@ -3,8 +3,8 @@ import Header from './Header';
 import FooterAdmin from './FooterAdmin';
 import SidebarNavigationMenu from './SidebarNavigationMenu';
 // import MainContainer from './MainContainerDashboard';
-import List from './List';
-import NewUser from './NewUser';
+import ShowProfile from '../ShowProfile';
+import EditProfile from '../EditProfile';
 import { useState, useEffect } from 'react';
 import '../css/mainpages.css';
 export default function MainProfile(page) {
@@ -43,28 +43,43 @@ export default function MainProfile(page) {
         };
     })
     const [isCheckMenu, setIsCheckMenu] = useState();
+    const [isUserTeacher, setIsUserTeacher] = useState({
+        "email": "",
+        "birthday": "",
+        "firstName": "",
+        "lastName": "",
+        "gender": "",
+        "avatar": "",
+        "nameScienceBranch": "",
+        "position": "",
+    })
     const callbackFunction = (childData) => {
-        setIsCheckMenu(childData);
+        // console.log("childData === {}",childData === {})
+        if (childData.email !== "") {
+            console.log("childData", childData);
+            setIsUserTeacher(childData);
+            console.log("isUserTeacher in main profile",isUserTeacher); 
+        }
     }
 
     return (
         <>
-            <Header accesstoken={true} />
-            <div className={isMobile ? "maincontainer block w-11/12 pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer w-11/12 flex pt-20 pb-10  h-[calc(100vh-14px-60px)]"}>
-                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm w-11/12 m-8 ease-in" : "container sm w-10/12 m-8 ease")}>
+            <Header parentCallback={callbackFunction} />
+            <div className={isMobile ? "maincontainer block m-auto pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer m-auto flex pt-20 pb-10  h-[calc(100vh-14px-60px)]"}>
+                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm  m-8 mx-auto ease-in" : "container sm m-8 mx-auto ease")}>
                     {/* <MainContainer /> */}
                     {(() => {
-                        if (Object(page).page === 'List'){
+                        if (Object(page).page === 'ShowUser') {
                             return (
                                 <>
-                                    <List />
+                                    <ShowProfile userTeacher={isUserTeacher} />
                                 </>
                             );
                         }
-                        else if (Object(page).page === 'NewUser') {
+                        else if (Object(page).page === 'EditUser') {
                             return (
                                 <>
-                                    <NewUser />
+                                    <EditProfile userTeacher={isUserTeacher} />
                                 </>
                             )
                         }
