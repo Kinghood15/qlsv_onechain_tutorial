@@ -56,9 +56,9 @@ export default function MainProfile(page) {
     const callbackFunction = (childData) => {
         // console.log("childData === {}",childData === {})
         if (childData.email !== "") {
-            console.log("childData", childData);
+            // console.log("childData", childData);
             setIsUserTeacher(childData);
-            console.log("isUserTeacher in main profile",isUserTeacher); 
+            // console.log("isUserTeacher in main profile",isUserTeacher); 
         }
     }
 

@@ -67,7 +67,7 @@ export default function Header(props) {
             try {
                 const userTeacher = await UsersTeacherServices.getUserTeacherByEmail(email);
                 userTeacher.forEach((teacher) => {
-                    console.log("teacher.data()", teacher.data());
+                    // console.log("teacher.data()", teacher.data());
                     if (teacher.data()) {
                         setIsUserTeacher(teacher.data())
                         
@@ -88,7 +88,7 @@ export default function Header(props) {
     if(location.pathname.split('/')[1] === 'giao-vien' && location.pathname.split('/')[2] === 'thong-tin-ca-nhan'){
         if(isUserTeacher.email !== ""){
             props.parentCallback(isUserTeacher);
-            console.log("userTeacher in parentCallback",isUserTeacher)
+            // console.log("userTeacher in parentCallback",isUserTeacher)
         }
     }
    

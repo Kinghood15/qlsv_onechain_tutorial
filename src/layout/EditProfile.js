@@ -5,9 +5,9 @@ import ScienceBratchServices from './services/ScienceBratch.services';
 import "./css/editprofile.css";
 const EditProfile = (userTeacher) => {
     useEffect(() => {
-        // console.log("userTeacher in ShowProfile", userTeacher)
+        console.log("userTeacher in EditProfile", Object(userTeacher).userTeacher)
         getScienceBratch();
-    })
+    },[])
     const [colorInput, setColorInput] = useState({
         "email": "border-gray-300",
         "birthday": "border-gray-300",
@@ -40,6 +40,7 @@ const EditProfile = (userTeacher) => {
         "nameScienceBranch": Object(userTeacher).userTeacher.nameScienceBranch,
         "position": Object(userTeacher).userTeacher.position,
     });
+    console.log("isUserTeacher in edit profile",isUserTeacher);
     const [isScienceBranch, setIsScienceBranch] = useState([]);
     const getScienceBratch = async () => {
         try {
@@ -67,7 +68,7 @@ const EditProfile = (userTeacher) => {
                         </div>
                     </div>
                     <div className="BoxName w-[50%] flex justify-start items-end py-5">
-                        <p className="text-white font-bold text-3xl">{Object(isUserTeacher).isUserTeacher.firstName + " " + Object(isUserTeacher).isUserTeacher.lastName}</p>
+                        <p className="text-white font-bold text-3xl">{isUserTeacher.firstName + " " + isUserTeacher.lastName}</p>
                     </div>
                     <div className="BoxSettings w-[20%]">
                         <button type="button" className="px-6 py-2.5 bg-white text-blue font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-white-300 hover:shadow-lg focus:bg-black focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-black-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Lưu thông tin cá nhân</button>
