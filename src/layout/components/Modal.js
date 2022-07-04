@@ -149,7 +149,7 @@ export default function Modal({ modal, data, closeModal }) {
       <div className="bg-black opacity-50 fixed top-0 left-0 w-screen h-screen z-10"></div>
       <div className="modal fade fixed top-0 left-0 block w-full m-auto h-full z-20 outline-none overflow-x-hidden overflow-y-auto"
         id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" >
-        <div className={(modal === 'view' ? 'w-[30vw] ' : 'w-[60vw] ') + `modal-dialo m-auto mt-14 pointer-events-none`}>
+        <div className={(modal === 'view' ? 'w-[30vw] ' : 'w-[60vw] ') + `modal-dialo m-auto mt-8 pointer-events-none`}>
           <div
             className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
             <div
@@ -207,9 +207,9 @@ export default function Modal({ modal, data, closeModal }) {
                   return (
                     <>
                       <form onReset={handleReset(onReset)} onSubmit={handleSubmit(editHandler)} onChange={handleChange}>
-                        <div class="profile-pic">
-                          <label class="-label" for="file">
-                            <span class="glyphicon glyphicon-camera"></span>
+                        <div className="profile-pic">
+                          <label className="-label" for="file">
+                            <span className="glyphicon glyphicon-camera"></span>
                             <span>Change Image</span>
                           </label>
                           <input id="file" type="file" onChange={getEmergencyFoundImg} />
@@ -220,7 +220,7 @@ export default function Modal({ modal, data, closeModal }) {
                           <input value={isInputForm.studentId} name="studentId" required type="text" className={`${colorInput.studentId} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="studentId" placeholder="Mã sinh viên" />
                           <span className={`${colorInput.studentId}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.studentId}</span>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-4">
                           <div className="mb-10 xl:w-96">
                             <label className="form-label inline-block mb-2 text-gray-700" for="firstName">Họ sinh viên</label>
                             <input value={isInputForm.firstName} placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="firstName`} name="firstName" />
@@ -230,7 +230,7 @@ export default function Modal({ modal, data, closeModal }) {
                             <input value={isInputForm.lastName} placeholder="Tên sinh viên" required type="text" className={`${colorInput.lastName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="lastName" name="lastName" />
                           </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-4">
                           <div className="mb-10 xl:w-96">
                             <label className="form-label inline-block mb-2 text-gray-700" for="email">Email</label>
                             <input value={isInputForm.email} placeholder="Email" required type="email" className={`${colorInput.email} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="email" name="email" />
@@ -241,7 +241,7 @@ export default function Modal({ modal, data, closeModal }) {
                             <input value={isInputForm.address} placeholder="Địa chỉ" required type="text" className={`${colorInput.address} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="address" name="address" />
                           </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-4">
                           <div className="mb-10 xl:w-96">
                             <label className="form-label inline-block mb-2 text-gray-700" for="birthday">Ngày sinh sinh viên</label>
                             <input value={isInputForm.birthday} required type="date" className={`${colorInput.birthday} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="birthday" name="birthday" />
@@ -254,7 +254,7 @@ export default function Modal({ modal, data, closeModal }) {
                             </select>
                           </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-2 gap-4">
                           <div className="mb-10 xl:w-96">
                             <label className="form-label inline-block mb-2 text-gray-700" for="scienceBranch">Khoa ngành:</label>
                             <select value={isInputForm.scienceBranch} name="scienceBranch" id="scienceBranch" className={`${colorInput.scienceBranch} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Khoa nganh">

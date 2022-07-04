@@ -122,6 +122,7 @@ function App() {
           <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} />
           <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
           <Route path="/signup" element={<Navigate to="/" />} />
+          <Route path="*" element={<Navigate to="/" />} />
           {/* </div> */}
         </Routes>
       </AuthContextProvider>

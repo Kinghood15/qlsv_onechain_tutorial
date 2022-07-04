@@ -7,7 +7,7 @@ import SidebarNavigationMenu from './SidebarNavigationMenu';
 import UsersTeacherServices from '../services/UsersTeacher.services';
 import { ACCESS_TOKEN_SECRET, AVATAR_USER } from '../env';
 import { UserAuth } from '../Provider/AuthContextProvider';
-import { useNavigate,useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "../css/header.css";
 export default function Header(props) {
     const [isMobile, setIsMobile] = useState(false);
@@ -21,7 +21,6 @@ export default function Header(props) {
         } else {
             setIsMobile(false)
         }
-
     }
 
     // create an event listener
@@ -30,11 +29,20 @@ export default function Header(props) {
         if (Screen.prototype.availWidth < 860) {
             setIsMobile(true);
         };
-
+        // getAvatar();
     })
     useEffect(() => {
         getAvatar();
-
+        // console.log("location.pathname = ", location.pathname.split('/'));
+        if (location.pathname.split('/')[1] === 'giao-vien' && location.pathname.split('/')[2] === 'thong-tin-ca-nhan') {
+            // console.log("location.pathname = ", location.pathname)
+            if (isUserTeacher.email !== "") {
+                // console.log("isUserTeacher.email in header = " + isUserTeacher.email);
+                props.parentCallback(isUserTeachers[0]);
+                // console.log("isUserTeacher in parentCallback",isUserTeacher)
+                // console.log("isUserTeachers.id in parentCallback",isUserTeachers[0].id)
+            }
+        }
     }, []);
     const onHandleClickMenu = () => {
         if (isMobile) {
@@ -56,42 +64,56 @@ export default function Header(props) {
         "nameScienceBranch": "",
         "position": "",
     })
+    const [isUserTeachers, setIsUserTeachers] = useState({
+        "id": "",
+        "email": "",
+        "birthday": "",
+        "firstName": "",
+        "lastName": "",
+        "gender": "",
+        "avatar": "",
+        "nameScienceBranch": "",
+        "position": "",
+    })
     const getAvatar = async () => {
         try {
             let token = localStorage.getItem('Authorization');
             // console.log("token:",token)
             token = JSON.parse(token)
             let email = token.email;
-
-            console.log("Email teacher:",email)
             try {
                 const userTeacher = await UsersTeacherServices.getUserTeacherByEmail(email);
+                setIsUserTeachers(userTeacher.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
+                // console.log("IsUserTeachers", isUserTeachers)
                 userTeacher.forEach((teacher) => {
-                    // console.log("teacher.data()", teacher.data());
+                    // console.log("Teacher.data() in header", teacher.data());
                     if (teacher.data()) {
                         setIsUserTeacher(teacher.data())
-                        
                     }
                 })
-                
+
             } catch (error) {
                 console.log("error:", error);
             }
-           
+            console.log("isUserTeachers", isUserTeachers)
         } catch (error) {
             console.log("Get information about teacher failed: ", error);
         }
+
     }
     // console.log("isUserTeacher",isUserTeacher);
     // console.log("isUserTeacher !== {}", isUserTeacher.email !== '');
     // console.log("location.pathname = ", location.pathname.split('/'));
-    if(location.pathname.split('/')[1] === 'giao-vien' && location.pathname.split('/')[2] === 'thong-tin-ca-nhan'){
-        if(isUserTeacher.email !== ""){
-            props.parentCallback(isUserTeacher);
-            // console.log("userTeacher in parentCallback",isUserTeacher)
+    if (location.pathname.split('/')[1] === 'giao-vien' && location.pathname.split('/')[2] === 'thong-tin-ca-nhan') {
+        // console.log("location.pathname = ", location.pathname)
+        if (isUserTeacher.email !== "") {
+            // console.log("isUserTeacher.email in header = " + isUserTeacher.email);
+            props.parentCallback(isUserTeachers[0]);
+            // console.log("isUserTeacher in parentCallback",isUserTeacher)
+            // console.log("isUserTeachers.id in parentCallback",isUserTeachers[0].id)
         }
     }
-   
+
     const { logout } = UserAuth();
     const navigate = useNavigate();
     const Logout = async (e) => {
@@ -113,7 +135,7 @@ export default function Header(props) {
             console.log("Show profile teacher error: " + error);
         }
     }
-    const [isShowMenuBoxProfile,setIsMenuBoxProfile] = useState(false);
+    const [isShowMenuBoxProfile, setIsMenuBoxProfile] = useState(false);
     return (
         <div className="header 2xl w-full h-20 bg-sky-500 flex justify-between block ease-in absolute top-0 z-50 z-0">
             <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
@@ -153,7 +175,7 @@ export default function Header(props) {
                                 {/* <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"><MdPerson size={28} /></button> */}
                                 <>
                                     <button onMouseEnter={() => setIsMenuBoxProfile(true)} onMouseLeave={() => setIsMenuBoxProfile(false)} className={"buttonBoxAvar relative w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"}><img className="rounded-full w-11 h-11" src={isUserTeacher.avatar} alt="user" /></button>
-                                    <div  onMouseEnter={() => setIsMenuBoxProfile(true)} onMouseLeave={() => setIsMenuBoxProfile(false)} className={"boxProfile w-96 bg-gray-100 absolute top-16 rounded-lg z-20 drop-shadow-2xl " + `${isShowMenuBoxProfile ? "block" : "hidden"}`}>
+                                    <div onMouseEnter={() => setIsMenuBoxProfile(true)} onMouseLeave={() => setIsMenuBoxProfile(false)} className={"boxProfile w-96 bg-gray-100 absolute top-16 rounded-lg z-20 drop-shadow-2xl " + `${isShowMenuBoxProfile ? "block" : "hidden"}`}>
                                         <div className="boxProfile-header">
                                             <img className="m-auto rounded-full p-3 w-28 h-28" src={isUserTeacher.avatar} alt="user" />
                                         </div>

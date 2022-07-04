@@ -44,6 +44,7 @@ export default function MainProfile(page) {
     })
     const [isCheckMenu, setIsCheckMenu] = useState();
     const [isUserTeacher, setIsUserTeacher] = useState({
+        "id": "",
         "email": "",
         "birthday": "",
         "firstName": "",
@@ -56,12 +57,14 @@ export default function MainProfile(page) {
     const callbackFunction = (childData) => {
         // console.log("childData === {}",childData === {})
         if (childData.email !== "") {
-            // console.log("childData", childData);
+            
             setIsUserTeacher(childData);
             // console.log("isUserTeacher in main profile",isUserTeacher); 
         }
     }
-
+    useEffect(() => {
+        // callbackFunction();
+    },[])
     return (
         <>
             <Header parentCallback={callbackFunction} />

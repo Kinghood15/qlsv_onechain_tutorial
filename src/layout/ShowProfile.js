@@ -5,7 +5,8 @@ import React, { useEffect } from "react";
 const ShowProfile = (userTeacher) => {
   useEffect(() => {
     // console.log("userTeacher in ShowProfile", userTeacher); 
-  })
+    // window.addEventListener("reload",window.location.reload(true)  )
+  },[])
   const { logout } = UserAuth();
   const navigate = useNavigate();
   const Logout = async (e) => {
@@ -18,6 +19,13 @@ const ShowProfile = (userTeacher) => {
       } else alert("Đăng xuất tài khoản thất bại!")
     } catch (error) {
       alert("Đăng suất không thành công !")
+    }
+  }
+  const EditProfile  = () => {
+    try {
+        navigate('/giao-vien/thong-tin-ca-nhan/chinh-sua-thong-tin-ca-nhan')
+    } catch (error) {
+      console.log("Error navigate to edit failed",error.message)
     }
   }
   return (
@@ -33,7 +41,7 @@ const ShowProfile = (userTeacher) => {
             <p className="text-white font-bold text-3xl">{Object(userTeacher).userTeacher.firstName + " " + Object(userTeacher).userTeacher.lastName}</p>
           </div>
           <div className="BoxSettings w-[20%]">
-            <button type="button" className="px-6 py-2.5 bg-white text-blue font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-white-300 hover:shadow-lg focus:bg-black focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-black-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Chỉnh sửa thông tin cá nhân</button>
+            <button onClick={EditProfile} type="button" className="px-6 py-2.5 bg-white text-blue font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-white-300 hover:shadow-lg focus:bg-black focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-black-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Chỉnh sửa thông tin cá nhân</button>
           </div>
         </div>
         <div className="boxcontainer mt-32 p-5">

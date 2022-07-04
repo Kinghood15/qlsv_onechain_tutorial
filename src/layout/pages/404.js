@@ -2,9 +2,9 @@ import '../css/404.css';
 const Error404 = () => {
     return (
         <a href="" target="_blank">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 mt-5 mb-5">
+            <div className="container">
+                <div className="row">
+                    <div className="col-sm-12 col-md-12 mt-5 mb-5">
                         <svg width="100%" height="auto" viewBox="0 0 636 324" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g id="OBJECTS">
                                 <g id="Group">
