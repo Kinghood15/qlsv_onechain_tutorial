@@ -1,7 +1,4 @@
-import { Container, Card, Input, Spacer, Button, Text, Link } from '@nextui-org/react';
 import './css/login.css';
-import { UnLockIcon } from "./js/UnLockIcon.js";
-import { LockIcon } from "./js/LockIcon.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { db, auth } from "./Firebase";
@@ -11,6 +8,7 @@ import CryptoJS from 'crypto-js';
 import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './env';
 import { formatDate } from './js/FormatDate';
 import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
+import {Link } from 'react-router-dom';
 export default function Login() {
     const [users, setUsers] = useState([]);
     const userCollectionRef = collection(db, "users");
@@ -161,31 +159,29 @@ export default function Login() {
     }
 
     return (
-        <Container className="container" xs>
-            <Card css={{ mw: "600px", w: "80%", p: "$6" }}>
-                <Card.Header css={{ mw: "550px", w: "90%", p: "$6" }} className="cardHeader">
-                    <Text h1>Đăng nhập</Text>
-                </Card.Header>
+        <div className="container" xs>
+            <div css={{ mw: "600px", w: "80%", p: "$6" }}>
+                <div css={{ mw: "550px", w: "90%", p: "$6" }} className="cardHeader">
+                    {/* <Text h1>Đăng nhập</Text> */}
+                </div>
                 {/* <Spacer y={2.5} /> */}
-                <Card.Body css={{ mw: "550px", w: "90%", p: "$6" }} className="cardBody">
-                    {/* <form className="formLogin" justify="center" align="center"> */}
-                    <Spacer y={2.5} />
-                    <Input rounded bordered color={colorInput.studentId} css={{ w: "95%" }} labelPlaceholder="Tên đăng nhập" className="studentid" onChange={handleStudentIdChange} initialValue="" type="text" required />
-                    <Spacer y={0.5} />
-                    <Text color="error"> {errorMessage.studentId}</Text>
-                    <Spacer y={2.0} />
-                    <Input.Password rounded bordered color={colorInput.password} css={{ w: "95%" }} labelPlaceholder="Mật khẩu" onChange={handlePasswordChange} initialValue="" type="password" required />
-                    <Spacer y={0.5} />
-                    <Text color="error"> {errorMessage.password} </Text>
-                    <Spacer y={2.0} />
+                <div css={{ mw: "550px", w: "90%", p: "$6" }} className="cardBody">
+                    <input rounded bordered color={colorInput.studentId} css={{ w: "95%" }} labelPlaceholder="Tên đăng nhập" className="studentid" onChange={handleStudentIdChange} initialValue="" type="text" required />
+                    
+                    <p color="error"> {errorMessage.studentId}</p>
+                    
+                    {/* <Input.Password rounded bordered color={colorInput.password} css={{ w: "95%" }} labelPlaceholder="Mật khẩu" onChange={handlePasswordChange} initialValue="" type="password" required /> */}
+                    
+                    {/* <Text color="error"> {errorMessage.password} </Text> */}
+                    
                     <Link href="/forgot-password">Quên mật khẩu ?</Link>
-                    <Spacer y={0.5} />
-                    <Button color="primary" onClick={LoginPost} css={{ w: "95%" }} >Đăng nhập</Button>
-                    <Spacer y={1.5} />
-                    <Card.Divider />
-                    <Text >Bạn chưa có tài khoản ? <Link href="/signup">Đăng ký tại đây </Link></Text>
-                </Card.Body>
-            </Card>
-        </Container>
+                    
+                    <button color="primary" onClick={LoginPost} css={{ w: "95%" }} >Đăng nhập</button>
+                    
+         
+                    <p >Bạn chưa có tài khoản ? <Link href="/signup">Đăng ký tại đây </Link></p>
+                </div>
+            </div>
+        </div>
     );
 }

@@ -16,6 +16,7 @@ module.exports = {
         
       },
       width: {
+        '100vw':'100vw',
         '95vw': '95vw',
         '90vw': '90vw',
         '80vw': '80vw',

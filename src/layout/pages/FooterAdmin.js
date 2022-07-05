@@ -29,16 +29,16 @@ export default function Footer() {
     }
     // create an event listener
     useEffect(() => {
-        window.addEventListener("resize", handleResizeMobile);
-        window.addEventListener("resize", handleResizeHeight);
-        // handleResizeHeight();
-        // console.log("handleResizeHeight",handleResizeHeight);
-        if (Screen.prototype.availWidth < 860) {
-            setIsMobile(true);
-        };
-        if(Screen.prototype.availHeight < 900){
-            setIsResizeHeight(true);
-        };
+        // window.addEventListener("resize", handleResizeMobile);
+        // window.addEventListener("resize", handleResizeHeight);
+        // // handleResizeHeight();
+        // // console.log("handleResizeHeight",handleResizeHeight);
+        // if (Screen.prototype.availWidth < 860) {
+        //     setIsMobile(true);
+        // };
+        // if(Screen.prototype.availHeight < 900){
+        //     setIsResizeHeight(true);
+        // };
     })
     return (
         // <div className="footer xl bg-gray-900 w-full h-58 fixed bottom-0 left-0">
@@ -46,7 +46,7 @@ export default function Footer() {
         //         <span className="text-white text-sm flex justify-center">Copyright <AiOutlineCopyrightCircle size={10} /> An Alex Nguyễn </span>
         //     </div>
         // </div>
-        <div className={isResizeHeight ?  "footer bg-gray-900 xl w-full mt-3 " : "footer bg-gray-900 xl w-full mt-3 bottom-0 "}>
+        <div className={isResizeHeight ?  "footer bg-gray-900 xl max-w-[100vw] mt-3 relative " : "footer bg-gray-900 xl max-w-[100vw] mt-3 relative bottom-0 "}>
             <div className="footerFooter w-3/4 mx-auto p-5 text-center border-top-1 text-white">
                 <span className="text-white text-sm flex justify-center">Copyright <AiOutlineCopyrightCircle size={10} /> An Alex Nguyễn </span>
             </div>

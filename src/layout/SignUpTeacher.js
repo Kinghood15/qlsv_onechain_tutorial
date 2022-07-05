@@ -113,7 +113,7 @@ const SignUpTeacher = ({history}) => {
                                         placeholder="Mã đăng ký" />
                                 </div>
                                 <div className="form-group mb-6">
-                                    <label className="form-label inline-block mb-2 text-gray-700" for="birthday">Ngày sinh sinh viên</label>
+                                    <label className="form-label inline-block mb-2 text-gray-700" for="birthday">Ngày sinh giáo viên</label>
                                     <input required type="date" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="birthday" name="birthday" />
                                 </div>
                                 <div className="form-group mb-6">

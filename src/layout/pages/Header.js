@@ -25,10 +25,10 @@ export default function Header(props) {
 
     // create an event listener
     useEffect(() => {
-        window.addEventListener("resize", handleResizeMobile);
-        if (Screen.prototype.availWidth < 860) {
-            setIsMobile(true);
-        };
+        // window.addEventListener("resize", handleResizeMobile);
+        // if (Screen.prototype.availWidth < 860) {
+            // setIsMobile(true);
+        // };
         // getAvatar();
     })
     useEffect(() => {
@@ -137,7 +137,7 @@ export default function Header(props) {
     }
     const [isShowMenuBoxProfile, setIsMenuBoxProfile] = useState(false);
     return (
-        <div className="header 2xl w-full h-20 bg-sky-500 flex justify-between block ease-in absolute top-0 z-50 z-0">
+        <div className="header 2xl w-screen max-w-[100vw] h-20 bg-sky-500 flex justify-between block ease-in absolute top-0 z-50 z-0">
             <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
                 {(() => {
                     if (isMobile) {

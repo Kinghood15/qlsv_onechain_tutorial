@@ -220,7 +220,7 @@ export default function EditUser({id}) {
     return (
         <>
             <main>
-                <div className="container bg-white flex-1 rounded-xl" >
+                <div className="container bg-white flex-1 rounded-xl w-[calc(100vw-240px-32px-32px)] max-w-[calc(100vw-240px-32px-32px)]" >
                     <div className="headerForm p-5 flex justify-between">
                         <div className="headerForm-left">
                             <h1 className="text-black font-bold">Thêm sinh viên</h1>

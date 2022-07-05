@@ -114,13 +114,20 @@ export default function List() {
     var paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     }
-    const [pageNumberActive, setPageNumberActive] = useState(0);
+    const [pageNumberActive, setPageNumberActive] = useState(1);
     const [isFilter, setIsFilter] = useState('StudentIdAsc');
     const changeFilter = (e) => {
         e.preventDefault();
         setIsFilter(e.target.value)
         // console.log("isFilter", isFilter);
         getUsersStudent();
+    }
+    const RefeshStudent = () => {
+        try {
+            getUsersStudent();
+        } catch (error) {
+            console.log("Error refesh student", error);
+        }
     }
     const getUsersStudent = async () => {
         // e.preventDefault();
@@ -187,7 +194,7 @@ export default function List() {
     return (
         <main>
             {/* <pre>{JSON.stringify(isData,undefined,2)}</pre> */}
-            <div className="container bg-white flex-1 rounded-xl" >
+            <div className="container bg-white flex-1 rounded-xl w-[calc(100vw-240px-32px-32px)] max-w-[calc(100vw-240px-32px-32px)]" >
                 <div className="headertable p-5 flex justify-between">
                     <div className="headertable-left">
                         <h1 className="text-black font-bold">Sinh viên</h1>
@@ -234,17 +241,17 @@ export default function List() {
                     </div>
                     <ul className="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none p-3 border-b">
                         <li className="nav-item" role="presentation">
-                            <button onClick={() => setToggleState(1)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 1 ? "bg-sky-400 text-white" : "bg-white text-black"}`} >Xem danh sách theo kiểu bảng</button>
+                            <button onClick={() => setToggleState(1)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 1 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu bảng</button>
                         </li>
                         <li className="nav-item" role="presentation">
-                            <button onClick={() => setToggleState(2)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 2 ? "bg-sky-400 text-white" : "bg-white text-black"}`} >Xem danh sách theo kiểu thẻ</button>
+                            <button onClick={() => setToggleState(2)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 2 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu thẻ</button>
                         </li>
                     </ul>
                     <div className="tab-content" id="tabs-tabContent">
                         <div className={"tab-pane fade show active " + `${toggleState === 1 ? 'block' : 'hidden'}`} id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
                             {/* Tab content table */}
                             <div className="main-table m-8">
-                                <table className=" w-full rounded-xl ">
+                                <table className=" w-full rounded-xl " onMouseEnter={RefeshStudent}>
                                     <thead className="bg-gray-50">
                                         <tr className="bg-gray">
                                             <th className="p-3 border border-slate-600 w-10 text-sm font-semibold tracking-wide">STT</th>
@@ -301,14 +308,14 @@ export default function List() {
                         </div>
                         <div className={"tab-pane fade show active " + `${toggleState === 2 ? 'block' : 'hidden'}`} id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
                             {/* Tab content grid */}
-                            <div className="grid grid-cols-3 gap-3 m-8">
+                            <div className="grid grid-cols-3 gap-3 m-8" onMouseEnter={RefeshStudent}>
                                 {
                                     currentPosts.length > 0 && currentPosts.map((doc, index) => {
                                         return (
                                             <>
                                                 <div className="card">
                                                     <div className="flex justify-center">
-                                                        <div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg w-96">
+                                                        <div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg w-96 h-auto">
                                                             <img className=" w-28 h-28 object-cover p-3 rounded-lg" src={doc.avatar} alt="" />
                                                             <div className="p-6 flex flex-col justify-start">
                                                                 <h5 className="text-gray-900 text-xl font-medium mb-2">{doc.firstName + " " + doc.lastName}</h5>
@@ -331,7 +338,6 @@ export default function List() {
                                 <div className="container mx-auto px-4">
                                     <nav className="flex flex-row flex-nowrap justify-between md:justify-center items-center" aria-label="Pagination">
                                         {pageNumbers.map((number) => {
-
                                             if (number + 1 < pageNumbers.length) {
                                                 return (
                                                     <button key={number + 1} onClick={() => { paginate(number + 1); setPageNumberActive(number + 1) }} className={"hidden md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300" + `${pageNumberActive === number + 1 ? " bg-sky-300" : ""}`} title={`Page ${number + 1}`}>

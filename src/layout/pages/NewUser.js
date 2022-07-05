@@ -21,6 +21,7 @@ export default function NewUser() {
         'address': '',
         'email': '',
         'birthday': '',
+        'password': '',
         'scienceBranch': '',
         'gender': '',
     })
@@ -33,6 +34,7 @@ export default function NewUser() {
         'address': 'border-gray-300',
         'email': 'border-gray-300',
         'birthday': 'border-gray-300',
+        'password': 'border-gray-300',
         'scienceBranch': 'border-gray-300',
         'gender': 'border-gray-300',
     })
@@ -44,6 +46,7 @@ export default function NewUser() {
         'address': '',
         'email': '',
         'birthday': '',
+        'password': '',
         'scienceBranch': '',
         'gender': '',
     })
@@ -67,6 +70,7 @@ export default function NewUser() {
         'address': '',
         'email': '',
         'birthday': '',
+        'password': '',
         'scienceBranch': '',
         'gender': '',
         'avatar': AVATAR_USER
@@ -240,7 +244,7 @@ export default function NewUser() {
     return (
         <>
             <main>
-                <div className="container bg-white flex-1 rounded-xl" >
+                <div className="container bg-white flex-1 rounded-xl w-[calc(100vw-240px-32px-32px)] max-w-[calc(100vw-240px-32px-32px)]" >
                     <div className="headerForm p-5 flex justify-between">
                         <div className="headerForm-left">
                             <button onClick={() => navigate(-1)}>

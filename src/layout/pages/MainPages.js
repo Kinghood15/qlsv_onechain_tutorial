@@ -50,7 +50,7 @@ export default function MainPages(page) {
     return (
         <>
             <Header accesstoken={true} />
-            <div className={isMobile ? "maincontainer block w-11/12 pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer w-11/12 flex pt-20 pb-10  h-[calc(100vh-14px-60px)]"}>
+            <div className={isMobile ? "maincontainer w-screen block pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer w-screen flex pt-20 pb-10  min-h-[calc(100vh-14px-60px)]"}>
                 <div className="sidebar">
                     {(() => {
                         if (isMobile) {
@@ -60,7 +60,7 @@ export default function MainPages(page) {
                         }
                     })()}
                 </div>
-                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm w-11/12 m-8 ease-in" : "container sm w-10/12 m-8 ease")}>
+                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm m-8 ease-in" : "container sm m-8 ease")}>
                     {/* <MainContainer /> */}
                     {(() => {
                         if (Object(page).page === 'List'){
@@ -80,7 +80,7 @@ export default function MainPages(page) {
                     })()}
                 </div>
             </div>
-            <FooterAdmin />
+            {/* <FooterAdmin /> */}
         </>
     );
 }; 
