@@ -37,10 +37,10 @@ export default function MainPages(page) {
 
     // create an event listener
     useEffect(() => {
-        window.addEventListener("resize", handleResizeMobile);
-        if (Screen.prototype.availWidth < 860) {
-            setIsMobile(true);
-        };
+        // window.addEventListener("resize", handleResizeMobile);
+        // if (Screen.prototype.availWidth < 860) {
+        //     setIsMobile(true);
+        // };
     })
     const [isCheckMenu, setIsCheckMenu] = useState();
     const callbackFunction = (childData) => {

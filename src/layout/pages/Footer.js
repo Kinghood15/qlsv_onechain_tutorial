@@ -16,10 +16,10 @@ export default function Footer() {
 
     // create an event listener
     useEffect(() => {
-        window.addEventListener("resize", handleResizeMobile);
-        if (Screen.prototype.availWidth < 860) {
-            setIsMobile(true);
-        };
+        // window.addEventListener("resize", handleResizeMobile);
+        // if (Screen.prototype.availWidth < 860) {
+        //     setIsMobile(true);
+        // };
     })
     return (
         <div className="footer xl bg-gray-900 w-full h-58 fixed bottom-0 left-0">

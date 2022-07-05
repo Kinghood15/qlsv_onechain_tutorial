@@ -38,10 +38,10 @@ export default function Dashboard(accesstoken) {
 
     // create an event listener
     useEffect(() => {
-        window.addEventListener("resize", handleResizeMobile);
-        if (Screen.prototype.availWidth < 860) {
-            setIsMobile(true);
-        };
+        // window.addEventListener("resize", handleResizeMobile);
+        // if (Screen.prototype.availWidth < 860) {
+        //     setIsMobile(true);
+        // };
     })
     const [isCheckMenu, setIsCheckMenu] = useState();
     const callbackFunction = (childData) => {

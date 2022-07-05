@@ -24,11 +24,11 @@ export default function MainContainer() {
             }
         }
         useEffect(() => {
-            if (Screen.prototype.availWidth < 1200) {
-                setIsWidget(true);
-            };
-            window.addEventListener("resize", handleResize);
-            window.addEventListener("resize", handleResizeMobile);
+            // if (Screen.prototype.availWidth < 1200) {
+            //     setIsWidget(true);
+            // };
+            // window.addEventListener("resize", handleResize);
+            // window.addEventListener("resize", handleResizeMobile);
         })
     return (
         <>
