@@ -49,8 +49,8 @@ export default function MainPages(page) {
 
     return (
         <>
-            <Header accesstoken={true} />
-            <div className={isMobile ? "maincontainer w-screen block pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer w-screen flex pt-20 pb-10  min-h-[calc(100vh-14px-60px)]"}>
+            <Header />
+            <div className={isMobile ? "maincontainer max-w-[100vw] block pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer w-screen flex pb-10  min-h-[calc(100vh-14px-60px)]"}>
                 <div className="sidebar">
                     {(() => {
                         if (isMobile) {
@@ -60,7 +60,7 @@ export default function MainPages(page) {
                         }
                     })()}
                 </div>
-                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm m-8 ease-in" : "container sm m-8 ease")}>
+                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "m-8 ease-in" : "m-8 ease")}>
                     {/* <MainContainer /> */}
                     {(() => {
                         if (Object(page).page === 'List'){

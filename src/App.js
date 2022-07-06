@@ -120,10 +120,10 @@ function App() {
           } />
           <Route path="/404" element={<Error404 />} />
           <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} />
-          {/* <Route path="/dang-nhap" element={<Login />} /> */}
-          {/* <Route path="/dang-ky" element={<SignUp />} /> */}
+          <Route path="/dang-nhap" element={<Login />} />
+          <Route path="/dang-ky" element={<SignUp />} />
           <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
-          <Route path="/signup" element={<Navigate to="/" />} />
+          {/* <Route path="/signup" element={<Navigate to="/" />} /> */}
           <Route path="*" element={<Navigate to="/" />} />
           {/* </div> */}
         </Routes>

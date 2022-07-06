@@ -116,8 +116,7 @@ export default function EditUser({id}) {
                 setColorInput({...colorInput,'studentId':'border-green-300'});
                 try {
                     await UserDataService.updateUser({...isInputForm});
-                    alert("User added successfully")
-                    ;
+                    alert("User added successfully");
                     setIsInputForm({...value});
                 } catch (error) {
                     alert("User added failed")

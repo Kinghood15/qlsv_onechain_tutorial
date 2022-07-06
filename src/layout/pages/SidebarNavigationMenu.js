@@ -58,8 +58,8 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar) {
     useEffect(() => {
         menuDefaults.map((item) => {
             const linkLocation = location.pathname;
-            // console.log("linkLocation",linkLocation);
-            if (linkLocation === item.url) {
+            // console.log("linkLocation",linkLocation.split('/'));
+            if (linkLocation.split('/')[1] === item.url.split('/')[1] && linkLocation.split('/')[2] === item.url.split('/')[2]) {
                 setActiveTab(item.id);
             }
         });
@@ -77,7 +77,7 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar) {
                                         return (
                                             <Link to={item.url}>
                                                 {/* <Tippy content={`${item.name}`} placement="right" theme="translucent"> */}
-                                                <li className={(activeTab === item.id) ? "item-menu active w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
+                                                <li key={item.id} className={(activeTab === item.id) ? "item-menu active w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
                                                     <div className="icon mx-5">
                                                         {item.icon}
                                                     </div>
@@ -106,9 +106,9 @@ export default function SidebarNavigationMenu(props, isMobile, isShowSidebar) {
                                     </Tippy>
                                     {menuDefaults.map((item) => {
                                         return (
-                                            <Link to={item.url}>
+                                            <Link to={item.url} key={item.id}>
                                                 <Tippy content={`${item.name}`} placement="right" theme="translucent">
-                                                    <li className={(activeTab === item.id) ? "item-menu active w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"} key={item.id}>
+                                                    <li key={item.id} className={(activeTab === item.id) ? "item-menu active w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
                                                         <div className="icon mx-5">
                                                             {item.icon}
                                                         </div>

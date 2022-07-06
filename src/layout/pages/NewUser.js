@@ -21,7 +21,6 @@ export default function NewUser() {
         'address': '',
         'email': '',
         'birthday': '',
-        'password': '',
         'scienceBranch': '',
         'gender': '',
     })
@@ -34,7 +33,6 @@ export default function NewUser() {
         'address': 'border-gray-300',
         'email': 'border-gray-300',
         'birthday': 'border-gray-300',
-        'password': 'border-gray-300',
         'scienceBranch': 'border-gray-300',
         'gender': 'border-gray-300',
     })
@@ -171,8 +169,11 @@ export default function NewUser() {
 
         const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
-        console.log("isInputForm.firstName.length", isInputForm.firstName.length)
         setIsInputForm({ ...isInputForm, [name]: value });
+        if(name === "studentId"){
+            setIsInputForm({ ...isInputForm, ["password"]: value });
+            console.log("isInputForm", isInputForm);
+        }
         if (isInputForm.studentId.length > 0 && isInputForm.studentId.length < 7) {
             setValidateInput({ ...validateInput, 'studentId': '' });
             setColorInput({ ...colorInput, 'studentId': 'border-green-300' });
@@ -344,7 +345,7 @@ export default function NewUser() {
                             </div>
                             <div className="grid grid-cols-3 gap-4">
                                 <button type="reset" className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Xóa hết</button>
-                                <button type="button" onClick={SaveAndGoBack()} className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và quay trở lại!</button>
+                                {/* <button type="button" onClick={""} className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và quay trở lại!</button> */}
                                 <button type="submit" className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và xem trước thông tin</button>
                             </div>
                         </form>

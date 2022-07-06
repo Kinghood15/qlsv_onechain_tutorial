@@ -1,4 +1,4 @@
-import { Container, Card, Input, Spacer, Button, Text, Link, Grid, Checkbox } from '@nextui-org/react';
+// import { Container, Card, Input, Spacer, Button, Text, Link, Grid, Checkbox } from '@nextui-org/react';
 import './css/signup.css';
 import { React, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,7 @@ import { ACCESS_TOKEN_SECRET,AVATAR_USER } from './env';
 import { AuthContext } from './context/AuthContext';
 import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import CryptoJS from 'crypto-js';
+import {Link} from 'react-router-dom';
 export default function SignUp() {
     const [users, setUsers] = useState([]);
     const userCollectionRef = collection(db, "users");
@@ -156,127 +157,110 @@ export default function SignUp() {
     };
 
 
-    const SignUpPost = async () => {
-        let countEmail = 0;
-        if (checkBox) {
-            //Get document query parameters
-            const q = query(collection(db, "users"), where("email", "==", email));
+    // const SignUpPost = async () => {
+    //     let countEmail = 0;
+    //     if (checkBox) {
+    //         //Get document query parameters
+    //         const q = query(collection(db, "users"), where("email", "==", email));
 
-            const querySnapshot = await getDocs(q);
-            let checkQuery;
-            // console.log("querySnapshot",querySnapshot);
-            querySnapshot.forEach((doc) => {
-                if (doc.data().email === email) {
-                    countEmail += 1;
-                }
-                // console.log(doc.data())
-            });
-            if (countEmail >= 1) {
-                alert("Email đã bị trùng với cơ sở dữ liệu. Vui lòng nhập email khác của bạn!");
-                checkQuery = false;
-            } else {
-                checkQuery = true;
-            }
-            if (checkQuery) {   
-                const docRef = await addDoc(collection(db, "users"), {
-                    studentId: studentId,
-                    firstName: firstName,
-                    lastName: lastName,
-                    password: password,
-                    email: email,
-                    avatar: AVATAR_USER,
-                });
-                if (docRef.id) {
-                    const docHashUser = {
-                        studentId: studentId,
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: email,
-                        avatar: AVATAR_USER,
-                    }
+    //         const querySnapshot = await getDocs(q);
+    //         let checkQuery;
+    //         // console.log("querySnapshot",querySnapshot);
+    //         querySnapshot.forEach((doc) => {
+    //             if (doc.data().email === email) {
+    //                 countEmail += 1;
+    //             }
+    //             // console.log(doc.data())
+    //         });
+    //         if (countEmail >= 1) {
+    //             alert("Email đã bị trùng với cơ sở dữ liệu. Vui lòng nhập email khác của bạn!");
+    //             checkQuery = false;
+    //         } else {
+    //             checkQuery = true;
+    //         }
+    //         if (checkQuery) {   
+    //             const docRef = await addDoc(collection(db, "users"), {
+    //                 studentId: studentId,
+    //                 firstName: firstName,
+    //                 lastName: lastName,
+    //                 password: password,
+    //                 email: email,
+    //                 avatar: AVATAR_USER,
+    //             });
+    //             if (docRef.id) {
+    //                 const docHashUser = {
+    //                     studentId: studentId,
+    //                     firstName: firstName,
+    //                     lastName: lastName,
+    //                     email: email,
+    //                     avatar: AVATAR_USER,
+    //                 }
                     
-                    //Create token user
-                    let stringDataOld = JSON.stringify(docHashUser);
-                    let token = CryptoJS.AES.encrypt(stringDataOld,ACCESS_TOKEN_SECRET).toString();
-                    // console.log("token",token);
-                    localStorage.setItem("Authorization", `Bearer ${token}`);
-                    // Get data by token 
-                    let data = CryptoJS.AES.decrypt(token,ACCESS_TOKEN_SECRET);
-                    data = data.toString(CryptoJS.enc.Utf8);
+    //                 //Create token user
+    //                 let stringDataOld = JSON.stringify(docHashUser);
+    //                 let token = CryptoJS.AES.encrypt(stringDataOld,ACCESS_TOKEN_SECRET).toString();
+    //                 // console.log("token",token);
+    //                 localStorage.setItem("Authorization", `Bearer ${token}`);
+    //                 // Get data by token 
+    //                 let data = CryptoJS.AES.decrypt(token,ACCESS_TOKEN_SECRET);
+    //                 data = data.toString(CryptoJS.enc.Utf8);
                     
-                    console.log("data",data);
-                    console.log("data.json",JSON.parse(data));
+    //                 console.log("data",data);
+    //                 console.log("data.json",JSON.parse(data));
 
-                    alert('Đăng ký thành công tài khoản!');
-                    navigate("/login");
-                } else {
-                    alert('Đăng ký tài khoản thất bại!')
-                }
+    //                 alert('Đăng ký thành công tài khoản!');
+    //                 navigate("/login");
+    //             } else {
+    //                 alert('Đăng ký tài khoản thất bại!')
+    //             }
 
-            }
-        } else {
-            setErrorMessage({ checkbox: "Hãy tích vào ô phía trên!" })
-            setColorInput({ checkbox: 'error' });
-        }
-    }
+    //         }
+    //     } else {
+    //         setErrorMessage({ checkbox: "Hãy tích vào ô phía trên!" })
+    //         setColorInput({ checkbox: 'error' });
+    //     }
+    // }
     return (
-        <Container xl>
+        <div className="container xl">
             <NotificationMessageProvider />
-            <Container className="boxSignUp" xs>
-                <Card css={{ mw: "600px", w: "90%", p: "$6" }}>
-                    <Card.Header css={{ mw: "550px", w: "100%", p: "$6" }} className="cardHeader">
-                        <Text h1>Đăng Ký</Text>
+            <div className="boxSignUp">
+                <div >
+                    <div className="cardHeader">
+                        <h1>Đăng Ký</h1>
                         {/* <img src={AVATAR_USER} /> */}
-                    </Card.Header>
-                    <Card.Body css={{ mw: "550px", w: "90%", p: "$6" }} className="cardBody">
-                        <Spacer y={1.5} />
-                        <Grid.Container fluid gap={1} justify="space-between" css={{ padding: '$0', w: "100%", mw: '100%' }}>
-                            <Grid fluid>
+                    </div>
+                    <div className="card-body">
+                        <div className="">
+                            <div className="">
                                 <div className="boxInputName">
-                                    <Input rounded bordered color={colorInput.firstName} css={{ mw: "480px", w: "98%" }} labelPlaceholder="Họ" className="firstname" initialValue="" onChange={handleFirstName} />
-                                    <Spacer y={0.5} />
-                                    <Text color="error"> {errorMessage.firstName} </Text>
-                                    <Spacer y={1.0} />
+                                    <input color={colorInput.firstName} labelPlaceholder="Họ" className="firstname" initialValue="" onChange={handleFirstName} />
+                                    <p color="error"> {errorMessage.firstName} </p>
                                 </div>
-                            </Grid>
+                            </div>
 
-                            <Grid fluid>
+                            <div className="">
                                 <div className="boxInputName">
-                                    <Input rounded bordered color={colorInput.lastName} css={{ mw: "480px", w: "98%" }} labelPlaceholder="Tên" className="lastname" initialValue="" onChange={handleLastName} />
-                                    <Spacer y={0.5} />
-                                    <Text color="error"> {errorMessage.lastName} </Text>
-                                    <Spacer y={1.0} />
+                                    <input color={colorInput.lastName} labelPlaceholder="Tên" className="lastname" initialValue="" onChange={handleLastName} />
+                                    <p color="error"> {errorMessage.lastName} </p>
                                 </div>
-                            </Grid>
-                        </Grid.Container>
-                        <Spacer y={1.5} />
-                        <Input rounded bordered color={colorInput.studentId} css={{ w: "100%" }} labelPlaceholder="Tên đăng nhập" name="studentId" className="studentId" initialValue="" onChange={handlestudentIdChange} type="text" />
-                        <Spacer y={0.5} />
-                        <Text color="error"> {errorMessage.studentId} </Text>
-                        <Spacer y={1.5} />
-                        <Input rounded bordered color={colorInput.email} css={{ w: "100%" }} labelPlaceholder="Email" name="email" className="email" initialValue="" onChange={handleEmailChange} type="email" />
-                        <Spacer y={0.5} />
-                        <Text color="error"> {errorMessage.email} </Text>
-                        <Spacer y={1.5} />
-                        <Input.Password rounded bordered color={colorInput.password} css={{ w: "100%" }} labelPlaceholder="Mật khẩu" name="password" initialValue="" onChange={handlePasswordChange} />
-                        <Spacer y={0.5} />
-                        <Text color="error"> {errorMessage.password} </Text>
-                        <Spacer y={1.5} />
-                        <Input.Password rounded bordered color={colorInput.confirmPassword} css={{ w: "100%" }} labelPlaceholder="Xác nhận mật khẩu" name="confirmpassword" initialValue="" onChange={handleConfirmPassword} />
-                        <Spacer y={0.5} />
-                        <Text color="error"> {errorMessage.confirmPassword}</Text>
-                        <Spacer y={0.5} />
-                        <Checkbox color="primary" defaultSelected={checkBox} size="xs" onChange={handleCheckBox}>Tôi đồng ý với điều khoản và chính sách của chúng tôi</Checkbox>
-                        <Spacer y={0.5} />
-                        <Text color="error"> {errorMessage.checkbox}</Text>
-                        <Spacer y={1.0} />
-                        <Button color="primary" onClick={SignUpPost}>Đăng ký</Button>
-                        <Spacer y={1.0} />
-                        <Text >Bạn đã có tài khoản ? <Link href="/login">Đăng nhập ngay </Link></Text>
-                    </Card.Body>
-                </Card>
+                            </div>
+                        </div>
+                        <input color={colorInput.studentId} labelPlaceholder="Tên đăng nhập" name="studentId" className="studentId" initialValue="" onChange={handlestudentIdChange} type="text" />
+                        <p color="error"> {errorMessage.studentId} </p>
+                        <input color={colorInput.email} labelPlaceholder="Email" name="email" className="email" initialValue="" onChange={handleEmailChange} type="email" />
+                        <p color="error"> {errorMessage.email} </p>
+                        <input color={colorInput.password} labelPlaceholder="Mật khẩu" name="password" initialValue="" onChange={handlePasswordChange} />
+                        <p color="error"> {errorMessage.password} </p>
+                        <input color={colorInput.confirmPassword} labelPlaceholder="Xác nhận mật khẩu" name="confirmpassword" initialValue="" onChange={handleConfirmPassword} />
+                        <p color="error"> {errorMessage.confirmPassword}</p>
+                        <input type="checkbox" color="primary" defaultSelected={checkBox} size="xs" onChange={handleCheckBox} /><p>Tôi đồng ý với điều khoản và chính sách của chúng tôi</p> 
+                        <p color="error"> {errorMessage.checkbox}</p>
+                        <button color="primary" onClick={"SignUpPost"}>Đăng ký</button>
+                        <p >Bạn đã có tài khoản ? <Link href="/login">Đăng nhập ngay </Link></p>
+                    </div>
+                </div>
 
-            </Container>
-        </Container>
+            </div>
+        </div>
     );
 }

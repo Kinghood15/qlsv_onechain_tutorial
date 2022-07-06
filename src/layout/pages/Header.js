@@ -144,7 +144,7 @@ export default function Header(props) {
     }
     const [isShowMenuBoxProfile, setIsMenuBoxProfile] = useState(false);
     return (
-        <div className="header 2xl w-screen max-w-[100vw] h-20 bg-sky-500 flex justify-between block ease-in absolute top-0 z-50 z-0" onMouseEnter={RefeshTeacher} onMouseLeave={RefeshTeacher}>
+        <div className="header 2xl w-screen max-w-[100vw] bg-sky-500 flex justify-between block ease-in z-50" onMouseEnter={RefeshTeacher} onMouseLeave={RefeshTeacher}>
             <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
                 {(() => {
                     if (isMobile) {
@@ -165,7 +165,7 @@ export default function Header(props) {
                     }
                 })()}
 
-                <a className={isMobile ? "text-white w-full text-center text-xl font-bold ease-in" : "text-white w-full text-center text-2xl font-bold ease-in"} href="/">Quản lý sinh viên </a>
+                <a className={isMobile ? "text-white w-full flex justify-center items-center text-center text-xl font-bold ease-in h-20" : "h-20 flex justify-center items-center text-white w-full text-center text-2xl font-bold ease-in"} href="/">Quản lý sinh viên </a>
             </div>
             <div className="boxNotification w-65 flex justify-end mr-5 items-center">
 

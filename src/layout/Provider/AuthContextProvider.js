@@ -16,20 +16,19 @@ export const AuthContextProvider = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-   const signIn = (email, password) =>  {
-    return signInWithEmailAndPassword(auth, email, password)
-   }
+  const signIn = (email, password) =>  {
+   return signInWithEmailAndPassword(auth, email, password)
+  }
 
   const logout = () => {
-      localStorage.getItem('Authorization');
-      return signOut(auth)
+    localStorage.removeItem('Authorization');
+    return signOut(auth)
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       // console.log(currentUser);
       setUser(currentUser);
-      // console.log("AuthContextProvider",currentUser)
       localStorage.setItem('Authorization', JSON.stringify(currentUser));
     });
     return () => {

@@ -24,6 +24,7 @@ export default function List() {
     useEffect(() => {
         getUsers();
         getUsersStudent();
+        RefeshStudent();
     }, []);
 
     const getUsers = async () => {
@@ -85,7 +86,6 @@ export default function List() {
 
     const search = (data) => {
         return data.filter((user) => {
-
             if (query === "") {
                 return user;
             } else if (user.firstName !== "" || user.lastName !== "" || user.studentId !== "") {
@@ -93,7 +93,6 @@ export default function List() {
                     return user;
                 }
             } else {
-
                 return user;
             }
         });
@@ -136,6 +135,7 @@ export default function List() {
             case 'StudentIdAsc': {
                 const dataList = await UserDataService.getUsersByStudentIdAsc();
                 return setIsData(dataList.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
+
             }
             case 'StudentIdDesc': {
                 const dataList = await UserDataService.getUsersByStudentIdDesc();
@@ -220,7 +220,7 @@ export default function List() {
                         <div className="functiontable-right">
                             {/* <div className="mb-10 xl:w-96"> */}
                             {/* <label className="form-label inline-block mb-2 text-gray-700" for="scienceBranch"><AiOutlineFilter />Lọc :</label> */}
-                            <select name="filter" id="filter" onClick={changeFilter} className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
+                            <select name="filter" id="filter" onClick={changeFilter} onMouseEnter={changeFilter} className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
                                 <option name="filter" value='StudentIdAsc'>Mã sinh viên tăng dần </option>
                                 <option name="filter" value='StudentIdDesc'>Mã sinh viên giảm dần </option>
                                 {/* <option name="filter" value={isFiltvalue=ter('Asc')}}>Tên sinh viên tăng dần </option> */}
@@ -251,7 +251,7 @@ export default function List() {
                         <div className={"tab-pane fade show active " + `${toggleState === 1 ? 'block' : 'hidden'}`} id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
                             {/* Tab content table */}
                             <div className="main-table m-8">
-                                <table className=" w-full rounded-xl " onMouseEnter={RefeshStudent}>
+                                <table className=" w-full rounded-xl " onMouseEnter={"RefeshStudent"}>
                                     <thead className="bg-gray-50">
                                         <tr className="bg-gray">
                                             <th className="p-3 border border-slate-600 w-10 text-sm font-semibold tracking-wide">STT</th>
@@ -308,7 +308,7 @@ export default function List() {
                         </div>
                         <div className={"tab-pane fade show active " + `${toggleState === 2 ? 'block' : 'hidden'}`} id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
                             {/* Tab content grid */}
-                            <div className="grid grid-cols-3 gap-3 m-8" onMouseEnter={RefeshStudent}>
+                            <div className="grid grid-cols-3 gap-3 m-8" onMouseEnter={"RefeshStudent"}>
                                 {
                                     currentPosts.length > 0 && currentPosts.map((doc, index) => {
                                         return (
@@ -317,16 +317,29 @@ export default function List() {
                                                     <div className="flex justify-center">
                                                         <div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg w-96 h-auto">
                                                             <img className=" w-28 h-28 object-cover p-3 rounded-lg" src={doc.avatar} alt="" />
-                                                            <div className="p-6 flex flex-col justify-start">
+                                                            <div className="w-72 p-6 flex flex-col justify-start">
                                                                 <h5 className="text-gray-900 text-xl font-medium mb-2">{doc.firstName + " " + doc.lastName}</h5>
                                                                 <p className="text-gray-700 text-base mb-4">Mã sinh viên: {doc.studentId}</p>
                                                                 <p className="text-gray-700 text-base mb-4">Lớp : {doc.nameClass}</p>
                                                                 <p className="text-gray-700 text-base mb-4">Khoa : {doc.scienceBranch}</p>
                                                                 {/* <p className="text-gray-600 text-xs">Last updated 3 mins ago</p> */}
+                                                                <div className="cardFooter">
+                                                                    <div className="content-table flex justify-around items-around">
+                                                                        <button className="p-3 rounded-xl bg-sky-200" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
+                                                                        <button className="p-3 rounded-xl bg-sky-200" onClick={() => getUserId(doc.id)}><AiOutlineEdit size={20} /></button>
+                                                                        <button className="p-3 rounded-xl bg-red-200" onClick={() => deleteHandler(doc.id)}><AiOutlineDelete size={20} /></button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                {
+                                                    isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
+                                                }
+                                                {
+                                                    isOpenModalEdit && <Modal modal={"edit"} data={isModalData} closeModal={setIsOpenModalEdit} />
+                                                }
                                             </>
                                         );
                                     })
