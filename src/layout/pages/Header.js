@@ -27,7 +27,7 @@ export default function Header(props) {
     useEffect(() => {
         // window.addEventListener("resize", handleResizeMobile);
         // if (Screen.prototype.availWidth < 860) {
-            // setIsMobile(true);
+        // setIsMobile(true);
         // };
         // getAvatar();
     })
@@ -48,7 +48,7 @@ export default function Header(props) {
         try {
             getAvatar();
         } catch (error) {
-            console.log("RefeshTeacher",error);
+            console.log("RefeshTeacher", error);
         }
     }
     const onHandleClickMenu = () => {
@@ -86,38 +86,35 @@ export default function Header(props) {
         try {
             let token = localStorage.getItem('Authorization');
             // console.log("token:",token)
-            token = JSON.parse(token)
-            let email = token.email;
-            try {
-                const userTeacher = await UsersTeacherServices.getUserTeacherByEmail(email);
-                setIsUserTeachers(userTeacher.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
-                // console.log("IsUserTeachers", isUserTeachers)
-                userTeacher.forEach((teacher) => {
-                    // console.log("Teacher.data() in header", teacher.data());
-                    if (teacher.data()) {
-                        setIsUserTeacher(teacher.data())
-                    }
-                })
+            if (token !== null) {
+                token = JSON.parse(token)
+                let email = token.email;
+                try {
+                    const userTeacher = await UsersTeacherServices.getUserTeacherByEmail(email);
+                    setIsUserTeachers(userTeacher.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
+                    // console.log("IsUserTeachers", isUserTeachers)
+                    userTeacher.forEach((teacher) => {
+                        // console.log("Teacher.data() in header", teacher.data());
+                        if (teacher.data()) {
+                            setIsUserTeacher(teacher.data())
+                        }
+                    })
 
-            } catch (error) {
-                console.log("error:", error);
+                } catch (error) {
+                    console.log("error:", error);
+                    setIsUserTeacher(null);
+                }
+            }else{
+                setIsUserTeacher(null);
             }
-            console.log("isUserTeachers", isUserTeachers)
         } catch (error) {
+            setIsUserTeacher(null);
             console.log("Get information about teacher failed: ", error);
         }
-
     }
-    // console.log("isUserTeacher",isUserTeacher);
-    // console.log("isUserTeacher !== {}", isUserTeacher.email !== '');
-    // console.log("location.pathname = ", location.pathname.split('/'));
     if (location.pathname.split('/')[1] === 'giao-vien' && location.pathname.split('/')[2] === 'thong-tin-ca-nhan') {
-        // console.log("location.pathname = ", location.pathname)
         if (isUserTeacher.email !== "") {
-            // console.log("isUserTeacher.email in header = " + isUserTeacher.email);
             props.parentCallback(isUserTeachers[0]);
-            // console.log("isUserTeacher in parentCallback",isUserTeacher)
-            // console.log("isUserTeachers.id in parentCallback",isUserTeachers[0].id)
         }
     }
 
@@ -126,7 +123,6 @@ export default function Header(props) {
     const Logout = async (e) => {
         // e.preventDefault();
         try {
-
             if (await logout() === undefined) {
                 alert("Đăng suất tài khoản thành công !")
                 navigate('/giao-vien/dang-nhap');
@@ -175,7 +171,8 @@ export default function Header(props) {
                 {/* <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"><MdPerson size={28} /></button> */}
                 {/* <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><img className="rounded-full w-11 h-11" src={an} alt="user" /></button> */}
                 {(() => {
-                    if (isUserTeacher) {
+                    console.log("isUserTeacher",isUserTeacher === null)
+                    if (isUserTeacher !== null) {
                         return (
                             <>
                                 <button href="/notification" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><MdNotifications size={28} /></button>
