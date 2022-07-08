@@ -13,9 +13,8 @@ import { useNotification } from './Provider/NotificationMessageProvider';
 import { ACCESS_TOKEN_SECRET,AVATAR_USER } from './env';
 import { AuthContext } from './context/AuthContext';
 import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
-import CryptoJS from 'crypto-js';
 import {Link} from 'react-router-dom';
-export default function SignUp() {
+const SignUpStudent= () => {
     const [users, setUsers] = useState([]);
     const userCollectionRef = collection(db, "users");
     const [studentId, setstudentId] = useState('');
@@ -56,7 +55,6 @@ export default function SignUp() {
             // title: "Successfull Request"
         })
     }
-    const usersCollectionRef = collection(db, 'users');
     useEffect(() => {
         const getUsers = async () => {
             const data = await getDocs(userCollectionRef);
@@ -155,108 +153,43 @@ export default function SignUp() {
         handleCheckBox();
 
     };
-
-
-    // const SignUpPost = async () => {
-    //     let countEmail = 0;
-    //     if (checkBox) {
-    //         //Get document query parameters
-    //         const q = query(collection(db, "users"), where("email", "==", email));
-
-    //         const querySnapshot = await getDocs(q);
-    //         let checkQuery;
-    //         // console.log("querySnapshot",querySnapshot);
-    //         querySnapshot.forEach((doc) => {
-    //             if (doc.data().email === email) {
-    //                 countEmail += 1;
-    //             }
-    //             // console.log(doc.data())
-    //         });
-    //         if (countEmail >= 1) {
-    //             alert("Email đã bị trùng với cơ sở dữ liệu. Vui lòng nhập email khác của bạn!");
-    //             checkQuery = false;
-    //         } else {
-    //             checkQuery = true;
-    //         }
-    //         if (checkQuery) {   
-    //             const docRef = await addDoc(collection(db, "users"), {
-    //                 studentId: studentId,
-    //                 firstName: firstName,
-    //                 lastName: lastName,
-    //                 password: password,
-    //                 email: email,
-    //                 avatar: AVATAR_USER,
-    //             });
-    //             if (docRef.id) {
-    //                 const docHashUser = {
-    //                     studentId: studentId,
-    //                     firstName: firstName,
-    //                     lastName: lastName,
-    //                     email: email,
-    //                     avatar: AVATAR_USER,
-    //                 }
-                    
-    //                 //Create token user
-    //                 let stringDataOld = JSON.stringify(docHashUser);
-    //                 let token = CryptoJS.AES.encrypt(stringDataOld,ACCESS_TOKEN_SECRET).toString();
-    //                 // console.log("token",token);
-    //                 localStorage.setItem("Authorization", `Bearer ${token}`);
-    //                 // Get data by token 
-    //                 let data = CryptoJS.AES.decrypt(token,ACCESS_TOKEN_SECRET);
-    //                 data = data.toString(CryptoJS.enc.Utf8);
-                    
-    //                 console.log("data",data);
-    //                 console.log("data.json",JSON.parse(data));
-
-    //                 alert('Đăng ký thành công tài khoản!');
-    //                 navigate("/login");
-    //             } else {
-    //                 alert('Đăng ký tài khoản thất bại!')
-    //             }
-
-    //         }
-    //     } else {
-    //         setErrorMessage({ checkbox: "Hãy tích vào ô phía trên!" })
-    //         setColorInput({ checkbox: 'error' });
-    //     }
-    // }
     return (
-        <div className="container xl">
-            <NotificationMessageProvider />
-            <div className="boxSignUp">
+        <div>
+            {/* <NotificationMessageProvider /> */}
+            <div className="">
                 <div >
-                    <div className="cardHeader">
+                    <div className="">
                         <h1>Đăng Ký</h1>
                         {/* <img src={AVATAR_USER} /> */}
                     </div>
-                    <div className="card-body">
+                    <div className="">
                         <div className="">
                             <div className="">
-                                <div className="boxInputName">
-                                    <input color={colorInput.firstName} labelPlaceholder="Họ" className="firstname" initialValue="" onChange={handleFirstName} />
-                                    <p color="error"> {errorMessage.firstName} </p>
+                                <div className="">
+                                    <input placeholder="Họ" className="firstname" onChange={handleFirstName} />
+                                    <p> {errorMessage.firstName} </p>
                                 </div>
                             </div>
 
                             <div className="">
-                                <div className="boxInputName">
-                                    <input color={colorInput.lastName} labelPlaceholder="Tên" className="lastname" initialValue="" onChange={handleLastName} />
-                                    <p color="error"> {errorMessage.lastName} </p>
+                                <div className="">
+                                    <input placeholder="Tên" className="lastname" onChange={handleLastName} />
+                                    <p> {errorMessage.lastName} </p>
                                 </div>
                             </div>
                         </div>
-                        <input color={colorInput.studentId} labelPlaceholder="Tên đăng nhập" name="studentId" className="studentId" initialValue="" onChange={handlestudentIdChange} type="text" />
-                        <p color="error"> {errorMessage.studentId} </p>
-                        <input color={colorInput.email} labelPlaceholder="Email" name="email" className="email" initialValue="" onChange={handleEmailChange} type="email" />
-                        <p color="error"> {errorMessage.email} </p>
-                        <input color={colorInput.password} labelPlaceholder="Mật khẩu" name="password" initialValue="" onChange={handlePasswordChange} />
-                        <p color="error"> {errorMessage.password} </p>
-                        <input color={colorInput.confirmPassword} labelPlaceholder="Xác nhận mật khẩu" name="confirmpassword" initialValue="" onChange={handleConfirmPassword} />
-                        <p color="error"> {errorMessage.confirmPassword}</p>
-                        <input type="checkbox" color="primary" defaultSelected={checkBox} size="xs" onChange={handleCheckBox} /><p>Tôi đồng ý với điều khoản và chính sách của chúng tôi</p> 
-                        <p color="error"> {errorMessage.checkbox}</p>
-                        <button color="primary" onClick={"SignUpPost"}>Đăng ký</button>
-                        <p >Bạn đã có tài khoản ? <Link href="/login">Đăng nhập ngay </Link></p>
+                        <input placeholder="Tên đăng nhập" name="studentId" className="studentId" onChange={handlestudentIdChange} type="text" />
+                        <p> {errorMessage.studentId} </p>
+                        <input placeholder="Email" name="email" className="email" onChange={handleEmailChange} type="email" />
+                        <p> {errorMessage.email} </p>
+                        <input placeholder="Mật khẩu" name="password" onChange={handlePasswordChange} />
+                        <p> {errorMessage.password} </p>
+                        <input placeholder="Xác nhận mật khẩu" name="confirmpassword" onChange={handleConfirmPassword} />
+                        <p> {errorMessage.confirmPassword}</p>
+                        <input type="checkbox" onChange={handleCheckBox} /><p>Tôi đồng ý với điều khoản và chính sách của chúng tôi</p> 
+                        <p> {errorMessage.checkbox}</p>
+                        <button onClick={"SignUpPost"}>Đăng ký</button>
+                        {/* <p >Bạn đã có tài khoản ? <Link href="/login">Đăng nhập ngay </Link></p> */}
                     </div>
                 </div>
 
@@ -264,3 +197,4 @@ export default function SignUp() {
         </div>
     );
 }
+export default SignUpStudent;

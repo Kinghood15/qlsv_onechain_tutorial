@@ -92,13 +92,11 @@ export default function LoginTeacher() {
         // console.log(errorMessage);
         e.preventDefault();
         try {
-            
-                if(await signIn(inputForm.email, inputForm.password)){
-                    alert("Đăng nhập thành công !")
-                    // setTimeout( Navigate('/giao-vien/sinh-vien'),5000);
-                    navigate('/giao-vien/sinh-vien');
-                }else alert("Đăng nhập thất bại!")
-               
+            if(await signIn(inputForm.email, inputForm.password)){
+                alert("Đăng nhập thành công !")
+                // setTimeout( Navigate('/giao-vien/sinh-vien'),5000);
+                navigate('/giao-vien/sinh-vien');
+            }else alert("Đăng nhập thất bại!")
             // }
         } catch (error) {
             alert("Đăng nhập không thành công") 

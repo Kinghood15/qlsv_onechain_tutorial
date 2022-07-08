@@ -1,6 +1,6 @@
 import './App.css';
 import Login from './layout/LoginStudent';
-import SignUp from './layout/SignUpStudent';
+// import SignUpStudent from './layout/SignUpStudent';
 import Home from './layout/pages/Home';
 import Dashboard from './layout/pages/Dashboard';
 import MainPages from './layout/pages/MainPages';
@@ -47,47 +47,6 @@ function App() {
     }
   }
   return (
-    // <BrowserRouter>
-    // <NotificationMessageProvider> */}
-    //  <Routes>
-    //  <Route path="/" element={<App />} /> */}
-    // {(() => {
-    // console.log("AuthorizationCheck(localStorage.getItem('Authorization'))", AuthorizationCheck(localStorage.getItem('Authorization')))
-    // if (localStorage.getItem('Authorization')) {
-    //       return (
-    //         <>
-    //           <Route path="/" exact element={<Home accesstoken={true} />} />
-    //           <Route path="/tong-quan" element={<Dashboard accesstoken={true} />} />
-    //           {/* <Route path="/user-list" element={<List accesstoken={true} />} /> */}
-    //           <Route path="/sinh-vien" element={<MainPages page="List" accesstoken={true} />} />
-    //           <Route path="/sinh-vien/them-sinh-vien" element={<MainPages page="NewUser" accesstoken={true} />} />
-    //           <Route path="*" element={<Navigate to="/" />} />
-    //           {/* <Route path="/test" element={<Test />} /> */}
-    //           {/* <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} /> */}
-    //           {/* <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} /> */}
-    //           <Route path="/signup" element={<Navigate to="/" />} />
-    //           <Route path="/signup" element={<Navigate to="/" />} />
-    //         </>
-    //       );
-    //     } else {
-    //       return (
-    //         <>
-    //           <Route path="/" exact element={<Home accesstoken={false} />} />
-    //           <Route path="/dashboard" element={<Dashboard accesstoken={false} />} />
-    //           <Route path="*" element={<Navigate to="/" />} />
-    //           <Route path="/login" element={<Login />} />
-    //           <Route path="/signup" element={<SignUp />} />
-    //           {/* <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} /> */}
-    //           {/* <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} /> */}
-    //           <Route path="/giao-vien/dang-nhap" element={<Navigate to="/" />} />
-    //           <Route path="/giao-vien/dang-ky" element={<Navigate to="/" />} />
-    //         </>
-    //       );
-    //     }
-    //   })()}
-    // </Routes>
-    //  </NotificationMessageProvider> */}
-    // </BrowserRouter>
     <BrowserRouter>
       <AuthContextProvider>
         <Routes>
@@ -120,8 +79,8 @@ function App() {
           } />
           <Route path="/404" element={<Error404 />} />
           <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} />
-          <Route path="/dang-nhap" element={<Login />} />
-          <Route path="/dang-ky" element={<SignUp />} />
+          <Route path="/dang-nhap" element={<Login />} /> {/*Dang Fix */}
+          {/* <Route path="/dangky" element={<SignUpStudent />} /> Dang Fix */}
           <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
           {/* <Route path="/signup" element={<Navigate to="/" />} /> */}
           <Route path="*" element={<Navigate to="/" />} />

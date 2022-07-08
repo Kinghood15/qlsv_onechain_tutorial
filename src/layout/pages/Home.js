@@ -13,9 +13,9 @@ export default function Home(accesstoken) {
                 if (Object(accesstoken).accesstoken === true) {
                     return (
                         <main>
-                            <Header accesstoken={true} />
-                            <div className="max-w-[100vw] mt-8">
-                                <div className="banner my-5 relative">
+                            <Header />
+                            <div className="max-w-[100vw] max-h-[90vh] mt-8">
+                                <div className="banner my-5 relative h-[70vh]">
                                     <img src={"../../img/college_student.png"} alt="" />
                                     <h1 className="w-3/4 bg-white p-3 rounded-lg font-bold text-3xl text-black-400 drop-shadow-2xl absolute left-10 bottom-10 text-justify ">Chào mừng bạn đến với trường đại học Acodern. Dành cho những học sinh, sinh viên mọi nơi trên thế giới có niềm đam mê với lập trình</h1>
                                 </div>
@@ -23,11 +23,10 @@ export default function Home(accesstoken) {
                             <Footer />
                         </main>
                     );
-
                 } else {
                     return (
                         <main>
-                            <Header accesstoken={false} />
+                            <Header />
                             <div className="container m-auto my-24">
                                 <div className="banner my-5 relative">
                                     <img src="../../img/college_student.png" alt="Student" />

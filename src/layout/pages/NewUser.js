@@ -56,10 +56,7 @@ export default function NewUser() {
         setIdUpdate(segments.path.segments[1]);
         // return <NewUser studentId={segments.path.segments[1]} />
         // navigate('/sinh-vien/them-sinh-vien')
-
     }
-
-
     const [isInputForm, setIsInputForm] = useState({
         'studentId': '',
         'firstName': '',

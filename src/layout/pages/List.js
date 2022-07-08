@@ -11,6 +11,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import NewUser from './NewUser';
 import Dropdown from '../js/Dropdown';
+import Filter from "../Filter";
 import { AiOutlineFilter } from "react-icons/ai";
 
 export default function List() {
@@ -19,6 +20,7 @@ export default function List() {
     const [isOpenModalView, setIsOpenModalView] = useState(false);
     const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
     const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
+    const [isOpenFilter,setIsOpenFilter] = useState(false);
     const [query, setQuery] = useState("")
     const navigate = useNavigate();
     useEffect(() => {
@@ -190,9 +192,15 @@ export default function List() {
 
     }
     const [toggleState, setToggleState] = useState(1);
-
+    const handleClickOpenFilter = () =>{
+        try {
+            setIsOpenFilter(!isOpenFilter);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
-        <main>
+        <main className="relative">
             {/* <pre>{JSON.stringify(isData,undefined,2)}</pre> */}
             <div className="container bg-white flex-1 rounded-xl w-[calc(100vw-240px-32px-32px)] max-w-[calc(100vw-240px-32px-32px)]" >
                 <div className="headertable p-5 flex justify-between">
@@ -217,14 +225,16 @@ export default function List() {
                             </label>
                             {/* <button className="rounded-full h-10 text-center text-white bg-sky-300 w-36 mx-5 font-bold">Tìm kiếm</button> */}
                         </div>
-                        <div className="functiontable-right">
+
+                        <div className="functiontable-right flex justify-around">
                             {/* <div className="mb-10 xl:w-96"> */}
-                            {/* <label className="form-label inline-block mb-2 text-gray-700" for="scienceBranch"><AiOutlineFilter />Lọc :</label> */}
-                            <select name="filter" id="filter" onClick={changeFilter} onMouseEnter={changeFilter} className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
+                            <div className="mx-5">
+                                <button onClick={handleClickOpenFilter}className="w-16  h-8 flex text-center items-center bg-sky-400 text-white font-bold justify-center p-1 rounded-lg"><AiOutlineFilter />Lọc</button>
+                            </div>
+                            <label className="w-48 flex text-center items-center form-label inline-block mb-2 text-gray-700" for="scienceBranch"><AiOutlineFilter />Sắp xếp :</label>
+                            <select name="filter" id="filter" onClick={changeFilter} className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
                                 <option name="filter" value='StudentIdAsc'>Mã sinh viên tăng dần </option>
                                 <option name="filter" value='StudentIdDesc'>Mã sinh viên giảm dần </option>
-                                {/* <option name="filter" value={isFiltvalue=ter('Asc')}}>Tên sinh viên tăng dần </option> */}
-                                {/* <option name="filter" value={isFiltvalue=ter('Asc')}}>Tên sinh viên giảm dần </option> */}
                                 <option name="filter" value='EmailAsc'>Email sinh viên tăng dần </option>
                                 <option name="filter" value='EmailDesc'>Email sinh viên giảm dần </option>
                                 <option name="filter" value='AddressAsc'>Địa chỉ sinh viên tăng dần </option>
@@ -233,8 +243,6 @@ export default function List() {
                                 <option name="filter" value='ScienceBranchDesc'>Khoa sinh viên giảm dần </option>
                                 <option name="filter" value='NameClassAsc'>Lớp sinh viên tăng dần </option>
                                 <option name="filter" value='NameClassDesc'>Lớp sinh viên giảm dần </option>
-                                <option name="filter" value='GenderMale'>Giới tính nam </option>
-                                <option name="filter" value='GenderFemale'>Giới tính nữ </option>
                             </select>
                             {/* </div> */}
                         </div>
@@ -254,16 +262,16 @@ export default function List() {
                                 <table className=" w-full rounded-xl " onMouseEnter={"RefeshStudent"}>
                                     <thead className="bg-gray-50">
                                         <tr className="bg-gray">
-                                            <th className="p-3 border border-slate-600 w-10 text-sm font-semibold tracking-wide">STT</th>
-                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Tên sinh viên</th>
-                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Mã sinh viên</th>
-                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Email</th>
-                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Địa chỉ</th>
-                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Ngày sinh</th>
-                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Giới tính</th>
-                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Khoa ngành</th>
-                                            <th className="p-3 border border-slate-600 text-sm font-semibold tracking-wide">Lớp</th>
-                                            <th className="p-3 border border-slate-600 w-52 text-sm font-semibold tracking-wide">Hành động</th>
+                                            <th className="p-3 border border-slate-300 w-10 text-sm font-semibold tracking-wide">STT</th>
+                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Tên sinh viên</th>
+                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Mã sinh viên</th>
+                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Email</th>
+                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Địa chỉ</th>
+                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Ngày sinh</th>
+                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Giới tính</th>
+                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Khoa ngành</th>
+                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Lớp</th>
+                                            <th className="p-3 border border-slate-300 w-52 text-sm font-semibold tracking-wide">Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -367,6 +375,7 @@ export default function List() {
                     </div>
                 </div>
             </div>
+            {isOpenFilter===true && <Filter isOpenFilter={isOpenFilter} handleClickOpenFilter={handleClickOpenFilter} />}
         </main>
     )
 
