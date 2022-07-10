@@ -208,7 +208,7 @@ export default function Modal({ modal, data, closeModal }) {
                     <>
                       <form onReset={handleReset(onReset)} onSubmit={handleSubmit(editHandler)} onChange={handleChange}>
                         <div className="profile-pic">
-                          <label className="-label" for="file">
+                          <label className="-label" htmlFor="file">
                             <span className="glyphicon glyphicon-camera"></span>
                             <span>Change Image</span>
                           </label>
@@ -216,38 +216,38 @@ export default function Modal({ modal, data, closeModal }) {
                           <img src={isInputForm.avatar} id="output" className="w-28 h-28  rounded-full m-auto" />
                         </div>
                         <div className="mb-10 xl:w-96">
-                          <label className="form-label inline-block mb-2 text-gray-700" for="studentId">Mã sinh viên</label>
+                          <label className="form-label inline-block mb-2 text-gray-700" htmlFor="studentId">Mã sinh viên</label>
                           <input value={isInputForm.studentId} name="studentId" required type="text" className={`${colorInput.studentId} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="studentId" placeholder="Mã sinh viên" />
                           <span className={`${colorInput.studentId}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.studentId}</span>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="mb-10 xl:w-96">
-                            <label className="form-label inline-block mb-2 text-gray-700" for="firstName">Họ sinh viên</label>
+                            <label className="form-label inline-block mb-2 text-gray-700" htmlFor="firstName">Họ sinh viên</label>
                             <input value={isInputForm.firstName} placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="firstName`} name="firstName" />
                           </div>
                           <div className="mb-10 xl:w-96">
-                            <label className="form-label inline-block mb-2 text-gray-700" for="lastName">Tên sinh viên</label>
+                            <label className="form-label inline-block mb-2 text-gray-700" htmlFor="lastName">Tên sinh viên</label>
                             <input value={isInputForm.lastName} placeholder="Tên sinh viên" required type="text" className={`${colorInput.lastName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="lastName" name="lastName" />
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="mb-10 xl:w-96">
-                            <label className="form-label inline-block mb-2 text-gray-700" for="email">Email</label>
+                            <label className="form-label inline-block mb-2 text-gray-700" htmlFor="email">Email</label>
                             <input value={isInputForm.email} placeholder="Email" required type="email" className={`${colorInput.email} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="email" name="email" />
                             <span className={`${colorInput.email}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.email}</span>
                           </div>
                           <div className="mb-10 xl:w-96">
-                            <label className="form-label inline-block mb-2 text-gray-700" for="address">Địa chỉ</label>
+                            <label className="form-label inline-block mb-2 text-gray-700" htmlFor="address">Địa chỉ</label>
                             <input value={isInputForm.address} placeholder="Địa chỉ" required type="text" className={`${colorInput.address} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="address" name="address" />
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="mb-10 xl:w-96">
-                            <label className="form-label inline-block mb-2 text-gray-700" for="birthday">Ngày sinh sinh viên</label>
+                            <label className="form-label inline-block mb-2 text-gray-700" htmlFor="birthday">Ngày sinh sinh viên</label>
                             <input value={isInputForm.birthday} required type="date" className={`${colorInput.birthday} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="birthday" name="birthday" />
                           </div>
                           <div className="mb-10 xl:w-96">
-                            <label className="form-label inline-block mb-2 text-gray-700" for="gender">Giới tính:</label>
+                            <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Giới tính:</label>
                             <select value={isInputForm.gender} name="gender" id="gender" className={`${colorInput.gender} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="gender">
                               <option name="gender" value="Nam" selected>Nam</option>
                               <option name="gender" value="Nữ">Nữ</option>
@@ -256,7 +256,7 @@ export default function Modal({ modal, data, closeModal }) {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="mb-10 xl:w-96">
-                            <label className="form-label inline-block mb-2 text-gray-700" for="scienceBranch">Khoa ngành:</label>
+                            <label className="form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch">Khoa ngành:</label>
                             <select value={isInputForm.scienceBranch} name="scienceBranch" id="scienceBranch" className={`${colorInput.scienceBranch} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Khoa nganh">
                               {isScienceBranch.map((item) => {
                                 if (isInputForm.scienceBranch === item.nameScienceBranch) {
@@ -276,7 +276,7 @@ export default function Modal({ modal, data, closeModal }) {
                             </select>
                           </div>
                           <div className="mb-10 xl:w-96">
-                            <label className="form-label inline-block mb-2 text-gray-700" for="class">Lớp:</label>
+                            <label className="form-label inline-block mb-2 text-gray-700" htmlFor="class">Lớp:</label>
                             <select value={isInputForm.nameClass} name="nameClass" id="nameClass" className={`${colorInput.nameClass} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Lop hoc">
                               {isClass.map((item) => {
                                 if (item.nameClass === isInputForm.nameClass) {

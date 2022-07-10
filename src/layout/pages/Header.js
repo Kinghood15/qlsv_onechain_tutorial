@@ -11,12 +11,24 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import "../css/header.css";
 export default function Header(props) {
     const [isMobile, setIsMobile] = useState(false);
+    const [isMobile480, setIsMobile480] = useState(false);
+    const [isMobile380, setIsMobile380] = useState(false);
     const [isShowSidebar, setIsShowSidebar] = useState(false);
     const location = useLocation();
     //choose the screen size 
     const handleResizeMobile = () => {
         if (window.innerWidth < 860 || document.body.clientWidth < 860) {
             setIsMobile(true)
+            if(window.innerWidth < 480 || document.body.clientWidth < 480) {
+                setIsMobile480(true);
+                if(window.innerWidth < 380 || document.body.clientWidth < 380) {
+                    setIsMobile380(true);
+                }else{
+                    setIsMobile380(false);
+                }
+            }else{
+                setIsMobile480(false);
+            }
 
         } else {
             setIsMobile(false)
@@ -157,9 +169,9 @@ export default function Header(props) {
                     }
                 })()}
 
-                <a className={isMobile ? "text-white flex justify-center items-center text-center text-xl font-bold ease-in h-20" : "h-20 flex justify-center items-center text-white w-full text-center text-2xl font-bold ease-in"} href="/">Quản lý sinh viên </a>
+                <a className={isMobile ? ( isMobile380 ? "text-white flex justify-center items-center text-center text-md font-bold ease-in h-20" :"text-white flex justify-center items-center text-center text-xl font-bold ease-in h-20") : "h-20 flex justify-center items-center text-white w-full text-center text-2xl font-bold ease-in"} href="/">Quản lý sinh viên </a>
             </div>
-            <div className="boxNotification w-65 flex justify-end mr-5 items-center">
+            <div className={`boxNotification w-65 flex justify-end items-center ${isMobile480 ? 'mr-2' : 'mr-5'}`}>
 
                 {/* <button href="/login" className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Đăng nhập</button> */}
                 {/* <button href="/contract" className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Liên hệ</button> */}
@@ -173,8 +185,8 @@ export default function Header(props) {
                                 <button href="/notification" className={`w-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md ${isMobile ? 'hidden' : 'block'}`}><MdNotifications size={28} /></button>
                                 {/* <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"><MdPerson size={28} /></button> */}
                                 <>
-                                    <button onMouseEnter={() => setIsMenuBoxProfile(true)} onMouseLeave={() => setIsMenuBoxProfile(false)} className={"buttonBoxAvar relative w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"}><img className="rounded-full w-11 h-11" src={isUserTeacher.avatar} alt="user" /></button>
-                                    <div onMouseEnter={() => setIsMenuBoxProfile(true)} onMouseLeave={() => setIsMenuBoxProfile(false)} className={"boxProfile w-96 bg-gray-100 absolute top-16 rounded-lg z-20 drop-shadow-2xl " + `${isShowMenuBoxProfile ? "block" : "hidden"}`}>
+                                    <button onMouseEnter={() => setIsMenuBoxProfile(true)} onMouseLeave={() => setIsMenuBoxProfile(false)} className={`buttonBoxAvar relative flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md ${isMobile380 ? 'w-10 h-10' : 'w-12 h-12 '}`}><img className={`rounded-full ${isMobile380 ? 'w-9 h-9' : 'w-11 h-11 '}`} src={isUserTeacher.avatar} alt="user" /></button>
+                                    <div onMouseEnter={() => setIsMenuBoxProfile(true)} onMouseLeave={() => setIsMenuBoxProfile(false)} className={`${isMobile380 ? 'w-screen' : 'w-96'} boxProfile max-w-screen bg-gray-100 absolute top-16 rounded-lg z-20 drop-shadow-2xl ${isShowMenuBoxProfile ? "block" : "hidden"}`}>
                                         <div className="boxProfile-header">
                                             <img className="m-auto rounded-full p-3 w-28 h-28" src={isUserTeacher.avatar} alt="user" />
                                         </div>
@@ -182,9 +194,9 @@ export default function Header(props) {
                                             <h5 className="p-1 w-full text-center">{isUserTeacher.firstName + " " + isUserTeacher.lastName}</h5>
                                             <p className="p-1 pb-3 w-full text-center">Email: {isUserTeacher.email}</p>
                                         </div>
-                                        <div className="boxProfile-footer p-5">
-                                            <button onClick={ShowProfile} type="button" className="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Xem thông tin cá nhân</button>
-                                            <button onClick={Logout} type="button" className="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Đăng xuất</button>
+                                        <div className={`boxProfile-footer ${isMobile380 ? 'p-2' : 'p-5'}`}>
+                                            <button onClick={ShowProfile} type="button" className={`${isMobile380 ? 'w-full my-2' : ''} px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1`}>Xem thông tin cá nhân</button>
+                                            <button onClick={Logout} type="button" className={`${isMobile380 ? 'w-full my-2' : ''} px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1`}>Đăng xuất</button>
                                         </div>
                                     </div>
                                 </>

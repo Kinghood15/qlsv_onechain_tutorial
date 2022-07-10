@@ -83,11 +83,11 @@ const Filter = ({ isOpenFilter, handleClickOpenFilter }) => {
                                             <div className="group grid gap-2 grid-cols-2">
                                                 <div className="wrap flex items-center">
                                                     <input type="checkbox" onChange={handleChange} className="w-6 h-6" name="gender" value="Nam" />
-                                                    <labal className="p-3" for="gender">Nam</labal>
+                                                    <labal className="p-3" htmlFor="gender">Nam</labal>
                                                 </div>
                                                 <div className="wrap flex items-center">
                                                     <input type="checkbox" onChange={handleChange} className="w-6 h-6" name="gender" value="Nữ" />
-                                                    <labal for="gender" className="p-3">Nữ</labal>
+                                                    <labal htmlFor="gender" className="p-3">Nữ</labal>
                                                 </div>
                                             </div>
 
@@ -102,7 +102,7 @@ const Filter = ({ isOpenFilter, handleClickOpenFilter }) => {
                                                     return (
                                                         <div className="wrap flex items-center">
                                                             <input type="checkbox" className="w-6 h-6" name="scienceBranch" onChange={handleChange} value={item.nameScienceBranch} />
-                                                            <labal className="p-3" for="scienceBranch">{item.nameScienceBranch}</labal>
+                                                            <labal className="p-3" htmlFor="scienceBranch">{item.nameScienceBranch}</labal>
                                                         </div>
                                                     );
                                                 })}
@@ -118,7 +118,7 @@ const Filter = ({ isOpenFilter, handleClickOpenFilter }) => {
                                                         return (
                                                             <div className="wrap flex items-center">
                                                                 <input type="checkbox" className="w-6 h-6" name="nameClass" value={item.nameClass} />
-                                                                <labal className="p-3" for="scienceBranch">{item.nameClass}</labal>
+                                                                <labal className="p-3" htmlFor="scienceBranch">{item.nameClass}</labal>
                                                             </div>
                                                         );
                                                     })}

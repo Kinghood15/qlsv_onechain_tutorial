@@ -77,11 +77,11 @@ export default function SidebarNavigationMenu(props, isMobile) {
                                         return (
                                             <Link to={item.url}>
                                                 {/* <Tippy content={`${item.name}`} placement="right" theme="translucent"> */}
-                                                <li key={item.id} className={(activeTab === item.id) ? "item-menu active w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
+                                                <li key={item.id} className={(activeTab === item.id) ? "item-menu active w-screen flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl" : "item-menu w-11/12 flex items-center justify-between h-16 my-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
                                                     <div className="icon mx-5">
                                                         {item.icon}
                                                     </div>
-                                                    <div className="title mr-5 w-20">{item.name}</div>
+                                                    <div className="title mr-5 w-[50%] text-right ">{item.name}</div>
                                                 </li>
                                                 {/* </Tippy> */}
                                             </Link>

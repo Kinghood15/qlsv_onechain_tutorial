@@ -231,38 +231,38 @@ export default function EditUser({id}) {
                     <div className="containerForm block p-6 rounded-lg bg-white w-xl m-w-xl">
                         <form onReset={handleReset(onReset)} onSubmit={handleSubmit(onSubmit)} onChange={handleChange}>
                             <div className="mb-10 xl:w-96">
-                                <label className="form-label inline-block mb-2 text-gray-700" for="studentId">Mã sinh viên</label>
+                                <label className="form-label inline-block mb-2 text-gray-700" htmlFor="studentId">Mã sinh viên</label>
                                 <input name="studentId" required type="text" className={`${colorInput.studentId} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="studentId" placeholder="Mã sinh viên"/>
                                 <span className={`${colorInput.studentId}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.studentId}</span>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="mb-10 xl:w-96">
-                                    <label className="form-label inline-block mb-2 text-gray-700" for="firstName">Họ sinh viên</label>
+                                    <label className="form-label inline-block mb-2 text-gray-700" htmlFor="firstName">Họ sinh viên</label>
                                     <input placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="firstName`} name="firstName" />
                                 </div>
                                 <div className="mb-10 xl:w-96">
-                                    <label className="form-label inline-block mb-2 text-gray-700" for="lastName">Tên sinh viên</label>
+                                    <label className="form-label inline-block mb-2 text-gray-700" htmlFor="lastName">Tên sinh viên</label>
                                     <input placeholder="Tên sinh viên" required type="text" className={`${colorInput.lastName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="lastName" name="lastName" />
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="mb-10 xl:w-96">
-                                    <label className="form-label inline-block mb-2 text-gray-700" for="email">Email</label>
+                                    <label className="form-label inline-block mb-2 text-gray-700" htmlFor="email">Email</label>
                                     <input placeholder="Email" required type="email" className={`${colorInput.email} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="email" name="email" />
                                     <span className={`${colorInput.email}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.email}</span>
                                 </div>
                                 <div className="mb-10 xl:w-96">
-                                    <label className="form-label inline-block mb-2 text-gray-700" for="address">Địa chỉ</label>
+                                    <label className="form-label inline-block mb-2 text-gray-700" htmlFor="address">Địa chỉ</label>
                                     <input placeholder="Địa chỉ" required type="text" className={`${colorInput.address} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="address" name="address" />
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="mb-10 xl:w-96">
-                                    <label className="form-label inline-block mb-2 text-gray-700" for="birthday">Ngày sinh sinh viên</label>
+                                    <label className="form-label inline-block mb-2 text-gray-700" htmlFor="birthday">Ngày sinh sinh viên</label>
                                     <input required type="date" className={`${colorInput.birthday} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="birthday" name="birthday" />
                                 </div>
                                 <div className="mb-10 xl:w-96">
-                                    <label className="form-label inline-block mb-2 text-gray-700" for="gender">Giới tính:</label>
+                                    <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Giới tính:</label>
                                     <select name="gender" id="gender" className={`${colorInput.gender} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="gender">
                                         <option name="gender" defaultValue="Nam">Nam</option>
                                         <option name="gender" value="Nữ">Nữ</option>
@@ -271,7 +271,7 @@ export default function EditUser({id}) {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="mb-10 xl:w-96">
-                                    <label className="form-label inline-block mb-2 text-gray-700" for="scienceBranch">Khoa ngành:</label>
+                                    <label className="form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch">Khoa ngành:</label>
                                     <select name="scienceBranch" id="scienceBranch" className={`${colorInput.scienceBranch} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Khoa nganh">
                                         {isScienceBranch.map((item, i) => {
                                             if (i === 0) {
@@ -293,7 +293,7 @@ export default function EditUser({id}) {
                                     </select>
                                 </div>
                                 <div className="mb-10 xl:w-96">
-                                    <label className="form-label inline-block mb-2 text-gray-700" for="class">Lớp:</label>
+                                    <label className="form-label inline-block mb-2 text-gray-700" htmlFor="class">Lớp:</label>
                                     <select name="nameClass" id="nameClass" className={`${colorInput.nameClass} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Lop hoc">
                                         {isClass.map((item, i) => {
                                             if (i === 0) {

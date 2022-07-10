@@ -83,11 +83,19 @@ export default function MainPages(page) {
                             
                         }
                         else if (Object(page).page === 'NewUser') {
-                            return (
-                                <>
-                                    <NewUser />
-                                </>
-                            )
+                            if(isMobile){
+                                return (
+                                    <>
+                                        <NewUser isMobile={isMobile} />
+                                    </>
+                                );
+                            }else{
+                                return (
+                                    <>
+                                        <NewUser />
+                                    </>
+                                );
+                            }
                         }
                     })()}
                 </div>

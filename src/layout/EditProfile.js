@@ -118,7 +118,7 @@ const EditProfile = (userTeacher) => {
                         <div className="BoxAvatarProfile relative h-full w-[30%] shadow-inner	">
                             <div className="absolute w-56 h-56 bg-white rounded-full inset-1/3 flex items-center justify-center">
                                 <div className="profile-pic">
-                                    <label className="-label" for="file">
+                                    <label className="-label" htmlFor="file">
                                         <span className="glyphicon glyphicon-camera"></span>
                                         <span>Change Image</span>
                                     </label>
@@ -138,12 +138,12 @@ const EditProfile = (userTeacher) => {
                     <div className="boxcontainer mt-32 p-5">
                         <div className="grid grid-cols-2 gaps-2">
                             <div className="mb-10 xl:w-96">
-                                <label className="form-label inline-block mb-2 text-gray-700" for="gender">Họ:</label>
+                                <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Họ:</label>
                                 <input value={isUserTeacher.firstName} name="firstName" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="firstName" placeholder="Họ" />
                                 <span className={`${colorInput.firstName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.firstName}</span>
                             </div>
                             <div className="mb-10 xl:w-96">
-                                <label className="form-label inline-block mb-2 text-gray-700" for="gender">Tên:</label>
+                                <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Tên:</label>
                                 <input value={isUserTeacher.lastName} name="lastName" required type="text" className={`${colorInput.lastName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="lastName" placeholder="Tên" />
                                 <span className={`${colorInput.lastName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.lastName}</span>
                             </div>
@@ -151,14 +151,14 @@ const EditProfile = (userTeacher) => {
                         <div className="grid grid-cols-2 gaps-2">
                             <div className="mb-10 xl:w-96">
                                 {/* <h5 className="text-black font-bold px-5">Email :</h5> */}
-                                <label className="form-label inline-block mb-2 text-gray-700" for="gender">Email:</label>
+                                <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Email:</label>
                                 <input value={isUserTeacher.email} name="email" required type="email" className={`${colorInput.email} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="email" placeholder="Email" />
                                 <span className={`${colorInput.email}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.email}</span>
                                 {/* <p className="text-black">{Object(isUserTeacher).isUserTeacher.email}</p> */}
                             </div>
                             <div className="mb-10 xl:w-96">
                                 {/* <h5 className="text-black font-bold px-5">Email :</h5> */}
-                                <label className="form-label inline-block mb-2 text-gray-700" for="gender">Xác nhận Email:</label>
+                                <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Xác nhận Email:</label>
                                 <input value={confirmEmail} name="confirmEmail" required type="email" className={`${colorInput.confirmEmail} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="confirmEmail" placeholder="Xác nhận lại email" />
                                 <span className={`${colorInput.confirmEmail}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.confirmEmail}</span>
                                 {/* <p className="text-black">{Object(isUserTeacher).isUserTeacher.email}</p> */}
@@ -167,14 +167,14 @@ const EditProfile = (userTeacher) => {
 
                         <div className="grid grid-cols-2 gap-2">
                             <div className="mb-10 xl:w-96">
-                                <label className="form-label inline-block mb-2 text-gray-700" for="gender">Giới tính:</label>
+                                <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Giới tính:</label>
                                 <select value={isUserTeacher.gender} name="gender" id="gender" className={`${colorInput.gender} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="gender">
                                     <option name="gender" value="Nam" selected>Nam</option>
                                     <option name="gender" value="Nữ">Nữ</option>
                                 </select>
                             </div>
                             <div className="mb-10 xl:w-96">
-                                <label className="form-label inline-block mb-2 text-gray-700" for="gender">Ngày sinh:</label>
+                                <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Ngày sinh:</label>
                                 <input value={isUserTeacher.birthday} name="birthday" required type="date" className={`${colorInput.birthday} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="birthday" placeholder="Ngày sinh" />
                                 <span className={`${colorInput.birthday}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.birthday}</span>
                                 {/* <p className="text-black">{Object(isUserTeacher).isUserTeacher.birthday}</p> */}
@@ -182,7 +182,7 @@ const EditProfile = (userTeacher) => {
                         </div>
                         <div className="grid grid-cols-2 gaps-2">
                             <div className="mb-10 xl:w-96">
-                                <label className="form-label inline-block mb-2 text-gray-700" for="scienceBranch">Khoa ngành:</label>
+                                <label className="form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch">Khoa ngành:</label>
                                 <select value={isUserTeacher.scienceBranch} name="scienceBranch" id="scienceBranch" className={`${colorInput.scienceBranch} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Khoa nganh">
                                     {isScienceBranch.map((item) => {
                                         if (isUserTeacher.scienceBranch === item.nameScienceBranch) {
@@ -203,7 +203,7 @@ const EditProfile = (userTeacher) => {
                             </div>
                             {/* <p className="text-black">{Object(isUserTeacher).isUserTeacher.nameScienceBranch}</p> */}
                             <div className="mb-10 xl:w-96">
-                                <label className="form-label inline-block mb-2 text-gray-700" for="scienceBranch">Chức vụ:</label>
+                                <label className="form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch">Chức vụ:</label>
                                 {/* <p className="text-black">{Object(isUserTeacher).isUserTeacher.position}</p> */}
                                 <input value={isUserTeacher.position} name="position" required type="text" className={`${colorInput.position} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="position" placeholder="Chức vụ" />
                                 <span className={`${colorInput.position}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.position}</span>

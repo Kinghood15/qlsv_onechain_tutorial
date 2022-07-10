@@ -238,30 +238,11 @@ export default function List({isMobile}) {
         }
 
     }
-    // const handleResizeWindowInnerWidth = () => {
-    //     if (window.innerWidth < 1400) {
-    //         console.log("Screen.currentPage.clientWidth : ",Screen.clientWidth);
-    //         setIsTable(true)
-    //         if (window.innerWidth < 1025) {
-    //             setIsMobile1025(true)
-    //             if (window.innerWidth < 860) {
-    //                 setIsMobile860(true);
-    //             } else {
-    //                 setIsMobile860(false);
-    //             }
-    //         } else {
-    //             setIsMobile1025(false)
-    //         }
-    //     } else {
-    //         setIsTable(false)
-
-    //     }
-
-    // }
 
     useEffect(() => {
         window.addEventListener("reload",handleResize());
         window.addEventListener("resize",handleResize());
+        handleResize();
         // handleResizeWindowInnerWidth();
     })
     return (
@@ -296,7 +277,7 @@ export default function List({isMobile}) {
                             <div className={` ${isMobile ?'w-full text-center my-3' :'mx-5'} `}>
                                 <button onClick={handleClickOpenFilter} className={`${isMobile ? 'w-full' : 'w-16'}  h-8 flex text-center items-center bg-sky-400 text-white font-bold justify-center p-1 rounded-lg`}><AiOutlineFilter />Lọc</button>
                             </div>
-                            <label className="w-48 flex text-center items-center form-label inline-block mb-2 text-gray-700" for="scienceBranch"><AiOutlineFilter />Sắp xếp :</label>
+                            <label className="w-48 flex text-center items-center form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch"><AiOutlineFilter />Sắp xếp :</label>
                             <select name="filter" id="filter" onClick={changeFilter} className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
                                 <option name="filter" value='StudentIdAsc'>Mã sinh viên tăng dần </option>
                                 <option name="filter" value='StudentIdDesc'>Mã sinh viên giảm dần </option>
