@@ -119,8 +119,8 @@ const SignUpTeacher = ({history}) => {
                                 <div className="form-group mb-6">
                                     <label className="form-label inline-block mb-2 text-gray-700" for="gender">Giới tính:</label>
                                     <select name="gender" id="gender" className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="gender">
-                                        <option name="gender" selected value="male">Nam</option>
-                                        <option name="gender" value="female">Nữ</option>
+                                        <option name="gender" selected value="Nam">Nam</option>
+                                        <option name="gender" value="Nữ">Nữ</option>
                                     </select>
                                 </div>
                                 <div className="form-group mb-6">

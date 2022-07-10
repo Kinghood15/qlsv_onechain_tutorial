@@ -12,15 +12,16 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import NewUser from './NewUser';
 import Dropdown from '../js/Dropdown';
 import Filter from "../Filter";
+import "../css/List.css";
 import { AiOutlineFilter } from "react-icons/ai";
 
-export default function List() {
+export default function List({isMobile}) {
     const [isActive, setIsActive] = useState(false);
     const [isData, setIsData] = useState([]);
     const [isOpenModalView, setIsOpenModalView] = useState(false);
     const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
     const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
-    const [isOpenFilter,setIsOpenFilter] = useState(false);
+    const [isOpenFilter, setIsOpenFilter] = useState(false);
     const [query, setQuery] = useState("")
     const navigate = useNavigate();
     useEffect(() => {
@@ -192,17 +193,81 @@ export default function List() {
 
     }
     const [toggleState, setToggleState] = useState(1);
-    const handleClickOpenFilter = () =>{
+    const handleClickOpenFilter = () => {
         try {
             setIsOpenFilter(!isOpenFilter);
         } catch (error) {
             console.log(error);
         }
     }
+    const [isTable, setIsTable] = useState(false)
+    const [isMobile1025, setIsMobile1025] = useState(false)
+    const [isMobile860, setIsMobile860] = useState(false);
+    const [isMobile480, setIsMobile480] = useState(false);
+    const [isMobile320, setIsMobile320] = useState(false);
+    
+    //choose the screen size 
+    const handleResize = () => {
+        console.log("document.body.clientWidth=" + document.body.clientWidth);
+        console.log("window.matchMedia(screen and (maxwidth: 768px))",window.matchMedia("screen and (maxwidth: 768px)"))
+        if (document.body.clientWidth < 1400) {
+            setIsTable(true)
+            if (document.body.clientWidth < 1025) {
+                setIsMobile1025(true)
+                if (document.body.clientWidth < 860) {
+                    setIsMobile860(true);
+                    if(document.body.clientWidth < 480){
+                        setIsMobile480(true);
+                        if(document.body.clientWidth < 320) {
+                            setIsMobile320(true);
+                        }else{
+                            setIsMobile320(false);
+                        }
+                    }else{
+                        setIsMobile480(false);
+                    }
+                } else {
+                    setIsMobile860(false);
+                }
+            } else {
+                setIsMobile1025(false)
+            }
+        } else {
+            setIsTable(false)
+
+        }
+
+    }
+    // const handleResizeWindowInnerWidth = () => {
+    //     if (window.innerWidth < 1400) {
+    //         console.log("Screen.currentPage.clientWidth : ",Screen.clientWidth);
+    //         setIsTable(true)
+    //         if (window.innerWidth < 1025) {
+    //             setIsMobile1025(true)
+    //             if (window.innerWidth < 860) {
+    //                 setIsMobile860(true);
+    //             } else {
+    //                 setIsMobile860(false);
+    //             }
+    //         } else {
+    //             setIsMobile1025(false)
+    //         }
+    //     } else {
+    //         setIsTable(false)
+
+    //     }
+
+    // }
+
+    useEffect(() => {
+        window.addEventListener("reload",handleResize());
+        window.addEventListener("resize",handleResize());
+        // handleResizeWindowInnerWidth();
+    })
     return (
         <main className="relative">
             {/* <pre>{JSON.stringify(isData,undefined,2)}</pre> */}
-            <div className="container bg-white flex-1 rounded-xl w-[calc(100vw-240px-32px-32px)] max-w-[calc(100vw-240px-32px-32px)]" >
+            <div className={`bg-white flex-1 rounded-xl ${isTable ? (isMobile ? "w-[calc(100vw-32px-32px)] " :"w-[calc(100vw-80px-32px-32px)] ") : "w-[calc(100vw-240px-32px-32px)] "}`} >
                 <div className="headertable p-5 flex justify-between">
                     <div className="headertable-left">
                         <h1 className="text-black font-bold">Sinh viên</h1>
@@ -213,9 +278,9 @@ export default function List() {
                     </div>
                 </div>
                 <div className="bodytable">
-                    <div className="functiontable px-5 flex justify-between">
-                        <div className="functiontable-left flex">
-                            <label className="relative block w-56 z-0" >
+                    <div className={`functiontable px-5 ${isMobile ? '' :'flex justify-between'}`}>
+                        <div className={`functiontable-left flex`}>
+                            <label className={`relative block ${isMobile ? 'w-full py-3 ' : 'w-56'}  z-0`} >
                                 <span className="sr-only">Search</span>
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     {/* <svg className="h-5 w-5 fill-slate-300" viewBox="0 0 20 20"><!-- ... --></svg> */}
@@ -226,19 +291,17 @@ export default function List() {
                             {/* <button className="rounded-full h-10 text-center text-white bg-sky-300 w-36 mx-5 font-bold">Tìm kiếm</button> */}
                         </div>
 
-                        <div className="functiontable-right flex justify-around">
+                        <div className={`functiontable-right ${isMobile ? '' : 'flex justify-around'}`}>
                             {/* <div className="mb-10 xl:w-96"> */}
-                            <div className="mx-5">
-                                <button onClick={handleClickOpenFilter}className="w-16  h-8 flex text-center items-center bg-sky-400 text-white font-bold justify-center p-1 rounded-lg"><AiOutlineFilter />Lọc</button>
+                            <div className={` ${isMobile ?'w-full text-center my-3' :'mx-5'} `}>
+                                <button onClick={handleClickOpenFilter} className={`${isMobile ? 'w-full' : 'w-16'}  h-8 flex text-center items-center bg-sky-400 text-white font-bold justify-center p-1 rounded-lg`}><AiOutlineFilter />Lọc</button>
                             </div>
                             <label className="w-48 flex text-center items-center form-label inline-block mb-2 text-gray-700" for="scienceBranch"><AiOutlineFilter />Sắp xếp :</label>
                             <select name="filter" id="filter" onClick={changeFilter} className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
                                 <option name="filter" value='StudentIdAsc'>Mã sinh viên tăng dần </option>
                                 <option name="filter" value='StudentIdDesc'>Mã sinh viên giảm dần </option>
-                                <option name="filter" value='EmailAsc'>Email sinh viên tăng dần </option>
-                                <option name="filter" value='EmailDesc'>Email sinh viên giảm dần </option>
-                                <option name="filter" value='AddressAsc'>Địa chỉ sinh viên tăng dần </option>
-                                <option name="filter" value='AddressDesc'>Địa chỉ sinh viên giảm dần </option>
+                                {isTable === false && <option name="filter" value='EmailAsc'>Email sinh viên tăng dần </option>}
+                                {isTable === false && <option name="filter" value='EmailDesc'>Email sinh viên giảm dần </option>}
                                 <option name="filter" value='ScienceBranchAsc'>Khoa sinh viên tăng dần </option>
                                 <option name="filter" value='ScienceBranchDesc'>Khoa sinh viên giảm dần </option>
                                 <option name="filter" value='NameClassAsc'>Lớp sinh viên tăng dần </option>
@@ -247,135 +310,218 @@ export default function List() {
                             {/* </div> */}
                         </div>
                     </div>
-                    <ul className="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none p-3 border-b">
-                        <li className="nav-item" role="presentation">
-                            <button onClick={() => setToggleState(1)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 1 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu bảng</button>
-                        </li>
-                        <li className="nav-item" role="presentation">
-                            <button onClick={() => setToggleState(2)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 2 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu thẻ</button>
-                        </li>
-                    </ul>
-                    <div className="tab-content" id="tabs-tabContent">
-                        <div className={"tab-pane fade show active " + `${toggleState === 1 ? 'block' : 'hidden'}`} id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
-                            {/* Tab content table */}
-                            <div className="main-table m-8">
-                                <table className=" w-full rounded-xl " onMouseEnter={"RefeshStudent"}>
-                                    <thead className="bg-gray-50">
-                                        <tr className="bg-gray">
-                                            <th className="p-3 border border-slate-300 w-10 text-sm font-semibold tracking-wide">STT</th>
-                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Tên sinh viên</th>
-                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Mã sinh viên</th>
-                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Email</th>
-                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Địa chỉ</th>
-                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Ngày sinh</th>
-                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Giới tính</th>
-                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Khoa ngành</th>
-                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Lớp</th>
-                                            <th className="p-3 border border-slate-300 w-52 text-sm font-semibold tracking-wide">Hành động</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            currentPosts.length > 0 && currentPosts.map((doc, index) => {
-                                                return (
-                                                    <>
-                                                        <tr className={isActive ? "bg-white " : "bg-gray"}>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{index + 1}</td>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-left"><div className="content-table flex items-center"><img className="w-10 h-10 rounded-xl mx-3" src={doc.avatar ? doc.avatar : ''} alt={"avatar " + doc.lastName ? doc.lastName : ''} />{(doc.firstName ? doc.firstName : '') + ' ' + (doc.lastName ? doc.lastName : '')}</div></td>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.studentId}</td>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.email}</td>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.address}</td>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.birthday}</td>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.gender}</td>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.scienceBranch}</td>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.nameClass}</td>
-                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center ">
-                                                                <div className="content-table flex justify-around items-around">
-                                                                    <button className="p-3 rounded-xl bg-sky-200" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
-                                                                    <button className="p-3 rounded-xl bg-sky-200" onClick={() => getUserId(doc.id)}><AiOutlineEdit size={20} /></button>
-                                                                    <button className="p-3 rounded-xl bg-red-200" onClick={() => deleteHandler(doc.id)}><AiOutlineDelete size={20} /></button>
+                    {(() => {
+                        if (isMobile1025) {
+                            return (
+                                <div className={isTable ? (isMobile1025 ? 'p-3 grid grid-cols-1 gap-3' : 'p-3 grid grid-cols-2 gap-3') : `p-3 grid grid-cols-3 gap-3 m-8`} onMouseEnter={"RefeshStudent"}>
+                                    {
+                                        currentPosts.length > 0 && currentPosts.map((doc, index) => {
+                                            return (
+                                                <>
+                                                    <div className="card">
+                                                        <div className="flex justify-center">
+                                                            <div className={`flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg h-auto ${isMobile1025 ? (isMobile480 ? 'w-full items-center' :'w-full ')  : 'w-96'}`} key={index}>
+                                                                <img className=" w-28 h-28 object-cover p-3 rounded-lg" src={doc.avatar} alt="" />
+                                                                <div className={`${isMobile1025 ? 'w-full' : 'w-72'} p-3 flex flex-col justify-start`}>
+                                                                    <h5 className="text-gray-900 text-xl font-medium mb-2">{doc.firstName + " " + doc.lastName}</h5>
+                                                                    <p className="text-gray-700 text-base mb-2">Mã sinh viên: {doc.studentId}</p>
+                                                                    <p className="text-gray-700 text-base mb-2">Lớp : {doc.nameClass}</p>
+                                                                    <p className="text-gray-700 text-base mb-2">Khoa : {doc.scienceBranch}</p>
+                                                                    {/* <p className="text-gray-600 text-xs">Last updated 3 mins ago</p> */}
+                                                                    {(() => {
+                                                                        if (!isMobile1025) {
+                                                                            return (
+                                                                                <div className="cardFooter">
+                                                                                    <div className="content-table flex justify-around items-around">
+                                                                                        <button className="p-3 rounded-xl text-center bg-sky-200 flex items-center justify-center" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
+                                                                                        <button className="p-3 rounded-xl text-center bg-sky-200 flex items-center justify-center" onClick={() => getUserId(doc.id)}><AiOutlineEdit size={20} /></button>
+                                                                                        <button className="p-3 rounded-xl text-center bg-red-200 flex items-center justify-center" onClick={() => deleteHandler(doc.id)}><AiOutlineDelete size={20} /></button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                    })()}
                                                                 </div>
-                                                            </td>
-                                                        </tr>
-                                                        {/* {isOpenModalView && <Modal modal={"view"} data={doc} closeModal={setIsOpenModalView} key={doc.id} />} */}
-                                                        {/* {isOpenModalEdit && <Modal modal={"edit"} data={doc} closeModal={""} />} */}
-                                                    </>
-                                                )
-                                            })
-                                        }
-                                        {
-                                            isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
-                                        }
-                                        {
-                                            isOpenModalEdit && <Modal modal={"edit"} data={isModalData} closeModal={setIsOpenModalEdit} />
-                                        }
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                        <div className={"tab-pane fade show active " + `${toggleState === 2 ? 'block' : 'hidden'}`} id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
-                            {/* Tab content grid */}
-                            <div className="grid grid-cols-3 gap-3 m-8" onMouseEnter={"RefeshStudent"}>
-                                {
-                                    currentPosts.length > 0 && currentPosts.map((doc, index) => {
-                                        return (
-                                            <>
-                                                <div className="card">
-                                                    <div className="flex justify-center">
-                                                        <div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg w-96 h-auto">
-                                                            <img className=" w-28 h-28 object-cover p-3 rounded-lg" src={doc.avatar} alt="" />
-                                                            <div className="w-72 p-6 flex flex-col justify-start">
-                                                                <h5 className="text-gray-900 text-xl font-medium mb-2">{doc.firstName + " " + doc.lastName}</h5>
-                                                                <p className="text-gray-700 text-base mb-4">Mã sinh viên: {doc.studentId}</p>
-                                                                <p className="text-gray-700 text-base mb-4">Lớp : {doc.nameClass}</p>
-                                                                <p className="text-gray-700 text-base mb-4">Khoa : {doc.scienceBranch}</p>
-                                                                {/* <p className="text-gray-600 text-xs">Last updated 3 mins ago</p> */}
-                                                                <div className="cardFooter">
-                                                                    <div className="content-table flex justify-around items-around">
-                                                                        <button className="p-3 rounded-xl bg-sky-200" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
-                                                                        <button className="p-3 rounded-xl bg-sky-200" onClick={() => getUserId(doc.id)}><AiOutlineEdit size={20} /></button>
-                                                                        <button className="p-3 rounded-xl bg-red-200" onClick={() => deleteHandler(doc.id)}><AiOutlineDelete size={20} /></button>
-                                                                    </div>
-                                                                </div>
+                                                                {(() => {
+                                                                        if (isMobile1025) {
+                                                                            return (
+                                                                                <div className={`cardFooter ${isMobile480 ? 'w-full' : ''}`}>
+                                                                                    <div className={`content-table flex grid grid-row-1 gap-2 p-3`}>
+                                                                                        <button className="p-3 rounded-xl bg-sky-200 text-center flex items-center justify-center" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
+                                                                                        <button className="p-3 rounded-xl bg-sky-200 text-center flex items-center justify-center" onClick={() => getUserId(doc.id)}><AiOutlineEdit size={20} /></button>
+                                                                                        <button className="p-3 rounded-xl bg-red-200 text-center flex items-center justify-center" onClick={() => deleteHandler(doc.id)}><AiOutlineDelete size={20} /></button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                    })()}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                {
-                                                    isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
-                                                }
-                                                {
-                                                    isOpenModalEdit && <Modal modal={"edit"} data={isModalData} closeModal={setIsOpenModalEdit} />
-                                                }
-                                            </>
-                                        );
-                                    })
-                                }
-                            </div>
-                        </div>
-                        <div className="tab-footer">
-                            <div className="p-5">
-                                <div className="container mx-auto px-4">
-                                    <nav className="flex flex-row flex-nowrap justify-between md:justify-center items-center" aria-label="Pagination">
-                                        {pageNumbers.map((number) => {
-                                            if (number + 1 < pageNumbers.length) {
-                                                return (
-                                                    <button key={number + 1} onClick={() => { paginate(number + 1); setPageNumberActive(number + 1) }} className={"hidden md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300" + `${pageNumberActive === number + 1 ? " bg-sky-300" : ""}`} title={`Page ${number + 1}`}>
-                                                        {number + 1}
-                                                    </button>
-                                                );
-                                            }
+                                                    {
+                                                        isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
+                                                    }
+                                                    {
+                                                        isOpenModalEdit && <Modal modal={"edit"} data={isModalData} closeModal={setIsOpenModalEdit} />
+                                                    }
 
-                                        })}
-                                    </nav>
+                                                </>
+                                            );
+                                        })
+
+                                    }
+                                    <div className="tab-footer">
+                                        <div className={`${isMobile480 ? 'p-3' : 'p-5'}`}>
+                                            <div className="h-20 mx-auto px-4">
+                                                <nav className="h-20 flex flex-row flex-nowrap justify-between md:justify-center items-center" aria-label="Pagination">
+                                                    {pageNumbers.map((number) => {
+                                                        if (number + 1 < pageNumbers.length) {
+                                                            return (
+                                                                <button key={number + 1} onClick={() => { paginate(number + 1); setPageNumberActive(number + 1) }} className={`md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300 ${isMobile860 ? 'block' :'hidden'}` + `${pageNumberActive === number + 1 ? " bg-sky-300" : ""}`} title={`Page ${number + 1}`}>
+                                                                    {number + 1}
+                                                                </button>
+                                                            );
+                                                        }
+
+                                                    })}
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            );
+                        } else {
+                            return (
+                                <>
+                                    <ul className="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none p-3 border-b">
+                                        <li className="nav-item" role="presentation">
+                                            <button onClick={() => setToggleState(1)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 1 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu bảng</button>
+                                        </li>
+                                        <li className="nav-item" role="presentation">
+                                            <button onClick={() => setToggleState(2)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 2 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu thẻ</button>
+                                        </li>
+                                    </ul>
+                                    <div className="tab-content" id="tabs-tabContent">
+                                        <div className={"tab-pane fade show active " + `${toggleState === 1 ? 'block' : 'hidden'}`} id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
+                                            {/* Tab content table */}
+                                            <div className="main-table m-8">
+                                                <table className=" w-full rounded-xl " onMouseEnter={"RefeshStudent"}>
+                                                    <thead className="bg-gray-50">
+                                                        <tr className="bg-gray">
+                                                            <th className="p-3 border border-slate-300 w-10 text-sm font-semibold tracking-wide">STT</th>
+                                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Tên sinh viên</th>
+                                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Mã sinh viên</th>
+                                                            {isTable === false && <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Email</th>}
+                                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Giới tính</th>
+                                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Khoa ngành</th>
+                                                            <th className="p-3 border border-slate-300 text-sm font-semibold tracking-wide">Lớp</th>
+                                                            <th className="p-3 border border-slate-300 w-52 text-sm font-semibold tracking-wide">Hành động</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            currentPosts.length > 0 && currentPosts.map((doc, index) => {
+                                                                return (
+                                                                    <>
+                                                                        <tr className={isActive ? "bg-white " : "bg-gray"}>
+                                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{index + 1}</td>
+                                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-left"><div className="content-table flex items-center"><img className="w-10 h-10 rounded-xl mx-3" src={doc.avatar ? doc.avatar : ''} alt={"avatar " + doc.lastName ? doc.lastName : ''} />{(doc.firstName ? doc.firstName : '') + ' ' + (doc.lastName ? doc.lastName : '')}</div></td>
+                                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.studentId}</td>
+                                                                            {isTable === false && <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.email}</td>}
+                                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.gender}</td>
+                                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.scienceBranch}</td>
+                                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center">{doc.nameClass}</td>
+                                                                            <td className="p-3 h-full text-sm border border-slate-200 italic tracking-wide text-center ">
+                                                                                <div className="content-table flex justify-around items-around">
+                                                                                    <button className="p-3 rounded-xl bg-sky-200" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
+                                                                                    <button className="p-3 rounded-xl bg-sky-200" onClick={() => getUserId(doc.id)}><AiOutlineEdit size={20} /></button>
+                                                                                    <button className="p-3 rounded-xl bg-red-200" onClick={() => deleteHandler(doc.id)}><AiOutlineDelete size={20} /></button>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        {/* {isOpenModalView && <Modal modal={"view"} data={doc} closeModal={setIsOpenModalView} key={doc.id} />} */}
+                                                                        {/* {isOpenModalEdit && <Modal modal={"edit"} data={doc} closeModal={""} />} */}
+                                                                    </>
+                                                                )
+                                                            })
+                                                        }
+                                                        {
+                                                            isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
+                                                        }
+                                                        {
+                                                            isOpenModalEdit && <Modal modal={"edit"} data={isModalData} closeModal={setIsOpenModalEdit} />
+                                                        }
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                        <div className={"tab-pane fade show active " + `${toggleState === 2 ? 'block' : 'hidden'}`} id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
+                                            {/* Tab content grid */}
+                                            <div className={isTable ? (isMobile1025 ? 'grid grid-cols-1 gap-3' : 'grid grid-cols-2 gap-3') : `grid grid-cols-3 gap-3 m-8`} onMouseEnter={"RefeshStudent"}>
+                                                {
+                                                    currentPosts.length > 0 && currentPosts.map((doc, index) => {
+                                                        return (
+                                                            <>
+                                                                <div className="card">
+                                                                    <div className="flex justify-center">
+                                                                        <div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-white shadow-lg w-96 h-auto">
+                                                                            <img className=" w-28 h-28 object-cover p-3 rounded-lg" src={doc.avatar} alt="" />
+                                                                            <div className="w-72 p-3 flex flex-col justify-start">
+                                                                                <h5 className="text-gray-900 text-xl font-medium mb-2">{doc.firstName + " " + doc.lastName}</h5>
+                                                                                <p className="text-gray-700 text-base mb-2">Mã sinh viên: {doc.studentId}</p>
+                                                                                <p className="text-gray-700 text-base mb-2">Lớp : {doc.nameClass}</p>
+                                                                                <p className="text-gray-700 text-base mb-2">Khoa : {doc.scienceBranch}</p>
+                                                                                {/* <p className="text-gray-600 text-xs">Last updated 3 mins ago</p> */}
+                                                                                <div className="cardFooter">
+                                                                                    <div className="content-table flex justify-around items-around">
+                                                                                        <button className="p-3 rounded-xl bg-sky-200 text-center" onClick={() => viewUserId(doc.id)}><AiOutlineEye size={20} /></button>
+                                                                                        <button className="p-3 rounded-xl bg-sky-200 text-center" onClick={() => getUserId(doc.id)}><AiOutlineEdit size={20} /></button>
+                                                                                        <button className="p-3 rounded-xl bg-red-200 text-center" onClick={() => deleteHandler(doc.id)}><AiOutlineDelete size={20} /></button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {
+                                                                    isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
+                                                                }
+                                                                {
+                                                                    isOpenModalEdit && <Modal modal={"edit"} data={isModalData} closeModal={setIsOpenModalEdit} />
+                                                                }
+                                                            </>
+                                                        );
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="tab-footer">
+                                            <div className="p-5">
+                                                <div className="container mx-auto px-4">
+                                                    <nav className="flex flex-row flex-nowrap justify-between md:justify-center items-center" aria-label="Pagination">
+                                                        {pageNumbers.map((number) => {
+                                                            if (number + 1 < pageNumbers.length) {
+                                                                return (
+                                                                    <button key={number + 1} onClick={() => { paginate(number + 1); setPageNumberActive(number + 1) }} className={`hidden md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300 `  + ` ${pageNumberActive === number + 1 ? " bg-sky-300" : ""}`} title={`Page ${number + 1}`}>
+                                                                        {number + 1}
+                                                                    </button>
+                                                                );
+                                                            }
+                                                        })}
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            );
+                        }
+                    })()}
+
                 </div>
             </div>
-            {isOpenFilter===true && <Filter isOpenFilter={isOpenFilter} handleClickOpenFilter={handleClickOpenFilter} />}
+            {isOpenFilter === true && <Filter isOpenFilter={isOpenFilter} handleClickOpenFilter={handleClickOpenFilter} />}
         </main>
     )
 

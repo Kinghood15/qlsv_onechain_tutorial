@@ -129,41 +129,43 @@ class UsersDataService {
         const userDoc = query(collection(db, "users"), where("gender",'==','Nữ'));
         return getDocs(userDoc);
     }
-    getUsersByFilter = (gender,address,scienceBranch,nameClass) => {
-        const countTrue = 0;
+    getUsersByFilter = (gender,scienceBranch,nameClass) => {
+        // const countTrue = 0;
         const [isCheckMenu,setIsCheckMenu] = useState({
-            "gender": false,
-            "address": false,
-            "scienceBranch": false,
-            "nameClass": false
+            "gender": gender,
+            "scienceBranch": scienceBranch,
+            "nameClass": nameClass
         });
-        if(gender.length > 0 && address.length > 0 && scienceBranch.length >0 && nameClass.length > 0){
-            const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("address",'==',address), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
+        // if(gender.length > 0 && address.length > 0 && scienceBranch.length >0 && nameClass.length > 0){
+        //     const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("address",'==',address), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
+        //     return getDocs(userDoc);
+        // }
+        let queryCheck;
+        if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length > 0) {
+            const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
+            return getDocs(userDoc);
+        }else if(isCheckMenu.gender.length === 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length > 0){
+            const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
+            return getDocs(userDoc);
+        }else if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length === 0 && isCheckMenu.nameClass.length > 0){
+            const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'==',nameClass));
+            return getDocs(userDoc);
+        }else if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length === 0){
+            const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'>=',nameClass));
+            return getDocs(userDoc);
+        }else if(isCheckMenu.gender.length === 0 && isCheckMenu.scienceBranch.length === 0 && isCheckMenu.nameClass.length > 0){
+            const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'==',nameClass));
+            return getDocs(userDoc);
+        }else if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length === 0 && isCheckMenu.nameClass.length === 0){
+            const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'>=',nameClass));
+            return getDocs(userDoc);
+        }else if(isCheckMenu.gender.length === 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length === 0){
+            const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'>=',nameClass));
+            return getDocs(userDoc);
+        }else{
+            const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'>=',nameClass));
             return getDocs(userDoc);
         }
-        if(gender.length > 0){
-            setIsCheckMenu({...isCheckMenu,"gender":true});
-            countTrue+=1;
-        }
-        if(nameClass.length > 0){
-            setIsCheckMenu({...isCheckMenu,"nameClass":true});
-            countTrue+=1;
-        }
-        if(address.length > 0){
-            setIsCheckMenu({...isCheckMenu,"address":true});
-            countTrue+=1;
-        }
-        if(scienceBranch.length > 0){
-            setIsCheckMenu({...isCheckMenu,"scienceBranch":true});
-            countTrue+=1;
-        }
-        let querycheck = collection(db, "users");
-        for(var i=1; i<countTrue; i++){
-            querycheck += where("gender","==",i);
-
-        }
-        console.log("querycheck",query(querycheck));
-
     }
 }
 export default new UsersDataService();

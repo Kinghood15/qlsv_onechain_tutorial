@@ -5,6 +5,8 @@ html,body{
     width:100vw;
     height:100vh;
     background-color:#ebedee;
-    overflow-y: hidden; /* Hide vertical scrollbar */
+    /* overflow-y: hidden; Hide vertical scrollbar */
     overflow-x: hidden; /* Hide horizontal scrollbar */
+    scrollbar-width: 0.5px;
+    
 }

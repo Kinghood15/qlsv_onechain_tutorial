@@ -15,7 +15,7 @@ export default function Header(props) {
     const location = useLocation();
     //choose the screen size 
     const handleResizeMobile = () => {
-        if (window.innerWidth < 860) {
+        if (window.innerWidth < 860 || document.body.clientWidth < 860) {
             setIsMobile(true)
 
         } else {
@@ -30,17 +30,13 @@ export default function Header(props) {
         // setIsMobile(true);
         // };
         // getAvatar();
+        handleResizeMobile();
     })
     useEffect(() => {
         getAvatar();
-        // console.log("location.pathname = ", location.pathname.split('/'));
         if (location.pathname.split('/')[1] === 'giao-vien' && location.pathname.split('/')[2] === 'thong-tin-ca-nhan') {
-            // console.log("location.pathname = ", location.pathname)
             if (isUserTeacher.email !== "") {
-                // console.log("isUserTeacher.email in header = " + isUserTeacher.email);
                 props.parentCallback(isUserTeachers[0]);
-                // console.log("isUserTeacher in parentCallback",isUserTeacher)
-                // console.log("isUserTeachers.id in parentCallback",isUserTeachers[0].id)
             }
         }
     }, []);
@@ -140,12 +136,12 @@ export default function Header(props) {
     }
     const [isShowMenuBoxProfile, setIsMenuBoxProfile] = useState(false);
     return (
-        <div className="header 2xl w-screen max-w-[100vw] bg-sky-500 flex justify-between block ease-in z-50" onMouseEnter={RefeshTeacher} onMouseLeave={RefeshTeacher}>
+        <div className="header 2xl w-screen max-w-[100vw] bg-sky-500 flex justify-between block ease-in sticky top-0 z-50" onMouseEnter={RefeshTeacher} onMouseLeave={RefeshTeacher}>
             <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
                 {(() => {
                     if (isMobile) {
                         return (
-                            <li onClick={onHandleClickMenu} className={"item-menu ease-in-out active w-10 flex items-center justify-center h-10 my-5 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-r-xl"}>
+                            <li onClick={onHandleClickMenu} className={"item-menu ease-in-out active w-10 h-12 flex items-center justify-center m-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-xl"}>
                                 <div className="icon">
                                     <FiMenu size={15} />
                                 </div>
@@ -161,7 +157,7 @@ export default function Header(props) {
                     }
                 })()}
 
-                <a className={isMobile ? "text-white w-full flex justify-center items-center text-center text-xl font-bold ease-in h-20" : "h-20 flex justify-center items-center text-white w-full text-center text-2xl font-bold ease-in"} href="/">Quản lý sinh viên </a>
+                <a className={isMobile ? "text-white flex justify-center items-center text-center text-xl font-bold ease-in h-20" : "h-20 flex justify-center items-center text-white w-full text-center text-2xl font-bold ease-in"} href="/">Quản lý sinh viên </a>
             </div>
             <div className="boxNotification w-65 flex justify-end mr-5 items-center">
 
@@ -174,7 +170,7 @@ export default function Header(props) {
                     if (isUserTeacher !== null) {
                         return (
                             <>
-                                <button href="/notification" className="w-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><MdNotifications size={28} /></button>
+                                <button href="/notification" className={`w-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md ${isMobile ? 'hidden' : 'block'}`}><MdNotifications size={28} /></button>
                                 {/* <button href="/profile" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"><MdPerson size={28} /></button> */}
                                 <>
                                     <button onMouseEnter={() => setIsMenuBoxProfile(true)} onMouseLeave={() => setIsMenuBoxProfile(false)} className={"buttonBoxAvar relative w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"}><img className="rounded-full w-11 h-11" src={isUserTeacher.avatar} alt="user" /></button>

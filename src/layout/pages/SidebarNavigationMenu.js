@@ -9,7 +9,7 @@ import 'tippy.js/dist/tippy.css';
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../css/SidebarNavigationMenu.css';
-export default function SidebarNavigationMenu(props, isMobile, isShowSidebar) {
+export default function SidebarNavigationMenu(props, isMobile) {
     const menuDefaults = [{
         id: 1,
         name: 'Trang chủ',
