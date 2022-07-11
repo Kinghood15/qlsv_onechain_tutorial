@@ -2,6 +2,7 @@ import "./css/showprofile.css";
 import { UserAuth } from './Provider/AuthContextProvider';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect,useState } from "react";
+import { AiFillSetting } from "react-icons/ai";
 const ShowProfile = (userTeacher) => {
   useEffect(() => {
     // console.log("userTeacher in ShowProfile", userTeacher); 
@@ -60,9 +61,7 @@ const ShowProfile = (userTeacher) => {
           }
       } else {
           setIsTable(false)
-
       }
-
   }
   useEffect(() =>{
     handleResize();
@@ -84,33 +83,33 @@ const ShowProfile = (userTeacher) => {
             <button onClick={EditProfile} type="button" className="px-6 py-2.5 bg-white text-blue font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-white-300 hover:shadow-lg focus:bg-black focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-black-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Chỉnh sửa thông tin cá nhân</button>
           </div>
         </div>
-        <div className={`boxcontainer ${isMobile480 ? 'mt-14' : 'mt-32'} p-5`}>
-          <div className="flex justify-space-between p-2">
-            <h5 className="text-black font-bold px-5">Ngày sinh :</h5>
-            <p className="text-black">{Object(userTeacher).userTeacher.birthday}</p>
+        <div className={`boxcontainer ${isMobile480 ? 'mt-14 p-2' : 'mt-32 p-5'} `}>
+          <div className={`flex justify-space-between p-2`}>
+            <h5 className={`${isMobile480 ? 'px-3 text-sm' : 'px-5 text-xl'} text-black font-bold `}>Ngày sinh :</h5>
+            <p className={`${isMobile480 ? 'text-sm' :'' } 'text-black'`}>{Object(userTeacher).userTeacher.birthday}</p>
           </div>
           <div className="flex justify-space-between p-2">
-            <h5 className="text-black font-bold px-5">Email :</h5>
-            <p className="text-black">{Object(userTeacher).userTeacher.email}</p>
+            <h5 className={`${isMobile480 ? 'px-3 text-sm' : 'px-5 text-xl'} text-black font-bold `}>Email:</h5>
+            <p className={`${isMobile480 ? 'text-sm' :'' } 'text-black'`}>{Object(userTeacher).userTeacher.email}</p>
           </div>
           <div className="flex justify-space-between p-2">
-            <h5 className="text-black font-bold px-5">Giới tính:</h5>
-            <p className="text-black">{Object(userTeacher).userTeacher.gender}</p>
+            <h5 className={`${isMobile480 ? 'px-3 text-sm' : 'px-5 text-xl'} text-black font-bold `}>Giới tính:</h5>
+            <p className={`${isMobile480 ? 'text-sm' :'' } 'text-black'`}>{Object(userTeacher).userTeacher.gender}</p>
           </div>
           <div className="flex justify-space-between p-2">
-            <h5 className="text-black font-bold px-5">Khoa ngành:</h5>
-            <p className="text-black">{Object(userTeacher).userTeacher.nameScienceBranch}</p>
+            <h5 className={`${isMobile480 ? 'px-3 text-sm' : 'px-5 text-xl'} text-black font-bold `}>Khoa ngành:</h5>
+            <p className={`${isMobile480 ? 'text-sm' :'' } 'text-black'`}>{Object(userTeacher).userTeacher.nameScienceBranch}</p>
           </div>
           <div className="flex justify-space-between p-2">
-            <h5 className="text-black font-bold px-5">Chức vụ:</h5>
-            <p className="text-black">{Object(userTeacher).userTeacher.position}</p>
+            <h5 className={`${isMobile480 ? 'px-3 text-sm' : 'px-5 text-xl'} text-black font-bold `}>Chức vụ:</h5>
+            <p className={`${isMobile480 ? 'text-sm' :'' } 'text-black'`}>{Object(userTeacher).userTeacher.position}</p>
           </div>
         </div>
         <div className="boxfooter flex items-end justify-end p-5">
           {(() => {
             if(isMobile1025){
               return(
-                <button onClick={EditProfile} type="button" className="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Chỉnh sửa thông tin cá nhân</button>
+                <button onClick={EditProfile} type="button" className="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">{isMobile480 ? <AiFillSetting size={15} /> : 'Chỉnh sửa thông tin cá nhân'}</button>
               );
             }
           })()}

@@ -10,7 +10,7 @@ const EditProfile = (userTeacher) => {
     useEffect(() => {
         // console.log("userTeacher in EditProfile", Object(userTeacher).userTeacher)
         getScienceBratch();
-        if(Object(userTeacher).userTeacher.email !== ''){
+        if (Object(userTeacher).userTeacher.email !== '') {
             setIsUserTeacher(Object(userTeacher).userTeacher)
             // console.log("After setIsUserTeacher",isUserTeacher)
         }
@@ -35,9 +35,9 @@ const EditProfile = (userTeacher) => {
         "nameScienceBranch": "",
         "position": "",
     })
-    const [ confirmEmail,setConfirmEmail] = useState();
+    const [confirmEmail, setConfirmEmail] = useState();
     const { logout } = UserAuth();
-    const Save = async() => {
+    const Save = async () => {
         confirmAlert({
             title: 'Cảnh báo',
             message: 'Bạn có chắc chắn muốn sửa người dùng này không ?',
@@ -46,12 +46,12 @@ const EditProfile = (userTeacher) => {
                     label: 'Yes',
                     onClick: async () => {
                         try {
-                            if(isUserTeacher.email.trim() === confirmEmail.trim()){
+                            if (isUserTeacher.email.trim() === confirmEmail.trim()) {
                                 await UsersTeacherService.updateUserTeacher(isUserTeacher.id, isUserTeacher);
                                 navigate('/giao-vien/thong-tin-ca-nhan');
                             }
                         } catch (error) {
-                            console.log("Error edit user teacher failed" , error);
+                            console.log("Error edit user teacher failed", error);
                         }
                     }
                 },
@@ -78,10 +78,10 @@ const EditProfile = (userTeacher) => {
         var baseString;
         reader.onloadend = function () {
             baseString = reader.result;
-            setIsUserTeacher({...isUserTeacher, ['avatar']: baseString});
+            setIsUserTeacher({ ...isUserTeacher, ['avatar']: baseString });
         };
         reader.readAsDataURL(urlImg.target.files[0]);
-      };
+    };
     // console.log("isUserTeacher in edit profile", isUserTeacher);
     const [isScienceBranch, setIsScienceBranch] = useState([]);
     const getScienceBratch = async () => {
@@ -99,43 +99,80 @@ const EditProfile = (userTeacher) => {
         const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
         setIsUserTeacher({ ...isUserTeacher, [name]: value });
-        if(name === "confirmEmail") {
+        if (name === "confirmEmail") {
             setConfirmEmail(value);
         }
         // console.log("isUserTeacher in handleChange",isUserTeacher);
     }
     const { validator, handleSubmit } = useValidator({
         initValues: isUserTeacher
-      });
-    
+    });
+    const [isTable, setIsTable] = useState(false)
+    const [isMobile1025, setIsMobile1025] = useState(false)
+    const [isMobile860, setIsMobile860] = useState(false);
+    const [isMobile480, setIsMobile480] = useState(false);
+    const [isMobile320, setIsMobile320] = useState(false);
+
+    //choose the screen size 
+    const handleResize = () => {
+        if (document.body.clientWidth < 1400) {
+            setIsTable(true)
+            if (document.body.clientWidth < 1025) {
+                setIsMobile1025(true)
+                if (document.body.clientWidth < 860) {
+                    setIsMobile860(true);
+                    if (document.body.clientWidth < 480) {
+                        setIsMobile480(true);
+                        if (document.body.clientWidth < 320) {
+                            setIsMobile320(true);
+                        } else {
+                            setIsMobile320(false);
+                        }
+                    } else {
+                        setIsMobile480(false);
+                    }
+                } else {
+                    setIsMobile860(false);
+                }
+            } else {
+                setIsMobile1025(false)
+            }
+        } else {
+            setIsTable(false)
+        }
+    }
+    useEffect(() => {
+        handleResize();
+        window.addEventListener('resize', handleResize);
+    }, [])
     return (
-        <main>
-            <div className="container bg-white flex-1 rounded-lg">
+        <main className={`w-full`}>
+            <div className="bg-white w-full m-auto flex-1 rounded-lg">
                 <form onChange={handleChange} onSubmit={handleSubmit(Save)}>
-                    <div className="boxheaderProfile flex h-40 rounded-lg justify-space-between">
-                        <div className="BoxAvatarProfile relative h-full w-[30%] shadow-inner	">
-                            <div className="absolute w-56 h-56 bg-white rounded-full inset-1/3 flex items-center justify-center">
+                    <div className={`boxheaderProfile ${isMobile1025 ? '' : 'flex justify-space-between relative'} h-40 rounded-lg `}>
+                        <div className={`BoxAvatarProfile relative h-full ${isMobile1025 ? 'w-full' : 'w-[30%]'} shadow-inner`}>
+                            <div className={`${isMobile480 ? 'w-28 h-28' : 'w-56 h-56'} bg-white rounded-full  ${isMobile1025 ? 'mx-auto' : 'top-1/3 absolute right-1'} flex items-center justify-center`}>
                                 <div className="profile-pic">
                                     <label className="-label" htmlFor="file">
                                         <span className="glyphicon glyphicon-camera"></span>
                                         <span>Change Image</span>
                                     </label>
                                     <input id="file" type="file" onChange={getEmergencyFoundImg} />
-                                    <img src={isUserTeacher.avatar} id="output" className="w-54 h-54  rounded-full m-auto" />
+                                    <img src={isUserTeacher.avatar} id="output" className={`${isMobile480 ? 'w-24 h-24' : 'w-56 h-56'}  rounded-full m-auto`} />
                                 </div>
                                 {/* <img className="w-48 h-48  bg-red rounded-full" src={Object(isUserTeacher).isUserTeacher.avatar} /> */}
                             </div>
                         </div>
-                        <div className="BoxName w-[50%] flex justify-start items-end py-5">
-                            <p className="text-white font-bold text-3xl">{isUserTeacher.firstName + " " + isUserTeacher.lastName}</p>
+                        <div className={`BoxName ${isMobile1025 ? (isMobile480 ? 'w-full my-1 mt-1' : 'w-full my-5 mt-12') : 'w-[50%]'} flex justify-start items-end py-5`}>
+                            <p className={`${isMobile1025 ? 'text-black w-full text-center' : 'text-white'} font-bold ${isMobile480 ? 'text-xl' : 'text-3xl'}`}>{Object(userTeacher).userTeacher.firstName + " " + Object(userTeacher).userTeacher.lastName}</p>
                         </div>
-                        <div className="BoxSettings w-[20%]">
+                        <div className={`BoxSettings w-[20%] ${isMobile1025 ? 'hidden' : 'block'}`}>
                             <button type="submit" className="px-6 py-2.5 bg-white text-blue font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-white-300 hover:shadow-lg focus:bg-black focus:text-white focus:shadow-lg focus:outline-none focus:ring-0 active:bg-black-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Lưu thông tin cá nhân</button>
                         </div>
                     </div>
-                    <div className="boxcontainer mt-32 p-5">
-                        <div className="grid grid-cols-2 gaps-2">
-                            <div className="mb-10 xl:w-96">
+                    <div className={`boxcontainer ${isMobile480 ? 'mt-14 p-2' : 'mt-32 p-5'} `}>
+                        <div className={`${isMobile1025 ? '' : 'grid grid-cols-2 gaps-2'}`}>
+                            <div className={`mb-10 xl:w-96`}>
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Họ:</label>
                                 <input value={isUserTeacher.firstName} name="firstName" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="firstName" placeholder="Họ" />
                                 <span className={`${colorInput.firstName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.firstName}</span>
@@ -146,7 +183,7 @@ const EditProfile = (userTeacher) => {
                                 <span className={`${colorInput.lastName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.lastName}</span>
                             </div>
                         </div>
-                        <div className="grid grid-cols-2 gaps-2">
+                        <div className={`${isMobile1025 ? '' : 'grid grid-cols-2 gaps-2'}`}>
                             <div className="mb-10 xl:w-96">
                                 {/* <h5 className="text-black font-bold px-5">Email :</h5> */}
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Email:</label>
@@ -163,7 +200,7 @@ const EditProfile = (userTeacher) => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className={`${isMobile1025 ? '' : 'grid grid-cols-2 gaps-2'}`}>
                             <div className="mb-10 xl:w-96">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Giới tính:</label>
                                 <select value={isUserTeacher.gender} name="gender" id="gender" className={`${colorInput.gender} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="gender">
@@ -178,7 +215,7 @@ const EditProfile = (userTeacher) => {
                                 {/* <p className="text-black">{Object(isUserTeacher).isUserTeacher.birthday}</p> */}
                             </div>
                         </div>
-                        <div className="grid grid-cols-2 gaps-2">
+                        <div className={`${isMobile1025 ? '' : 'grid grid-cols-2 gaps-2'}`}>
                             <div className="mb-10 xl:w-96">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch">Khoa ngành:</label>
                                 <select value={isUserTeacher.scienceBranch} name="scienceBranch" id="scienceBranch" className={`${colorInput.scienceBranch} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Khoa nganh">
@@ -207,6 +244,15 @@ const EditProfile = (userTeacher) => {
                                 <span className={`${colorInput.position}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.position}</span>
                             </div>
                         </div>
+                    </div>
+                    <div className="boxfooter flex items-end justify-end p-5">
+                        {(() => {
+                            if (isMobile1025) {
+                                return (
+                                    <button type="submit" className="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1">Lưu thông tin cá nhân</button>
+                                );
+                            }
+                        })()}
                     </div>
                 </form>
             </div>

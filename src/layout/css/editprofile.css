@@ -40,3 +40,16 @@
     padding: 0.2em;
     height: 2em;
 }
+@media screen and (max-width: 768px) {
+    .profile-pic img{
+        width:100px;
+        height: 100px;
+    }
+    .profile-pic .-label{
+        width:100px;
+        height: 100px;
+    }
+    .profile-pic span{
+        font-size: 10px;
+    }
+}
