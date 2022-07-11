@@ -3,15 +3,30 @@ import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { db, auth } from "./Firebase";
 import { isEmpty } from "validator";
-import { confirmPasswordReset, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useValidator } from "@validator.tool/hook";
+import { UserStudentAuth } from './Provider/AuthUserContextProvider';
+import UserDataService from '../layout/services/Users.services';
 const Login = () => {
-    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-    const LoginStudent = () => {
-        try {
-            alert("Button clicked");
-        } catch (error) {
+    const {signIn,userStudent } = UserStudentAuth();
+    const navigate = useNavigate();
+    const LoginStudent = async() => {
 
+        try {
+            // if(await UserDataService.signinStudent(isInputForm.studentId, isInputForm.password)){
+            await signIn(isInputForm.studentId,isInputForm.password);
+            if(userStudent){
+                alert("Đăng nhập thành công !");
+                if(userStudent.password === userStudent.studentId){
+                    // await signIn(isInputForm.studentId,isInputForm.password)
+                    navigate('/cap-nhat-thong-tin-sinh-vien');
+                }else{
+                    navigate('/');
+                }
+            }else{
+                alert("Đăng nhập tài khoản sai!")
+            }
+        } catch (error) {
+            console.log("Error login student: " + error.message);
         }
     }
     const [isColorInput, setIsColorInput] = useState({
@@ -20,7 +35,7 @@ const Login = () => {
     });
     const [isInputForm, setIsInputForm] = useState({
         'studentId': '',
-        'password': ''
+        'password': '',
     });
     const [isErrorMessage, setIsErrorMessage] = useState({
         "studentId": "",
@@ -30,14 +45,16 @@ const Login = () => {
         const target = env.target;
         const value = target.type === "checkbox" ? target.checked : target.value.trim();
         const name = target.name;
+        console.log("isInputForm", isInputForm);
         setIsInputForm({ ...isInputForm, [name]: value });
+        // console.log("isInputForm", isInputForm);
         if (isInputForm.studentId.length === 0 || isInputForm.password.length === 0) {
             console.log("isInputForm.studentId.length === 0 || isInputForm.password.length === 0")
-            setIsButtonDisabled(true);
+            
             if (isInputForm.studentId.length === 0) {
                 const Error = 'Vui lòng nhập mã sinh viên ở đây';
                 setIsErrorMessage({ ...isErrorMessage, "studentId": Error });
-                setIsButtonDisabled(true);
+                
                 console.log("error", isErrorMessage);
                 console.log("isInputForm.studentId.length = " + isInputForm.studentId.length);
             }
@@ -45,11 +62,11 @@ const Login = () => {
                 console.log("isInputForm.password.length = 0")
                 const Error = "Vui lòng mật khẩu sinh viên ở đây";
                 setIsErrorMessage({ ...isErrorMessage, "password": Error });
-                setIsButtonDisabled(true);
+                
             }
             else if (isInputForm.studentId.length === 0 && isInputForm.password.length === 0) {
                 console.log("isInputForm.studentId.length === 0 && isInputForm.password.length === 0")
-                setIsButtonDisabled(true);
+                
                 const ErrorPassword = "Vui lòng mật khẩu sinh viên ở đây";
                 setIsErrorMessage({ ...isErrorMessage, "password": ErrorPassword });
                 const ErrorStudentId = 'Vui lòng nhập mã sinh viên ở đây';
@@ -57,14 +74,14 @@ const Login = () => {
             }
         } else if (isInputForm.studentId.length > 0 || isInputForm.password.length > 0) {
             console.log("isInputForm.studentId.length > 0 || isInputForm.password.length > 0");
-            setIsButtonDisabled(true);
+            
             const valueError = "";
             if (isInputForm.studentId.length > 0) {
-                setIsButtonDisabled(true);
+                
                 setIsErrorMessage({ ...isErrorMessage, "studentId": valueError });
                 console.log("isInputForm.studentId.length >0")
             } else if (isInputForm.password.length > 0) {
-                setIsButtonDisabled(true);
+                
                 setIsErrorMessage({ ...isErrorMessage, "password": valueError });
             }
             if (isInputForm.studentId.length > 0 && isInputForm.password.length > 0) {
@@ -72,7 +89,7 @@ const Login = () => {
                 const valueError = "";
                 setIsErrorMessage({ ...isErrorMessage, "password": valueError });
                 setIsErrorMessage({ ...isErrorMessage, "studentId": valueError });
-                setIsButtonDisabled(false);
+                
     
             }
         }
@@ -82,13 +99,6 @@ const Login = () => {
     const onReset = (value) => {
         setIsInputForm({ ...value });
     }
-    const onSubmit = () => {
-        try {
-
-        } catch (error) {
-            console.log("error", error);
-        }
-    }
     const { validator, handleSubmit, handleReset } = useValidator({
         initValues: isInputForm,
     });
@@ -96,21 +106,21 @@ const Login = () => {
         <div className="flex items-center w-screen h-screen">
             <div className="m-auto w-96 h-auto p-5 flex items-center rounded-lg shadow-2xl bg-gray-100">
                 <div className="w-full h-full">
-                    <div className="cardHeader p-3">
+                <div className="cardHeader p-3">
                         <h1 className="font-bold text-black text-2xl">Đăng nhập sinh viên</h1>
                     </div>
                     <div className="cardBody p-0 m-0">
                         <form onReset={handleReset(onReset)} onSubmit={handleSubmit(LoginStudent)} onChange={handleChange} onBlur={handleChange}>
-                            <input defaultValue={isInputForm.studentId} name="studentId" placeholder="Tên đăng nhập" className="studentid w-full rounded-lg py-2 my-3" type="text" required />
-                            <span className="text-red">
+                            <input defaultValue={isInputForm.studentId} name="studentId" placeholder="Mã sinh viên" className="studentid w-full rounded-lg py-2 my-3" type="text" required />
+                            <p className="text-red">
                                 {isErrorMessage.studentId}
-                            </span>
+                            </p>
                             <input defaultValue={isInputForm.password} name="password" placeholder="Mật khẩu" className="w-full rounded-lg py-2 my-3" type="password" required />
-                            <span className="text-red">
+                            <p className="text-red">
                                 {isErrorMessage.password}
-                            </span>
+                            </p>
                             {/* <Link href="/forgot-password">Quên mật khẩu ?</Link> */}
-                            <button disabled={isButtonDisabled} type="submit" className="my-3 rounded-full w-full h-14 bg-sky-400 text-white font-bold text-xl" >Đăng nhập</button>
+                            <button type="submit" className="my-3 rounded-full w-full h-14 bg-sky-400 text-white font-bold text-xl" >Đăng nhập</button>
                         </form>
                     </div>
                 </div>

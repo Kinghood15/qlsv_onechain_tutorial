@@ -208,8 +208,6 @@ export default function List({isMobile}) {
     
     //choose the screen size 
     const handleResize = () => {
-        console.log("document.body.clientWidth=" + document.body.clientWidth);
-        console.log("window.matchMedia(screen and (maxwidth: 768px))",window.matchMedia("screen and (maxwidth: 768px)"))
         if (document.body.clientWidth < 1400) {
             setIsTable(true)
             if (document.body.clientWidth < 1025) {
@@ -251,11 +249,11 @@ export default function List({isMobile}) {
             <div className={`bg-white flex-1 rounded-xl ${isTable ? (isMobile ? "w-[calc(100vw-32px-32px)] " :"w-[calc(100vw-80px-32px-32px)] ") : "w-[calc(100vw-240px-32px-32px)] "}`} >
                 <div className="headertable p-5 flex justify-between">
                     <div className="headertable-left">
-                        <h1 className="text-black font-bold">Sinh viên</h1>
+                        <h1 className={`text-black font-bold ${isMobile320 ? 'text-lg' : 'text-xl'}`}>Sinh viên</h1>
                     </div>
                     {/* Button create new user */}
                     <div className="headertable-right">
-                        <button onClick={newHandler} className="rounded-full bg-sky-300 px-6 py-3"><AiOutlinePlusCircle /></button>
+                        <button onClick={newHandler} className={`rounded-full bg-sky-300  ${isMobile320 ? 'px-4  py-2' : 'px-6 py-3'}`}><AiOutlinePlusCircle size={`${isMobile320 ? 15 : 24}`} /></button>
                     </div>
                 </div>
                 <div className="bodytable">

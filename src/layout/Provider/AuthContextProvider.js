@@ -11,7 +11,7 @@ const UserContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
-
+  
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
@@ -44,6 +44,5 @@ export const AuthContextProvider = ({ children }) => {
 };
 
 export const UserAuth = () => {
-  // console.log("UserContext",UserContext)
   return useContext(UserContext);
 };

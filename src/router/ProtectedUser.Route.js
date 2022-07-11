@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { UserAuth } from '../layout/Provider/AuthContextProvider';
+import { UserStudentAuth } from '../layout/Provider/AuthStudentContextProvider';
 import UsersTeacherServices from '../layout/services/UsersTeacher.services';
-const ProtectedRoute = ({ children }) => {
+const ProtectedUserRoute = ({ children }) => {
   
-   const { user } = UserAuth() || {};
+   const { userStudent } = UserStudentAuth() || {};
    let userLocal;
    var userChecked = localStorage.getItem('Authorization');
    try {
@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children }) => {
          
    //    }
    // }
-   if (JSON.stringify(user) === '{}') {
+   if (JSON.stringify(userStudent) === '{}') {
       if (userLocal === null) {
          // userLocal is null and user is null
          localStorage.removeItem('Authorization');
@@ -46,16 +46,16 @@ const ProtectedRoute = ({ children }) => {
    } else {
       if(userLocal!== null){
          // user not null and userLocal not null
-         if (userLocal.stsTokenManager.accessToken === user.accessToken && user.email === userLocal.email) {
+         if (userLocal.stsTokenManager.accessToken === userStudent.accessToken && userStudent   .email === userLocal.email) {
             return children;
-         }else if(userLocal.stsTokenManager.accessToken !== user.accessTokenx){
+         }else if(userLocal.stsTokenManager.accessToken !== userStudent.accessTokenx){
             localStorage.removeItem('Authorization');
-            user = '';
+            userStudent = '';
             return <Navigate to="/giao-vien/dang-nhap" />;
          }
       }else if(userLocal === null ){
          // user not null and userLocal is null
-         localStorage.setItem('Authorization', JSON.stringify(user));
+         localStorage.setItem('Authorization', JSON.stringify(userStudent));
         
       }else{
          console.log("Error")
@@ -63,4 +63,4 @@ const ProtectedRoute = ({ children }) => {
    }
 
 }
-export default ProtectedRoute;
+export default ProtectedUserRoute;

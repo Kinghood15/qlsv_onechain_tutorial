@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import isEmail from 'validator/es/lib/isEmail';
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import Modal from '../components/Modal';
-export default function NewUser({isMobile}) {
+export default function NewUser({ isMobile }) {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState({
         'studentId': '',
@@ -114,31 +114,31 @@ export default function NewUser({isMobile}) {
                 if (countCheckStudentId > 0) {
                     setValidateInput({ ...validateInput, 'studentId': 'Mã sinh viên này đã được sử dụng. Yêu cầu bạn nhập số khác!' })
                     setColorInput({ ...colorInput, 'studentId': 'border-red-300' });
-                } else if(countCheckStudentId === 0){
+                } else if (countCheckStudentId === 0) {
                     const checkStudentIds = await UserDataService.checkUserByEmail(isInputForm.email);
                     countCheckStudentId = 0;
                     checkStudentIds.forEach((studentId) => {
-                    // console.log("studentId.data()", studentId.data());
+                        // console.log("studentId.data()", studentId.data());
                         if (studentId.data()) {
                             countCheckStudentId += 1;
                         }
-                    }) 
-                    if(countCheckStudentId > 0) {
+                    })
+                    if (countCheckStudentId > 0) {
                         setValidateInput({ ...validateInput, 'email': 'Email này đã được sử dụng. Yêu cầu bạn nhập email khác!' })
                         setColorInput({ ...colorInput, 'email': 'border-red-300' });
-                    }else{
+                    } else {
                         setValidateInput({ ...validateInput, 'email': '' })
                         setColorInput({ ...colorInput, 'email': 'border-green-300' });
                         try {
-                            if(await UserDataService.addUser({ ...isInputForm })){
+                            if (await UserDataService.addUser({ ...isInputForm })) {
                                 alert("User added successfully");
-                            }else alert("User not added successfully");
+                            } else alert("User not added successfully");
                             // onReset(true);
                         } catch (error) {
                             return alert("User added failed")
                         }
                     }
-                    
+
                 }
             }
             // console.log("value in onSubmit", value);
@@ -167,7 +167,7 @@ export default function NewUser({isMobile}) {
         const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
         setIsInputForm({ ...isInputForm, [name]: value });
-        if(name === "studentId"){
+        if (name === "studentId") {
             setIsInputForm({ ...isInputForm, ["password"]: value });
             console.log("isInputForm", isInputForm);
         }
@@ -238,25 +238,25 @@ export default function NewUser({isMobile}) {
     const [isMobile860, setIsMobile860] = useState(false);
     const [isMobile480, setIsMobile480] = useState(false);
     const [isMobile320, setIsMobile320] = useState(false);
-    
+
     //choose the screen size 
     const handleResize = () => {
         console.log("document.body.clientWidth=" + document.body.clientWidth);
-        console.log("window.matchMedia(screen and (maxwidth: 768px))",window.matchMedia("screen and (maxwidth: 768px)"))
+        console.log("window.matchMedia(screen and (maxwidth: 768px))", window.matchMedia("screen and (maxwidth: 768px)"))
         if (document.body.clientWidth < 1400) {
             setIsTable(true)
             if (document.body.clientWidth < 1025) {
                 setIsMobile1025(true)
                 if (document.body.clientWidth < 860) {
                     setIsMobile860(true);
-                    if(document.body.clientWidth < 480){
+                    if (document.body.clientWidth < 480) {
                         setIsMobile480(true);
-                        if(document.body.clientWidth < 320) {
+                        if (document.body.clientWidth < 320) {
                             setIsMobile320(true);
-                        }else{
+                        } else {
                             setIsMobile320(false);
                         }
-                    }else{
+                    } else {
                         setIsMobile480(false);
                     }
                 } else {
@@ -269,23 +269,46 @@ export default function NewUser({isMobile}) {
             setIsTable(false)
         }
     }
+    const handleOnLoad = () => {
+        try {
+            console.log("isScienceBranch.length = " + isScienceBranch.length)
+            if (isScienceBranch.length > 0) {
+                isScienceBranch.map((item, index) => {
+                    if (index === 0) {
+                        setIsInputForm({ ...isInputForm, 'scienceBranch': item.nameScienceBranch });
+                    }
+                })
+            }
+            console.log("isClass.length", isClass.length)
+            if (isClass.length > 0) {
+
+            }
+            
+        } catch (error) {
+
+        }
+    }
     useEffect(() => {
         handleResize();
         getScienceBranch();
         getClass();
         GetstudentId();
     }, []);
+    useEffect(() => {
+        window.addEventListener("onload",handleOnLoad);
+        console.log("isInputForm", isInputForm);
 
+    }, [isScienceBranch])
     return (
         <>
             <main>
-                <div className={`bg-white flex-1 rounded-xl ${isTable ? (isMobile ? "w-[calc(100vw-32px-32px)] " :"w-[calc(100vw-80px-32px-32px)] ") : "w-[calc(100vw-240px-32px-32px)] "}`} >
+                <div className={`bg-white flex-1 rounded-xl ${isTable ? (isMobile ? "w-[calc(100vw-32px-32px)] " : "w-[calc(100vw-80px-32px-32px)] ") : "w-[calc(100vw-240px-32px-32px)] "}`} >
                     <div className="headerForm p-5 flex justify-between">
-                        <div className={`headerForm-left ${isMobile ? 'flex': ''}`}>
+                        <div className={`headerForm-left ${isMobile ? 'flex' : ''}`}>
                             <button className="px-3" onClick={() => navigate(-1)}>
                                 <AiOutlineArrowLeft size={`${isMobile480 ? 20 : 24}`} />
                             </button>
-                            <h1 className={`${isMobile860 ? (isMobile480 ? 'text-black text-lg font-bold' : 'text-black text-lg font-bold') :'text-black font-bold'}`}>Thêm sinh viên</h1>
+                            <h1 className={`${isMobile860 ? (isMobile480 ? 'text-black text-lg font-bold' : 'text-black text-lg font-bold') : 'text-black font-bold'}`}>Thêm sinh viên</h1>
                         </div>
                         <div className="headerForm-right">
 
@@ -308,7 +331,7 @@ export default function NewUser({isMobile}) {
                                     <input placeholder="Tên sinh viên" required type="text" className={`${colorInput.lastName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="lastName" name="lastName" />
                                 </div>
                             </div>
-                           <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
+                            <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
                                 <div className="mb-10 xl:w-96">
                                     <label className="form-label inline-block mb-2 text-gray-700" htmlFor="email">Email</label>
                                     <input placeholder="Email" required type="email" className={`${colorInput.email} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="email" name="email" />
@@ -319,7 +342,7 @@ export default function NewUser({isMobile}) {
                                     <input placeholder="Địa chỉ" required type="text" className={`${colorInput.address} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="address" name="address" />
                                 </div>
                             </div>
-                           <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
+                            <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
                                 <div className="mb-10 xl:w-96">
                                     <label className="form-label inline-block mb-2 text-gray-700" htmlFor="birthday">Ngày sinh sinh viên</label>
                                     <input required type="date" className={`${colorInput.birthday} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="birthday" name="birthday" />
@@ -332,20 +355,18 @@ export default function NewUser({isMobile}) {
                                     </select>
                                 </div>
                             </div>
-                           <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
+                            <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
                                 <div className="mb-10 xl:w-96">
                                     <label className="form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch">Khoa ngành:</label>
                                     <select name="scienceBranch" id="scienceBranch" className={`${colorInput.scienceBranch} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Khoa nganh">
                                         {isScienceBranch.map((item, i) => {
                                             if (i === 0) {
-                                                i++;
                                                 return (
                                                     <>
                                                         <option name="scienceBranch" key={item.id} value={item.nameScienceBranch} selected>{item.nameScienceBranch}</option>
                                                     </>
                                                 );
                                             } else {
-                                                i++;
                                                 return (
                                                     <>
                                                         <option name="scienceBranch" key={item.id} value={item.nameScienceBranch}>{item.nameScienceBranch}</option>
@@ -360,7 +381,7 @@ export default function NewUser({isMobile}) {
                                     <select name="nameClass" id="nameClass" className={`${colorInput.nameClass} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Lop hoc">
                                         {isClass.map((item, i) => {
                                             if (i === 0) {
-                                                i++;
+                                                // setIsInputForm({ ...isInputForm,'nameClass':item.nameClass});
                                                 return (
                                                     <>
                                                         <option name="nameClass" key={item.id} value={item.nameClass} selected>{item.nameClass}</option>
@@ -377,7 +398,7 @@ export default function NewUser({isMobile}) {
                                     </select>
                                 </div>
                             </div>
-                           <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
+                            <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
                                 <button type="reset" className="my-2 w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Xóa hết</button>
                                 {/* <button type="button" onClick={""} className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và quay trở lại!</button> */}
                                 <button type="submit" className="my-2 w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và xem trước thông tin</button>

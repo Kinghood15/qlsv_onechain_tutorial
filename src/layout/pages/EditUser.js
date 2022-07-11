@@ -9,7 +9,8 @@ import { ACCESS_TOKEN_SECRET, AVATAR_USER } from '../env';
 import { useNavigate } from 'react-router-dom';
 // import { isEmpty } from "validator";
 import isEmail from 'validator/es/lib/isEmail';
-export default function EditUser({id}) {
+import { AiOutlineArrowLeft,AiOutlineArrowRight } from "react-icons/ai";
+export default function EditUser({nextStep,prevStep,handleChange,isInputFormEditUser}) {
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = useState({
         'studentId': '',
@@ -141,7 +142,7 @@ export default function EditUser({id}) {
         setIsInputForm({ ...value });
     }
     
-    function handleChange(env) {
+    function handleChangeForm(env) {
         const target = env.target;
 
         const value = target.type === "checkbox" ? target.checked : target.value;
@@ -218,21 +219,25 @@ export default function EditUser({id}) {
 
     return (
         <>
-            <main>
-                <div className="container bg-white flex-1 rounded-xl w-[calc(100vw-240px-32px-32px)] max-w-[calc(100vw-240px-32px-32px)]" >
+            <main className="">
+                <div className="container m-auto bg-white flex-1 rounded-xl" >
                     <div className="headerForm p-5 flex justify-between">
                         <div className="headerForm-left">
-                            <h1 className="text-black font-bold">Thêm sinh viên</h1>
+                            <button className="btn btn-primary rounded-full w-12 h-12" onClick={prevStep}><AiOutlineArrowLeft size={24} /></button>
+                            
+                        </div>
+                        <div className="headerForm-center text-center">
+                            <h1 className="text-black font-bold">Cập nhật thông tin sinh viên</h1>
                         </div>
                         <div className="headerForm-right">
-
+                            <button className="btn btn-primary rounded-full w-12 h-12" onClick={nextStep} ><AiOutlineArrowRight size={24} /></button>
                         </div>
                     </div>
                     <div className="containerForm block p-6 rounded-lg bg-white w-xl m-w-xl">
-                        <form onReset={handleReset(onReset)} onSubmit={handleSubmit(onSubmit)} onChange={handleChange}>
+                        <form onReset={handleReset(onReset)} onSubmit={handleSubmit(onSubmit)} onChange={handleChangeForm}>
                             <div className="mb-10 xl:w-96">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="studentId">Mã sinh viên</label>
-                                <input name="studentId" required type="text" className={`${colorInput.studentId} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="studentId" placeholder="Mã sinh viên"/>
+                                <input name="studentId" disabled required type="text" className={`${colorInput.studentId} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="studentId" placeholder="Mã sinh viên"/>
                                 <span className={`${colorInput.studentId}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.studentId}</span>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
@@ -314,9 +319,9 @@ export default function EditUser({id}) {
                                     </select>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-2 gap-4">
                                 <button type="reset" className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Xóa hết</button>
-                                <button type="button" onClick={""} className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và quay trở lại!</button>
+                                {/* <button type="button" onClick={""} className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và quay trở lại!</button> */}
                                 <button type="submit" className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Lưu và xem trước thông tin</button>
                             </div>
                         </form>

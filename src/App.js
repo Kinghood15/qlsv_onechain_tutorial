@@ -7,16 +7,19 @@ import MainPages from './layout/pages/MainPages';
 import LoginTeacher from './layout/LoginTeacher';
 import Error404 from './layout/pages/404';
 import SignUpTeacher from './layout/SignUpTeacher';
+import UserStudentForm from './layout/UserStudentForm';
+import ChangePasswordStudent from './layout/ChangePasswordStudent';
 import EditUser from './layout/pages/EditUser';
 import MainProfile from './layout/pages/MainProfile';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NotificationMessageProvider from './layout/Provider/NotificationMessageProvider';
-import { doc, setDoc, addDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db, auth } from "./layout/Firebase";
 import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './layout/env';
 import CryptoJS from 'crypto-js';
 import { useState } from 'react';
 import { AuthContextProvider } from './layout/Provider/AuthContextProvider';
+import { AuthUserContextProvider } from './layout/Provider/AuthUserContextProvider';
 import ProtectedRoute from './router/Protected.Route';
 // import PrivateRoute from './PrivateRoute';
 function App() {
@@ -30,22 +33,22 @@ function App() {
     });
     // console.log("checkToken in querySnapshot function", checkToken)
   }
-  const AuthorizationCheck = (stringToken) => {
-    let token = stringToken.trim().split(' ')[1];
-    // Get data by token 
-    let data = CryptoJS.AES.decrypt(token, ACCESS_TOKEN_SECRET);
-    data = data.toString(CryptoJS.enc.Utf8);
-    let dataJSON = JSON.parse(data);
-    //Get document query parameters
-    const q = query(collection(db, "users"), where("studentId", "==", Object(dataJSON).studentId), where("email", "==", Object(dataJSON).email), where("firstName", "==", Object(dataJSON).firstName), where("lastName", "==", Object(dataJSON).lastName));
+  // const AuthorizationCheck = (stringToken) => {
+  //   let token = stringToken.trim().split(' ')[1];
+  //   // Get data by token 
+  //   let data = CryptoJS.AES.decrypt(token, ACCESS_TOKEN_SECRET);
+  //   data = data.toString(CryptoJS.enc.Utf8);
+  //   let dataJSON = JSON.parse(data);
+  //   //Get document query parameters
+  //   const q = query(collection(db, "users"), where("studentId", "==", Object(dataJSON).studentId), where("email", "==", Object(dataJSON).email), where("firstName", "==", Object(dataJSON).firstName), where("lastName", "==", Object(dataJSON).lastName));
 
-    if (querySnapshotFunction(q)) {
-      // console.log("checkToken", checkToken);
-      if (checkToken === 1) {
-        return true;
-      } else return false;
-    }
-  }
+  //   if (querySnapshotFunction(q)) {
+  //     // console.log("checkToken", checkToken);
+  //     if (checkToken === 1) {
+  //       return true;
+  //     } else return false;
+  //   }
+  // }
   return (
     <BrowserRouter>
       <AuthContextProvider>
@@ -72,21 +75,25 @@ function App() {
               <MainProfile page="ShowUser" />
             </ProtectedRoute>
           } />
-           <Route path="/giao-vien/thong-tin-ca-nhan/chinh-sua-thong-tin-ca-nhan" element={
+          <Route path="/giao-vien/thong-tin-ca-nhan/chinh-sua-thong-tin-ca-nhan" element={
             <ProtectedRoute>
               <MainProfile page="EditUser" />
             </ProtectedRoute>
           } />
           <Route path="/404" element={<Error404 />} />
           <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} />
-          <Route path="/dang-nhap" element={<Login />} /> {/*Dang Fix */}
-          {/* <Route path="/dangky" element={<SignUpStudent />} /> Dang Fix */}
+          {/*<Route path="/doi-mat-khau" element={<ChangePasswordStudent />} /> Dang Fix
+          <Route path="/thay-doi-thong-tin-ca-nhan" element={<EditUser />} /> {/*Dang Fix */}
           <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
-          {/* <Route path="/signup" element={<Navigate to="/" />} /> */}
-          <Route path="*" element={<Navigate to="/" />} />
-          {/* </div> */}
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </Routes>
       </AuthContextProvider>
+      <AuthUserContextProvider>
+        <Routes>
+          <Route path="/dang-nhap" element={<Login />} /> {/*Dang Fix */}
+          <Route path="/cap-nhat-thong-tin-sinh-vien" element={<UserStudentForm />} />{/* Dang Fix */}
+        </Routes>
+      </AuthUserContextProvider>
     </BrowserRouter>
   );
 }

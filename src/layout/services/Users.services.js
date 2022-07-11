@@ -73,6 +73,12 @@ class UsersDataService {
         return getDoc(userDoc);
 
     }
+    signinStudent = (studentId, password) => {
+        
+        const userDoc =query(collection(db, "users"), where("studentId","==", studentId), where("password","==",password));
+        return getDocs(userDoc);
+        
+    }
     checkUserByStudentId = (studentId) => {
         const userDoc =query(collection(db, "users"), where("studentId", "==", studentId));
         return getDocs(userDoc);
