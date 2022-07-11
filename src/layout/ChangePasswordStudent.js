@@ -29,13 +29,14 @@ const ChangePasswordStudent = ({prevStep,nextStep,handleChange,isInputFormChange
             console.log("getUser", error);
         }
     }
+    console.log("IsInputForm in ChangePasswordStudent",isInputForm);
     function handleChangeForm(env) {
         const target = env.target;
         const value = target.type === "checkbox" ? target.checked : target.value.trim();
         const name = target.name;
         setIsInputForm({ ...isInputForm, [name]: value });
-        if (isInputForm.passwordOld.length === 0 || isInputForm.password.length === 0) {
-            console.log("isInputForm.passwordOld.length === 0 || isInputForm.password.length === 0")
+        if (isInputForm.passwordOld.length === 0 || isInputForm.passwordNew.length === 0 || isInputForm.confirmPasswordNew.length === 0) {
+            console.log("isInputForm.passwordOld.length === 0 || isInputForm.passwordNew.length === 0")
             setIsButtonDisabled(true);
             if (isInputForm.passwordOld.length === 0) {
                 const Error = 'Vui lòng nhập mật khẩu cũ sinh viên ở đây';
@@ -58,20 +59,20 @@ const ChangePasswordStudent = ({prevStep,nextStep,handleChange,isInputFormChange
                 const ErrorStudentId = 'Vui lòng nhập mã sinh viên ở đây';
                 setIsErrorMessage({ ...isErrorMessage, "passwordOld": ErrorStudentId });
             }
-        } else if (isInputForm.passwordOld.length > 0 || isInputForm.password.length > 0) {
-            console.log("isInputForm.passwordOld.length > 0 || isInputForm.password.length > 0");
+        } else if (isInputForm.passwordOld.length > 0 || isInputForm.passwordNew.length > 0) {
+            console.log("isInputForm.passwordOld.length > 0 || isInputForm.passwordNew.length > 0");
             setIsButtonDisabled(true);
             const valueError = "";
             if (isInputForm.passwordOld.length > 0) {
                 setIsButtonDisabled(true);
                 setIsErrorMessage({ ...isErrorMessage, "passwordOld": valueError });
                 console.log("isInputForm.passwordOld.length >0")
-            } else if (isInputForm.password.length > 0) {
+            } else if (isInputForm.passwordNew.length > 0) {
                 setIsButtonDisabled(true);
                 setIsErrorMessage({ ...isErrorMessage, "password": valueError });
             }
-            if (isInputForm.passwordOld.length > 0 && isInputForm.password.length > 0) {
-                console.log("isInputForm.passwordOld.length > 0 && isInputForm.password.length > 0")
+            if (isInputForm.passwordOld.length > 0 && isInputForm.passwordNew.length > 0) {
+                console.log("isInputForm.passwordOld.length > 0 && isInputForm.passwordNew.length > 0")
                 const valueError = "";
                 setIsErrorMessage({ ...isErrorMessage, "password": valueError });
                 setIsErrorMessage({ ...isErrorMessage, "passwordOld": valueError });
@@ -87,7 +88,11 @@ const ChangePasswordStudent = ({prevStep,nextStep,handleChange,isInputFormChange
     }
     const onSubmit = () => {
         try {
-            nextStep();
+            if(isInputForm.passwordNew.trim() === isInputForm.confirmPasswordNew.trim() && isInputForm.passwordOld.trim() === isInputFormChangePassword.password.trim() && isInputFormChangePassword.password.trim() !== isInputForm.passwordNew.trim()){
+                isInputFormChangePassword.password = isInputForm.passwordNew;
+                nextStep();
+            }
+            
         } catch (error) {
             console.log("error", error);
         }
@@ -97,6 +102,7 @@ const ChangePasswordStudent = ({prevStep,nextStep,handleChange,isInputFormChange
     });
     useEffect(()=>{
         console.log("isInputFormChangePassword",isInputFormChangePassword);
+        console.log("isInputForm", isInputForm);
     },[])
     return (
         <div className="flex items-center w-screen h-screen">

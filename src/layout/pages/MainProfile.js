@@ -68,8 +68,8 @@ export default function MainProfile(page) {
     return (
         <>
             <Header parentCallback={callbackFunction} />
-            <div className={isMobile ? "maincontainer block m-auto pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer m-auto flex pt-20 pb-10  h-[calc(100vh-14px-60px)]"}>
-                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? "container sm  m-8 mx-auto ease-in" : "container sm m-8 mx-auto ease")}>
+            <div className={isMobile ? "maincontainer block m-auto pt-20 pb-10 h-[calc(100vh-14px-60px)]" : "maincontainer m-auto flex h-[calc(100vh-14px-60px)]"}>
+                <div className={isMobile ? "mainContainer block" : (isCheckMenu ? " sm  m-8 mx-auto ease-in" : "w-[90vw] sm m-8 mx-auto ease")}>
                     {/* <MainContainer /> */}
                     {(() => {
                         if (Object(page).page === 'ShowUser') {
@@ -89,7 +89,7 @@ export default function MainProfile(page) {
                     })()}
                 </div>
             </div>
-            <FooterAdmin />
+            {/* <FooterAdmin /> */}
         </>
     );
 }; 

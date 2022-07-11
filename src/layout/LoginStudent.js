@@ -4,16 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import { db, auth } from "./Firebase";
 import { isEmpty } from "validator";
 import { useValidator } from "@validator.tool/hook";
-import { UserStudentAuth } from './Provider/AuthUserContextProvider';
+import { UserAuth } from './Provider/AuthContextProvider';
 import UserDataService from '../layout/services/Users.services';
 const Login = () => {
-    const {signIn,userStudent } = UserStudentAuth();
+    const {signInStudent,userStudent } = UserAuth();
     const navigate = useNavigate();
     const LoginStudent = async() => {
 
         try {
             // if(await UserDataService.signinStudent(isInputForm.studentId, isInputForm.password)){
-            await signIn(isInputForm.studentId,isInputForm.password);
+            await signInStudent(isInputForm.studentId,isInputForm.password);
             if(userStudent){
                 alert("Đăng nhập thành công !");
                 if(userStudent.password === userStudent.studentId){

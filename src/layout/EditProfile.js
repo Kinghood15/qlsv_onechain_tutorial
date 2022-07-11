@@ -48,9 +48,7 @@ const EditProfile = (userTeacher) => {
                         try {
                             if(isUserTeacher.email.trim() === confirmEmail.trim()){
                                 await UsersTeacherService.updateUserTeacher(isUserTeacher.id, isUserTeacher);
-                               
                                 navigate('/giao-vien/thong-tin-ca-nhan');
-
                             }
                         } catch (error) {
                             console.log("Error edit user teacher failed" , error);

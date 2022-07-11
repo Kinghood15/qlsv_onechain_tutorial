@@ -2,22 +2,26 @@ import {useState,useEffect} from 'react';
 import UserDataService from './services/Users.services';
 import ChangePasswordStudent from './ChangePasswordStudent';
 import EditUser from '../layout/pages/EditUser';
+import { UserAuth } from './Provider/AuthContextProvider';
 const UserStudentForm = () => {
+    const { userStudent } = UserAuth();
+    console.log("UserStudent in UserStudentForm",userStudent)
     const [isInputForm, setIsInputForm] = useState({
-        "firstName": '',
-        "password": "",
-        "lastName": "",
-        "studentId": "",
-        "address": "",
-        "avatar": "",
-        "birthday": "",
-        "email": "",
-        "gender": "",
-        "nameClass": "",
-        "scienceBranch": ""
+        "firstName": userStudent.firstName,
+        "password": userStudent.password,
+        "lastName": userStudent.lastName,
+        "studentId": userStudent.studentId,
+        "address": userStudent.address,
+        "avatar": userStudent.avatar,
+        "birthday": userStudent.birthday,
+        "email": userStudent.email,
+        "gender": userStudent.gender,
+        "nameClass": userStudent.nameClass,
+        "scienceBranch": userStudent.scienceBranch
     });
+    console.log("isInputForm in UserStudentForm",isInputForm);
     console.log("LocalStorage.getItem(Authorization) in UserStudentForm",localStorage.getItem('Authorization'))
-    const userStudent = JSON.parse(localStorage.getItem('Authorization'));
+    // const userStudent = JSON.parse(localStorage.getItem('Authorization'));
     console.log("userStudent in UserStudentForm",userStudent.password);
     const [step,setStep] = useState(1);
     useEffect(() => {

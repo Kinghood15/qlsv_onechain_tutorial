@@ -74,8 +74,11 @@ class UsersDataService {
 
     }
     signinStudent = (studentId, password) => {
-        
+        console.log("studentId in UserService",studentId);
+        console.log("password in UserService",password);
         const userDoc =query(collection(db, "users"), where("studentId","==", studentId), where("password","==",password));
+        console.log("userDoc in UserService",userDoc);
+        console.log("getDocs in UserService",getDocs(userDoc));
         return getDocs(userDoc);
         
     }

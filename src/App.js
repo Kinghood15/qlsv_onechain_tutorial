@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { AuthContextProvider } from './layout/Provider/AuthContextProvider';
 import { AuthUserContextProvider } from './layout/Provider/AuthUserContextProvider';
 import ProtectedRoute from './router/Protected.Route';
+import ProtectedUserRoute from './router/ProtectedUser.Route';
 // import PrivateRoute from './PrivateRoute';
 function App() {
   const [isActive, setIsActive] = useState(false);
@@ -86,14 +87,15 @@ function App() {
           <Route path="/thay-doi-thong-tin-ca-nhan" element={<EditUser />} /> {/*Dang Fix */}
           <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
           {/* <Route path="*" element={<Navigate to="/" />} /> */}
+          <Route path="/dang-nhap" element={<Login />} /> {/*Dang Fix */}
+          <Route path="/cap-nhat-thong-tin-sinh-vien" element={
+            <ProtectedUserRoute>
+              <UserStudentForm />
+            </ProtectedUserRoute>
+          } />{/* Dang Fix */}
         </Routes>
       </AuthContextProvider>
-      <AuthUserContextProvider>
-        <Routes>
-          <Route path="/dang-nhap" element={<Login />} /> {/*Dang Fix */}
-          <Route path="/cap-nhat-thong-tin-sinh-vien" element={<UserStudentForm />} />{/* Dang Fix */}
-        </Routes>
-      </AuthUserContextProvider>
+
     </BrowserRouter>
   );
 }

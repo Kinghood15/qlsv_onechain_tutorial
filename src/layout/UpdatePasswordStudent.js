@@ -56,11 +56,6 @@ const SignUpStudent= () => {
         })
     }
     useEffect(() => {
-        const getUsers = async () => {
-            const data = await getDocs(userCollectionRef);
-            setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        };
-        getUsers();
     }, []);
     const handleConfirmPassword = (e) => {
         if (isEmpty(confirmPassword.trim())) {
