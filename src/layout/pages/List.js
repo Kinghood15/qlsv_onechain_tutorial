@@ -292,7 +292,7 @@ export default function List({isMobile}) {
                     {(() => {
                         if (isMobile1025) {
                             return (
-                                <div className={isTable ? (isMobile1025 ? 'p-3 grid grid-cols-1 gap-3' : 'p-3 grid grid-cols-2 gap-3') : `p-3 grid grid-cols-3 gap-3 m-8`} onMouseEnter={"RefeshStudent"}>
+                                <div className={isTable ? (isMobile1025 ? 'p-3 grid grid-cols-1 gap-3' : 'p-3 grid grid-cols-2 gap-3') : `p-3 grid grid-cols-3 gap-3 m-8`} >
                                     {
                                         currentPosts.length > 0 && currentPosts.map((doc, index) => {
                                             return (
@@ -384,7 +384,7 @@ export default function List({isMobile}) {
                                         <div className={"tab-pane fade show active " + `${toggleState === 1 ? 'block' : 'hidden'}`} id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
                                             {/* Tab content table */}
                                             <div className="main-table m-8">
-                                                <table className=" w-full rounded-xl " onMouseEnter={"RefeshStudent"}>
+                                                <table className=" w-full rounded-xl " >
                                                     <thead className="bg-gray-50">
                                                         <tr className="bg-gray">
                                                             <th className="p-3 border border-slate-300 w-10 text-sm font-semibold tracking-wide">STT</th>

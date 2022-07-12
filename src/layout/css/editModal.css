@@ -40,3 +40,12 @@
     padding: 0.2em;
     height: 2em;
 }
+@media screen and (max-width: 768px) {
+    .react-confirm-alert{
+        width:100%;
+
+    }
+    .react-confirm-alert-body{
+        width: 100%;
+    }
+}

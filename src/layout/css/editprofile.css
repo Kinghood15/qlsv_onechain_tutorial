@@ -52,4 +52,11 @@
     .profile-pic span{
         font-size: 10px;
     }
+    .react-confirm-alert{
+        width:100%;
+
+    }
+    .react-confirm-alert-body{
+        width: 100%;
+    }
 }

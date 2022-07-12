@@ -37,7 +37,7 @@ export default function Header(props) {
 
     // create an event listener
     useEffect(() => {
-        // window.addEventListener("resize", handleResizeMobile);
+        window.addEventListener("resize", handleResizeMobile);
         // if (Screen.prototype.availWidth < 860) {
         // setIsMobile(true);
         // };

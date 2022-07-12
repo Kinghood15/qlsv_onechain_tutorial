@@ -145,6 +145,31 @@ class UsersDataService {
             "scienceBranch": scienceBranch,
             "nameClass": nameClass
         });
+        const genderArr = gender.split(",");
+        const scienceBranchArr = scienceBranch.split(",");
+        const nameClassArr = nameClass.split(",");
+        if(genderArr.length > 0 && scienceBranchArr.length === 0 && nameClassArr.length === 0){
+            var userDoc;
+            for(var i=0; i<genderArr.length; i++){
+                userDoc = query(collection(db, "users"),where("gender",'==',genderArr[i]));
+            }
+            // const userDoc = query(collection(db, "users"),where("gender",'==',genderArr[0]), where("gender",'==',genderArr[1]));
+            return getDocs(userDoc);
+        }else if(genderArr.length === 0 && scienceBranchArr.length > 0 && nameClassArr.length === 0){
+            const userDoc = query(collection(db, "users"),where("scienceBranch",'==',scienceBranchArr[0]), where("scienceBranch",'==',scienceBranchArr[1]));
+            return getDocs(userDoc);
+        }else if(genderArr.length === 0 && scienceBranchArr.length === 0 && nameClassArr.length > 0){
+            const userDoc = query(collection(db, "users"),where("nameClass",'==',nameClassArr[0]), where("nameClass",'==',nameClassArr[1]));
+            return getDocs(userDoc);
+        }else if(genderArr.length > 0 && scienceBranchArr.length > 0 && nameClassArr.length === 0){
+            
+        }else if(genderArr.length === 0 && scienceBranchArr.length > 0 && nameClassArr.length > 0){
+            
+        }else if(genderArr.length > 0 && scienceBranchArr.length === 0 && nameClassArr.length > 0){
+            
+        }else if(genderArr.length > 0 && scienceBranchArr.length > 0 && nameClassArr.length > 0){
+            
+        }
         // if(gender.length > 0 && address.length > 0 && scienceBranch.length >0 && nameClass.length > 0){
         //     const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("address",'==',address), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
         //     return getDocs(userDoc);

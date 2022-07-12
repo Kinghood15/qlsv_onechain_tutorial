@@ -59,7 +59,16 @@ const EditProfile = (userTeacher) => {
                     label: 'No',
                     onClick: () => true
                 }
-            ]
+            ],
+            closeOnEscape: true,
+            closeOnClickOutside: true,
+            keyCodeForClose: [8, 32],
+            willUnmount: () => {},
+            afterClose: () => {},
+            onClickOutside: () => {},
+            onKeypress: () => {},
+            onKeypressEscape: () => {},
+            overlayClassName: "overlay-custom-class-name"
         })
     }
     const navigate = useNavigate();
