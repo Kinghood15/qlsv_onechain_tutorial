@@ -148,7 +148,7 @@ export default function Header(props) {
     }
     const [isShowMenuBoxProfile, setIsMenuBoxProfile] = useState(false);
     return (
-        <div className="header 2xl w-screen max-w-[100vw] bg-sky-500 flex justify-between block ease-in sticky top-0 z-50" onMouseEnter={RefeshTeacher} onMouseLeave={RefeshTeacher}>
+        <div className="header 2xl w-screen max-w-[100vw] bg-sky-500 flex justify-between block ease-in sticky top-0 z-20" onMouseEnter={RefeshTeacher} onMouseLeave={RefeshTeacher}>
             <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
                 {(() => {
                     if (isMobile) {

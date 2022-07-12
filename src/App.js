@@ -9,7 +9,6 @@ import Error404 from './layout/pages/404';
 import SignUpTeacher from './layout/SignUpTeacher';
 import UserStudentForm from './layout/UserStudentForm';
 import ChangePasswordStudent from './layout/ChangePasswordStudent';
-import EditUser from './layout/pages/EditUser';
 import MainProfile from './layout/pages/MainProfile';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import NotificationMessageProvider from './layout/Provider/NotificationMessageProvider';
@@ -93,6 +92,11 @@ function App() {
               <UserStudentForm />
             </ProtectedUserRoute>
           } />{/* Dang Fix */}
+          <Route path="/doi-mat-khau" element={
+            <ProtectedUserRoute>
+              <ChangePasswordStudent />
+            </ProtectedUserRoute>
+          } /> 
         </Routes>
       </AuthContextProvider>
 

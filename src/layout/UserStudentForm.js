@@ -1,7 +1,9 @@
 import {useState,useEffect} from 'react';
 import UserDataService from './services/Users.services';
 import ChangePasswordStudent from './ChangePasswordStudent';
-import EditUser from '../layout/pages/EditUser';
+import EditUserPage1 from '../layout/pages/EditUserPage1';
+import EditUserPage2 from '../layout/pages/EditUserPage2';
+import EditUserPage3 from '../layout/pages/EditUserPage3';
 import { UserAuth } from './Provider/AuthContextProvider';
 const UserStudentForm = () => {
     const { userStudent } = UserAuth();
@@ -50,11 +52,15 @@ const UserStudentForm = () => {
                 switch (step){
                     case 1:
                         return(
-                            <ChangePasswordStudent nextStep={nextStep} prevStep={prevStep} handleChange={handleChange} isInputFormChangePassword={isInputForm} />
+                            <EditUserPage1 nextStep={nextStep} prevStep={prevStep} handleChange={handleChange} isInputFormChangePassword={isInputForm} />
                         )
                     case 2: 
                         return(
-                            <EditUser nextStep={nextStep} prevStep={prevStep} handleChange={handleChange} isInputFormEditUser={isInputForm} />
+                            <EditUserPage2 nextStep={nextStep} prevStep={prevStep} handleChange={handleChange} isInputFormEditUser={isInputForm} />
+                        )
+                    case 3: 
+                        return(
+                            <EditUserPage3 nextStep={nextStep} prevStep={prevStep} handleChange={handleChange} isInputFormEditUser={isInputForm} />
                         )
                     default:
                         return(
