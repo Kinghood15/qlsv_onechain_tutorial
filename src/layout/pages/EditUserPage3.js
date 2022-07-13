@@ -79,11 +79,11 @@ const EditUserPage3 = ({ nextStep, prevStep, handleChange, isInputFormEditUser }
             <div className="m-auto w-96 h-auto p-5 flex items-center rounded-lg shadow-2xl bg-gray-100">
                 <div className="w-full h-full">
                     <div className="cardHeader p-3">
-                        <h1 className="font-bold text-black text-2xl">Cập nhật sinh viên</h1>
+                        <h1 className="font-bold text-black text-center text-2xl">Cập nhật sinh viên</h1>
                     </div>
                     <div className="cardBody p-0 m-0">
                         <form onReset={handleReset("onReset")} onSubmit={handleSubmit(nextStep)} onChange={handleChange} onBlur={handleChange}>
-                            <div className="mb-10 xl:w-96">
+                            <div className="mb-10 xl">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Giới tính:</label>
                                 <select name="gender" id="gender" className={`${colorInput.gender} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="gender">
                                     {(() => {
@@ -99,7 +99,7 @@ const EditUserPage3 = ({ nextStep, prevStep, handleChange, isInputFormEditUser }
                                     })()}
                                 </select>
                             </div>
-                            <div className="mb-10 xl:w-96">
+                            <div className="mb-10 xl">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch">Khoa ngành:</label>
                                 <select name="scienceBranch" id="scienceBranch" className={`${colorInput.scienceBranch} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Khoa nganh">
                                     {isScienceBranch.map((item, i) => {
@@ -119,7 +119,7 @@ const EditUserPage3 = ({ nextStep, prevStep, handleChange, isInputFormEditUser }
                                     })}
                                 </select>
                             </div>
-                            <div className="mb-10 xl:w-96">
+                            <div className="mb-10 xl">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="class">Lớp:</label>
                                 <select name="nameClass" id="nameClass" className={`${colorInput.nameClass} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Lop hoc">
                                     {isClass.map((item, i) => {

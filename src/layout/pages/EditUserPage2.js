@@ -66,21 +66,21 @@ const EditUserPage2 = ({ nextStep, prevStep, handleChange, isInputFormEditUser }
             <div className="m-auto w-96 h-auto p-5 flex items-center rounded-lg shadow-2xl bg-gray-100">
                 <div className="w-full h-full">
                     <div className="cardHeader p-3">
-                        <h1 className="font-bold text-black text-2xl">Cập nhật sinh viên</h1>
+                        <h1 className="font-bold text-black text-center text-2xl">Cập nhật sinh viên</h1>
                     </div>
                     <div className="cardBody p-0 m-0">
                         <form onReset={handleReset("onReset")} onSubmit={handleSubmit(nextStep)} onChange={handleChange} onBlur={handleChange}>
-                            <div className="mb-10 xl:w-96">
+                            <div className="mb-10 xl">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="email">Email</label>
                                 <input value={isInputForm.email} placeholder="Email" required type="email" className={`${colorInput.email} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="email" name="email" />
                                 <span className={`${colorInput.email}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.email}</span>
                             </div>
-                            <div className="mb-10 xl:w-96">
+                            <div className="mb-10 xl">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="address">Địa chỉ</label>
                                 <input value={isInputForm.address} placeholder="Địa chỉ" required type="text" className={`${colorInput.address} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="address" name="address" />
                                 <span className={`${colorInput.address}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.address}</span>
                             </div>                         
-                            <div className="mb-10 xl:w-96">
+                            <div className="mb-10 xl">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="birthday">Ngày sinh sinh viên</label>
                                 <input value={isInputForm.birthday} required type="date" className={`${colorInput.birthday} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="birthday" name="birthday" />
                                 <span className={`${colorInput.birthday}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.birthday}</span>

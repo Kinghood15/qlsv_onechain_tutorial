@@ -74,11 +74,12 @@ class UsersDataService {
 
     }
     signinStudent = (studentId, password) => {
-        console.log("studentId in UserService",studentId);
-        console.log("password in UserService",password);
-        const userDoc =query(collection(db, "users"), where("studentId","==", studentId), where("password","==",password));
-        console.log("userDoc in UserService",userDoc);
-        console.log("getDocs in UserService",getDocs(userDoc));
+        // const userDocs =doc(db, "users", where("studentId","==", studentId.trim()), where("password","==",password.trim()));
+        // const userDoc = doc(db, "users", where("studentId", "==", studentId));
+        
+        // console.log("userDocs in UserService",userDocs);
+        // console.log("getDoc in UserService",getDoc(userDocs));
+        const userDoc =query(collection(db, "users"), where("studentId", "==", studentId),where("password", "==", password));
         return getDocs(userDoc);
         
     }
@@ -138,68 +139,133 @@ class UsersDataService {
         const userDoc = query(collection(db, "users"), where("gender",'==','Nữ'));
         return getDocs(userDoc);
     }
+    getUsersByGender = async(gender) => {
+        const userDoc = query(collection(db, "users"), where("gender",'in',gender));
+        return await getDocs(userDoc);
+    }
+    getUsersByNameClass = async(nameClass) => {
+        const userDoc = query(collection(db, "users"), where("nameClass",'in',nameClass));
+        return await getDocs(userDoc);
+    }
+    getUsersByScienceBranch = async(scienceBranch) => {
+        const userDoc = query(collection(db, "users"), where("scienceBranch",'in',scienceBranch));
+        return await getDocs(userDoc);
+    }
     getUsersByFilter = (gender,scienceBranch,nameClass) => {
         // const countTrue = 0;
-        const [isCheckMenu,setIsCheckMenu] = useState({
-            "gender": gender,
-            "scienceBranch": scienceBranch,
-            "nameClass": nameClass
-        });
-        const genderArr = gender.split(",");
-        const scienceBranchArr = scienceBranch.split(",");
-        const nameClassArr = nameClass.split(",");
-        if(genderArr.length > 0 && scienceBranchArr.length === 0 && nameClassArr.length === 0){
-            var userDoc;
-            for(var i=0; i<genderArr.length; i++){
-                userDoc = query(collection(db, "users"),where("gender",'==',genderArr[i]));
-            }
-            // const userDoc = query(collection(db, "users"),where("gender",'==',genderArr[0]), where("gender",'==',genderArr[1]));
-            return getDocs(userDoc);
-        }else if(genderArr.length === 0 && scienceBranchArr.length > 0 && nameClassArr.length === 0){
-            const userDoc = query(collection(db, "users"),where("scienceBranch",'==',scienceBranchArr[0]), where("scienceBranch",'==',scienceBranchArr[1]));
-            return getDocs(userDoc);
-        }else if(genderArr.length === 0 && scienceBranchArr.length === 0 && nameClassArr.length > 0){
-            const userDoc = query(collection(db, "users"),where("nameClass",'==',nameClassArr[0]), where("nameClass",'==',nameClassArr[1]));
-            return getDocs(userDoc);
-        }else if(genderArr.length > 0 && scienceBranchArr.length > 0 && nameClassArr.length === 0){
+        // if(Array.isArray(gender) === false){
+        //     const genderArr = gender.split(",");
+        //     // const scienceBranchArr = scienceBranch.split(",");
+        //     // const nameClassArr = nameClass.split(",");
+        //     //  getDocument;
+        //     var getDocument;
+        //     genderArr.forEach((doc) => {
+        //         if(doc === ""){
+        //             console.log("doc is null");
+        //         }else{
+        //             console.log("doc in genderArr: " + doc);
+        //             const userDocs = query(collection(db, "users"),where("gender",'==',doc));
+        //             if(getDocument === undefined){
+        //                 getDocument = getDocs(userDocs);
+        //             }else{
+        //                 getDocument += getDocs(userDocs);
+        //             }
+        //         }
             
-        }else if(genderArr.length === 0 && scienceBranchArr.length > 0 && nameClassArr.length > 0){
+        //     })
+        //     console.log("getDocument: ",getDocument);
+        // }
+
+
+
+        if(Array.isArray(gender) === false){
+            const genderArr = gender.split(",");
+            // const scienceBranchArr = scienceBranch.split(",");
+            // const nameClassArr = nameClass.split(",");
+            var  getDocument;
+            var dataDocument;
+            genderArr.forEach((doc) => {
+                if(doc === ""){
+                    console.log("doc is null");
+                }else{
+                    console.log("doc in genderArr: " + doc);
+                    // getDocument = getUsersByGender(doc);
+                    console.log("getDocument in genderArr: ",getDocument); 
+                    getDocument.forEach((item) =>{
+                        if(item.data()){
+                            if(dataDocument === undefined){
+                                dataDocument = item.data();
+                            }else{
+                                dataDocument += item.data();
+                            }
+                        }
+                    })         
+                }
             
-        }else if(genderArr.length > 0 && scienceBranchArr.length === 0 && nameClassArr.length > 0){
-            
-        }else if(genderArr.length > 0 && scienceBranchArr.length > 0 && nameClassArr.length > 0){
-            
+            })
+            console.log("getDocument: ",getDocument);
+
+
+            console.log("dataDocument: ",dataDocument);
         }
-        // if(gender.length > 0 && address.length > 0 && scienceBranch.length >0 && nameClass.length > 0){
-        //     const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("address",'==',address), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
+        console.log("scienceBranch",scienceBranch);
+        console.log("scienceBranch.isArray([])",Array.isArray(scienceBranch));
+        // console.log("nameClass.isArray([])",nameClass.isArray([]));
+
+
+
+        // if(genderArr.length > 0 && scienceBranchArr.length === 0 && nameClassArr.length === 0){
+        //     var userDoc;
+        //     for(var i=0; i<genderArr.length; i++){
+        //         userDoc = query(collection(db, "users"),where("gender",'==',genderArr[i]));
+        //     }
+        //     // const userDoc = query(collection(db, "users"),where("gender",'==',genderArr[0]), where("gender",'==',genderArr[1]));
+        //     return getDocs(userDoc);
+        // }else if(genderArr.length === 0 && scienceBranchArr.length > 0 && nameClassArr.length === 0){
+        //     const userDoc = query(collection(db, "users"),where("scienceBranch",'==',scienceBranchArr[0]), where("scienceBranch",'==',scienceBranchArr[1]));
+        //     return getDocs(userDoc);
+        // }else if(genderArr.length === 0 && scienceBranchArr.length === 0 && nameClassArr.length > 0){
+        //     const userDoc = query(collection(db, "users"),where("nameClass",'==',nameClassArr[0]), where("nameClass",'==',nameClassArr[1]));
+        //     return getDocs(userDoc);
+        // }else if(genderArr.length > 0 && scienceBranchArr.length > 0 && nameClassArr.length === 0){
+            
+        // }else if(genderArr.length === 0 && scienceBranchArr.length > 0 && nameClassArr.length > 0){
+            
+        // }else if(genderArr.length > 0 && scienceBranchArr.length === 0 && nameClassArr.length > 0){
+            
+        // }else if(genderArr.length > 0 && scienceBranchArr.length > 0 && nameClassArr.length > 0){
+            
+        // }
+        // // if(gender.length > 0 && address.length > 0 && scienceBranch.length >0 && nameClass.length > 0){
+        // //     const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("address",'==',address), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
+        // //     return getDocs(userDoc);
+        // // }
+        // let queryCheck;
+        // if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length > 0) {
+        //     const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
+        //     return getDocs(userDoc);
+        // }else if(isCheckMenu.gender.length === 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length > 0){
+        //     const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
+        //     return getDocs(userDoc);
+        // }else if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length === 0 && isCheckMenu.nameClass.length > 0){
+        //     const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'==',nameClass));
+        //     return getDocs(userDoc);
+        // }else if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length === 0){
+        //     const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'>=',nameClass));
+        //     return getDocs(userDoc);
+        // }else if(isCheckMenu.gender.length === 0 && isCheckMenu.scienceBranch.length === 0 && isCheckMenu.nameClass.length > 0){
+        //     const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'==',nameClass));
+        //     return getDocs(userDoc);
+        // }else if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length === 0 && isCheckMenu.nameClass.length === 0){
+        //     const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'>=',nameClass));
+        //     return getDocs(userDoc);
+        // }else if(isCheckMenu.gender.length === 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length === 0){
+        //     const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'>=',nameClass));
+        //     return getDocs(userDoc);
+        // }else{
+        //     const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'>=',nameClass));
         //     return getDocs(userDoc);
         // }
-        let queryCheck;
-        if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length > 0) {
-            const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
-            return getDocs(userDoc);
-        }else if(isCheckMenu.gender.length === 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length > 0){
-            const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'==',nameClass));
-            return getDocs(userDoc);
-        }else if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length === 0 && isCheckMenu.nameClass.length > 0){
-            const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'==',nameClass));
-            return getDocs(userDoc);
-        }else if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length === 0){
-            const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'>=',nameClass));
-            return getDocs(userDoc);
-        }else if(isCheckMenu.gender.length === 0 && isCheckMenu.scienceBranch.length === 0 && isCheckMenu.nameClass.length > 0){
-            const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'==',nameClass));
-            return getDocs(userDoc);
-        }else if(isCheckMenu.gender.length > 0 && isCheckMenu.scienceBranch.length === 0 && isCheckMenu.nameClass.length === 0){
-            const userDoc = query(collection(db, "users"),where("gender",'==',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'>=',nameClass));
-            return getDocs(userDoc);
-        }else if(isCheckMenu.gender.length === 0 && isCheckMenu.scienceBranch.length > 0 && isCheckMenu.nameClass.length === 0){
-            const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'==',scienceBranch), where("nameClass",'>=',nameClass));
-            return getDocs(userDoc);
-        }else{
-            const userDoc = query(collection(db, "users"),where("gender",'>=',gender), where("scienceBranch",'>=',scienceBranch), where("nameClass",'>=',nameClass));
-            return getDocs(userDoc);
-        }
     }
 }
 export default new UsersDataService();

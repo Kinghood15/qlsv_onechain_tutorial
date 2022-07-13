@@ -54,9 +54,6 @@ export default function LoginTeacher() {
         validateInput();
     }
     const validateInput = () => {
-        // console.log(email.trim().length);
-        // console.log(email);
-        // console.log(password);
         if (!isEmpty(email.trim())) {
             setErrorMessage({ email: "" });
             setColorInput({ email: 'default' });

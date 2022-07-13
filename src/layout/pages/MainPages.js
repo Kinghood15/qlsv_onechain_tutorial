@@ -44,7 +44,7 @@ export default function MainPages(page) {
         handleResize();
         handleResizeMobile();   
 
-    })
+    },[isMobile])
     const [isCheckMenu, setIsCheckMenu] = useState();
     const callbackFunction = (childData) => {
         setIsCheckMenu(childData);
@@ -70,7 +70,7 @@ export default function MainPages(page) {
                             if(isMobile){
                                 return (
                                     <>
-                                        <List isMobile={isMobile} />
+                                        <List />
                                     </>
                                 );
                             }else{

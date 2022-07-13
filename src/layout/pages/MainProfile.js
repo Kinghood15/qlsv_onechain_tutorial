@@ -22,7 +22,7 @@ export default function MainProfile(page) {
     // create an event listener
     useEffect(() => {
         window.addEventListener("resize", handleResize)
-    })
+    },[isTable])
     const [isMobile, setIsMobile] = useState(false)
 
     //choose the screen size 

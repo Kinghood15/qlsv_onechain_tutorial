@@ -361,18 +361,18 @@ export default function EditUserPage1({ nextStep, prevStep, handleChange, isInpu
             <div className="m-auto w-96 h-auto p-5 flex items-center rounded-lg shadow-2xl bg-gray-100">
                 <div className="w-full h-full">
                     <div className="cardHeader p-3">
-                        <h1 className="font-bold text-black text-2xl">Cập nhật sinh viên</h1>
+                        <h1 className="font-bold text-black text-center text-2xl">Cập nhật sinh viên</h1>
                     </div>
                     <div className="cardBody p-0 m-0">
                         <form onReset={handleReset(onReset)} onSubmit={handleSubmit(onSubmit)} onChange={handleChange} onBlur={handleChange}>
-                            <div className="mb-10 xl:w-96">
+                            <div className="mb-10 xl">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="firstName">Họ sinh viên</label>
-                                <input value={isInputForm.firstName} placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="firstName`} name="firstName" />
+                                <input value={isInputForm.firstName} placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} w-full rounded-lg py-2 my-3`} id="firstName" name="firstName" />
                                 <span className={`${colorInput.firstName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.firstName}</span>
                             </div>
-                            <div className="mb-10 xl:w-96">
+                            <div className="mb-10 xl">
                                 <label className="form-label inline-block mb-2 text-gray-700" htmlFor="lastName">Tên sinh viên</label>
-                                <input value={isInputForm.lastName} placeholder="Tên sinh viên" required type="text" className={`${colorInput.lastName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="lastName" name="lastName" />
+                                <input value={isInputForm.lastName} placeholder="Tên sinh viên" required type="text" className={`${colorInput.lastName}  w-full rounded-lg py-2 my-3`} id="lastName" name="lastName" />
                                 <span className={`${colorInput.lastName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.lastName}</span>
                             </div>
                             {/* <Link href="/forgot-password">Quên mật khẩu ?</Link> */}
@@ -406,7 +406,7 @@ export default function EditUserPage1({ nextStep, prevStep, handleChange, isInpu
         //                     <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
         //                         <div className="mb-10 xl:w-96">
         //                             <label className="form-label inline-block mb-2 text-gray-700" htmlFor="firstName">Họ sinh viên</label>
-        //                             <input value={isInputForm.firstName} placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="firstName`} name="firstName" />
+        //                             <input value={isInputForm.firstName} placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="firstName" name="firstName" />
         //                             <span className={`${colorInput.firstName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.firstName}</span>
         //                         </div>
         //                         <div className="mb-10 xl:w-96">

@@ -3,6 +3,15 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
+    fontSize:{
+      '10px':'10px',
+      '11px':'11px',
+      '9px':'9px',
+      '8px':'8px',
+      '7px':'7px',
+      '6px':'6px',
+      '5px':'5px',
+    },
     extend: {
       height: {
         '95vh': '95vh',

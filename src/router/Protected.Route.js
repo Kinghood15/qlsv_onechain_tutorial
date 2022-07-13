@@ -4,7 +4,7 @@ import { UserAuth } from '../layout/Provider/AuthContextProvider';
 import UsersTeacherServices from '../layout/services/UsersTeacher.services';
 const ProtectedRoute = ({ children }) => {
   
-   const { user } = UserAuth() || {};
+   const { user } = UserAuth();
    let userLocal;
    var userChecked = localStorage.getItem('Authorization');
    try {

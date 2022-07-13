@@ -15,7 +15,7 @@ import Filter from "../Filter";
 import "../css/List.css";
 import { AiOutlineFilter } from "react-icons/ai";
 
-export default function List({isMobile}) {
+export default function List() {
     const [isActive, setIsActive] = useState(false);
     const [isData, setIsData] = useState([]);
     const [isOpenModalView, setIsOpenModalView] = useState(false);
@@ -192,6 +192,9 @@ export default function List({isMobile}) {
         }
 
     }
+    useEffect(() => {
+        getUsersStudent();
+    },[]);
     const [toggleState, setToggleState] = useState(1);
     const handleClickOpenFilter = () => {
         try {
@@ -199,6 +202,14 @@ export default function List({isMobile}) {
         } catch (error) {
             console.log(error);
         }
+    }
+    const callbackFunction = (childData) => {
+        // console.log("childData === {}",childData === {})
+        // if (childData) {
+            
+            setIsData(childData);
+            // console.log("isUserTeacher in main profile",isUserTeacher); 
+        // }
     }
     const [isTable, setIsTable] = useState(false)
     const [isMobile1025, setIsMobile1025] = useState(false)
@@ -238,15 +249,15 @@ export default function List({isMobile}) {
     }
 
     useEffect(() => {
-        window.addEventListener("reload",handleResize());
-        window.addEventListener("resize",handleResize());
+        // window.addEventListener("reload",handleResize());
         handleResize();
+        window.addEventListener("resize",handleResize());
         // handleResizeWindowInnerWidth();
-    })
+    },[isMobile320,isMobile480,isMobile860,isMobile1025,isTable])
     return (
         <main className="relative">
             {/* <pre>{JSON.stringify(isData,undefined,2)}</pre> */}
-            <div className={`bg-white flex-1 rounded-xl ${isTable ? (isMobile ? "w-[calc(100vw-32px-32px)] " :"w-[calc(100vw-80px-32px-32px)] ") : "w-[calc(100vw-240px-32px-32px)] "}`} >
+            <div className={`bg-white flex-1 rounded-xl ${isTable ? (isMobile860 ? "w-[calc(100vw-32px-32px)] " :"w-[calc(100vw-80px-32px-32px)] ") : "w-[calc(100vw-240px-32px-32px)] "}`} >
                 <div className="headertable p-5 flex justify-between">
                     <div className="headertable-left">
                         <h1 className={`text-black font-bold ${isMobile320 ? 'text-lg' : 'text-xl'}`}>Sinh viên</h1>
@@ -257,9 +268,9 @@ export default function List({isMobile}) {
                     </div>
                 </div>
                 <div className="bodytable">
-                    <div className={`functiontable px-5 ${isMobile ? '' :'flex justify-between'}`}>
+                    <div className={`functiontable px-5 ${isMobile860 ? '' :'flex justify-between'}`}>
                         <div className={`functiontable-left flex`}>
-                            <label className={`relative block ${isMobile ? 'w-full py-3 ' : 'w-56'}  z-0`} >
+                            <label className={`relative block ${isMobile860 ? 'w-full py-3 ' : 'w-56'}  z-0`} >
                                 <span className="sr-only">Search</span>
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     {/* <svg className="h-5 w-5 fill-slate-300" viewBox="0 0 20 20"><!-- ... --></svg> */}
@@ -270,10 +281,10 @@ export default function List({isMobile}) {
                             {/* <button className="rounded-full h-10 text-center text-white bg-sky-300 w-36 mx-5 font-bold">Tìm kiếm</button> */}
                         </div>
 
-                        <div className={`functiontable-right ${isMobile ? '' : 'flex justify-around'}`}>
+                        <div className={`functiontable-right ${isMobile860 ? '' : 'flex justify-around'}`}>
                             {/* <div className="mb-10 xl:w-96"> */}
-                            <div className={` ${isMobile ?'w-full text-center my-3' :'mx-5'} `}>
-                                <button onClick={handleClickOpenFilter} className={`${isMobile ? 'w-full' : 'w-16'}  h-8 flex text-center items-center bg-sky-400 text-white font-bold justify-center p-1 rounded-lg`}><AiOutlineFilter />Lọc</button>
+                            <div className={` ${isMobile860 ?'w-full text-center my-3' :'mx-5'} `}>
+                                <button onClick={handleClickOpenFilter} className={`${isMobile860 ? 'w-full' : 'w-16'}  h-8 flex text-center items-center bg-sky-400 text-white font-bold justify-center p-1 rounded-lg`}><AiOutlineFilter />Lọc</button>
                             </div>
                             <label className="w-48 flex text-center items-center form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch"><AiOutlineFilter />Sắp xếp :</label>
                             <select name="filter" id="filter" onClick={changeFilter} className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Filter">
@@ -292,7 +303,7 @@ export default function List({isMobile}) {
                     {(() => {
                         if (isMobile1025) {
                             return (
-                                <div className={isTable ? (isMobile1025 ? 'p-3 grid grid-cols-1 gap-3' : 'p-3 grid grid-cols-2 gap-3') : `p-3 grid grid-cols-3 gap-3 m-8`} >
+                                <div className={isTable ? (isMobile1025 ? 'p-3 grid grid-cols-1 gap-3 min-h-[50vh]' : 'p-3 grid grid-cols-2 gap-3 min-h-[50vh]') : `p-3 grid grid-cols-3 gap-3 m-8 min-h-[50vh]`} >
                                     {
                                         currentPosts.length > 0 && currentPosts.map((doc, index) => {
                                             return (
@@ -374,13 +385,13 @@ export default function List({isMobile}) {
                                 <>
                                     <ul className="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none p-3 border-b">
                                         <li className="nav-item" role="presentation">
-                                            <button onClick={() => setToggleState(1)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 1 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu bảng</button>
+                                            <button onClick={() => setToggleState(1)} className={"nav-link block text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 1 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu bảng</button>
                                         </li>
                                         <li className="nav-item" role="presentation">
-                                            <button onClick={() => setToggleState(2)} className={"nav-link block font-medium text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 2 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu thẻ</button>
+                                            <button onClick={() => setToggleState(2)} className={"nav-link block text-xs leading-tight uppercase border-x-0 border-t-0 border-b-2 rounded-xl border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-sky-500 focus:border-transparent " + `${toggleState === 2 ? "bg-sky-400 text-white" : "bg-white text-sky"}`} >Xem danh sách theo kiểu thẻ</button>
                                         </li>
                                     </ul>
-                                    <div className="tab-content" id="tabs-tabContent">
+                                    <div className="tab-content min-h-[30vh]" id="tabs-tabContent">
                                         <div className={"tab-pane fade show active " + `${toggleState === 1 ? 'block' : 'hidden'}`} id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
                                             {/* Tab content table */}
                                             <div className="main-table m-8">
@@ -500,7 +511,7 @@ export default function List({isMobile}) {
 
                 </div>
             </div>
-            {isOpenFilter === true && <Filter isOpenFilter={isOpenFilter} handleClickOpenFilter={handleClickOpenFilter} />}
+            {isOpenFilter === true && <Filter isOpenFilter={isOpenFilter} handleClickOpenFilter={handleClickOpenFilter} parentCallback={callbackFunction} />}
         </main>
     )
 

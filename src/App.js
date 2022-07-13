@@ -82,10 +82,8 @@ function App() {
           } />
           <Route path="/404" element={<Error404 />} />
           <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} />
-          {/*<Route path="/doi-mat-khau" element={<ChangePasswordStudent />} /> Dang Fix
-          <Route path="/thay-doi-thong-tin-ca-nhan" element={<EditUser />} /> {/*Dang Fix */}
+          {/*<Route path="/thay-doi-thong-tin-ca-nhan" element={<EditUser />} /> {/*Dang Fix */}
           <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
-          {/* <Route path="*" element={<Navigate to="/" />} /> */}
           <Route path="/dang-nhap" element={<Login />} /> {/*Dang Fix */}
           <Route path="/cap-nhat-thong-tin-sinh-vien" element={
             <ProtectedUserRoute>

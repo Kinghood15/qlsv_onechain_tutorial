@@ -9,6 +9,7 @@ import { ACCESS_TOKEN_SECRET, AVATAR_USER } from '../env';
 import { UserAuth } from '../Provider/AuthContextProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
 import "../css/header.css";
+
 export default function Header(props) {
     const [isMobile, setIsMobile] = useState(false);
     const [isMobile480, setIsMobile480] = useState(false);
@@ -43,7 +44,7 @@ export default function Header(props) {
         // };
         // getAvatar();
         handleResizeMobile();
-    })
+    },[isMobile,isMobile380,isMobile480])
     useEffect(() => {
         getAvatar();
         if (location.pathname.split('/')[1] === 'giao-vien' && location.pathname.split('/')[2] === 'thong-tin-ca-nhan') {
@@ -126,15 +127,21 @@ export default function Header(props) {
         }
     }
 
-    const { logout } = UserAuth();
+    const { user,userStudent } = UserAuth();
+
+
     const navigate = useNavigate();
     const Logout = async (e) => {
         // e.preventDefault();
         try {
-            if (await logout() === undefined) {
-                alert("Đăng suất tài khoản thành công !")
-                navigate('/giao-vien/dang-nhap');
-            } else alert("Đăng xuất tài khoản thất bại!")
+            if(Object.getOwnPropertyNames(user).length !== 0){
+                const { logout } = UserAuth();    
+                if (await logout() === undefined) {
+                    alert("Đăng suất tài khoản thành công !")
+                    navigate('/giao-vien/dang-nhap');
+                } else alert("Đăng xuất tài khoản thất bại!")
+            }
+
         } catch (error) {
             alert("Đăng suất không thành công !")
         }
@@ -148,18 +155,24 @@ export default function Header(props) {
     }
     const [isShowMenuBoxProfile, setIsMenuBoxProfile] = useState(false);
     return (
-        <div className="header 2xl w-screen max-w-[100vw] bg-sky-500 flex justify-between block ease-in sticky top-0 z-20" onMouseEnter={RefeshTeacher} onMouseLeave={RefeshTeacher}>
-            <div className="boxLogo w-80 h-full flex items-center justify-start ease-in">
+        // onMouseEnter={RefeshTeacher} onMouseLeave={RefeshTeacher}
+        <div className="header 2xl w-screen max-w-[100vw] bg-sky-500 flex justify-between block ease-in sticky top-0 z-20" > 
+            <div className={`boxLogo ${isMobile480 ? 'w-60vw' : 'w-85'} h-full flex items-center justify-start ease-in`}>
                 {(() => {
-                    if (isMobile) {
+                    if (isMobile && (Object.getOwnPropertyNames(user).length !== 0  || Object.getOwnPropertyNames(userStudent).length !== 0 )) {
                         return (
+                        <>
                             <li onClick={onHandleClickMenu} className={"item-menu ease-in-out active w-10 h-12 flex items-center justify-center m-2 transition duration-150 ease-out md:ease-in  hover:border-white hover:bg-white rounded-xl"}>
                                 <div className="icon">
                                     <FiMenu size={15} />
                                 </div>
                             </li>
+                            <a className={isMobile ? ( isMobile380 ? " text-white flex justify-center items-center text-center text-[11px] font-bold ease-in h-20" :"text-white flex justify-center items-center text-center text-xl font-bold ease-in h-20") : "h-20 flex justify-center items-center text-white w-full text-center text-3xl ml-5 font-bold ease-in"} href="/">Quản lý sinh viên </a>
+                        </>
                         );
-                    } else return "";
+                    } else return (
+                        <a className={isMobile ? ( isMobile380 ? " text-white flex justify-center items-center text-center text-[11px] font-bold ease-in h-20 p-2" :"text-white flex justify-center items-center text-center text-xl font-bold ease-in h-20 p-2") : "h-20 flex justify-center items-center text-white w-full text-center text-3xl ml-5 font-bold ease-in p-2"} href="/">Quản lý sinh viên </a>
+                    );
                 })()}
                 {(() => {
                     if (isShowSidebar === true && isMobile === true) {
@@ -169,9 +182,8 @@ export default function Header(props) {
                     }
                 })()}
 
-                <a className={isMobile ? ( isMobile380 ? "text-white flex justify-center items-center text-center text-md font-bold ease-in h-20" :"text-white flex justify-center items-center text-center text-xl font-bold ease-in h-20") : "h-20 flex justify-center items-center text-white w-full text-center text-2xl font-bold ease-in"} href="/">Quản lý sinh viên </a>
             </div>
-            <div className={`boxNotification w-65 flex justify-end items-center ${isMobile480 ? 'mr-2' : 'mr-5'}`}>
+            <div className={`boxNotification flex justify-end items-center ${isMobile480 ? 'mr-2 w-[40vw]' : 'mr-5 w-65'}`}>
 
                 {/* <button href="/login" className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Đăng nhập</button> */}
                 {/* <button href="/contract" className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Liên hệ</button> */}
@@ -194,9 +206,9 @@ export default function Header(props) {
                                             <h5 className="p-1 w-full text-center">{isUserTeacher.firstName + " " + isUserTeacher.lastName}</h5>
                                             <p className="p-1 pb-3 w-full text-center">Email: {isUserTeacher.email}</p>
                                         </div>
-                                        <div className={`boxProfile-footer ${isMobile380 ? 'p-2' : 'p-5'}`}>
-                                            <button onClick={ShowProfile} type="button" className={`${isMobile380 ? 'w-full my-2' : ''} px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1`}>Xem thông tin cá nhân</button>
-                                            <button onClick={Logout} type="button" className={`${isMobile380 ? 'w-full my-2' : ''} px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1`}>Đăng xuất</button>
+                                        <div className={`boxProfile-footer grid grid-cols-1 ${isMobile380 ? 'p-2 ' : ' p-5'}`}>
+                                            <button onClick={ShowProfile} type="button" className={`${isMobile380 ? 'w-full px-5 py-2.5 my-1' : 'my-2 px-6 py-2.5 ml-1'}  bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out `}>Xem thông tin cá nhân</button>
+                                            <button onClick={Logout} type="button" className={`${isMobile380 ? 'w-full px-5 py-2.5 my-1' : 'px-6 my-2 py-2.5 ml-1'}  bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out `}>Đăng xuất</button>
                                         </div>
                                     </div>
                                 </>
@@ -206,8 +218,8 @@ export default function Header(props) {
                         return (
                             <>
                                 {/* <button href="/notification" className="w-12 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 drop-shadow-md"><MdNotifications size={28} /></button> */}
-                                <button onClick={() => navigate('/dang-nhap')} className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Đăng nhập</button>
-                                <button onClick={() => navigate('/giao-vien/dang-nhap')} className="w-40 h-12 flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">Đăng nhập giáo viên</button>
+                                <button onClick={() => navigate('/dang-nhap')} className={`${isMobile ? (isMobile480 ? (isMobile380 ? 'w-[40%] h-5 text-[7px]' : 'w-20 h-10 text-[9px]') : 'w-20 h-10 text-[10px]' ) : 'w-40 h-12'} flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500`}>Đăng nhập</button>
+                                <button onClick={() => navigate('/giao-vien/dang-nhap')} className={`${isMobile ? (isMobile480 ? (isMobile380 ? 'w-[40%] h-5 text-[7px]' : 'w-20 h-10 text-[9px]') : 'w-20 h-10 text-[10px]' ) : 'w-40 h-12'} flex m-2 items-center justify-center bg-white rounded-full hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500`}>Đăng nhập giáo viên</button>
                             </>
                         )
                     }

@@ -7,23 +7,29 @@ import { useValidator } from "@validator.tool/hook";
 import { UserAuth } from './Provider/AuthContextProvider';
 import UserDataService from '../layout/services/Users.services';
 const Login = () => {
-    const {signInStudent,userStudent } = UserAuth();
+    const { signInStudent, userStudent } = UserAuth();
     const navigate = useNavigate();
-    const LoginStudent = async() => {
-
+    const LoginStudent = async () => {
         try {
-            // if(await UserDataService.signinStudent(isInputForm.studentId, isInputForm.password)){
-            await signInStudent(isInputForm.studentId,isInputForm.password);
-            if(userStudent){
-                alert("Đăng nhập thành công !");
-                if(userStudent.password === userStudent.studentId){
-                    // await signIn(isInputForm.studentId,isInputForm.password)
-                    navigate('/cap-nhat-thong-tin-sinh-vien');
-                }else{
-                    navigate('/');
+            if (isInputForm.studentId.length > 0 && isInputForm.password.length > 0) {
+                await signInStudent(isInputForm.studentId.trim(), isInputForm.password.trim())
+                console.log("userStudent in LoginStudent", userStudent);
+                console.log("userStudent === {}", Object.getOwnPropertyNames(userStudent).length === 0);
+                if( signInStudent(isInputForm.studentId.trim(), isInputForm.password.trim())){
+                    if (Object.getOwnPropertyNames(userStudent).length !== 0) {
+                        alert("Đăng nhập thành công !");
+                        if (userStudent.password === userStudent.studentId) {
+                            // await signIn(isInputForm.studentId,isInputForm.password)
+                            navigate('/doi-mat-khau');
+                        } else {
+                            navigate('/');
+                        }
+                    
+                    } else {
+                        alert("Đăng nhập tài khoản sai!")
+                    }
                 }
-            }else{
-                alert("Đăng nhập tài khoản sai!")
+
             }
         } catch (error) {
             console.log("Error login student: " + error.message);
@@ -49,48 +55,48 @@ const Login = () => {
         setIsInputForm({ ...isInputForm, [name]: value });
         // console.log("isInputForm", isInputForm);
         if (isInputForm.studentId.length === 0 || isInputForm.password.length === 0) {
-            console.log("isInputForm.studentId.length === 0 || isInputForm.password.length === 0")
-            
+            // console.log("isInputForm.studentId.length === 0 || isInputForm.password.length === 0")
+
             if (isInputForm.studentId.length === 0) {
                 const Error = 'Vui lòng nhập mã sinh viên ở đây';
                 setIsErrorMessage({ ...isErrorMessage, "studentId": Error });
-                
+
                 console.log("error", isErrorMessage);
-                console.log("isInputForm.studentId.length = " + isInputForm.studentId.length);
+                // console.log("isInputForm.studentId.length = " + isInputForm.studentId.length);
             }
             if (isInputForm.password.length === 0) {
-                console.log("isInputForm.password.length = 0")
+                // console.log("isInputForm.password.length = 0")
                 const Error = "Vui lòng mật khẩu sinh viên ở đây";
                 setIsErrorMessage({ ...isErrorMessage, "password": Error });
-                
+
             }
             else if (isInputForm.studentId.length === 0 && isInputForm.password.length === 0) {
-                console.log("isInputForm.studentId.length === 0 && isInputForm.password.length === 0")
-                
+                // console.log("isInputForm.studentId.length === 0 && isInputForm.password.length === 0")
+
                 const ErrorPassword = "Vui lòng mật khẩu sinh viên ở đây";
                 setIsErrorMessage({ ...isErrorMessage, "password": ErrorPassword });
                 const ErrorStudentId = 'Vui lòng nhập mã sinh viên ở đây';
                 setIsErrorMessage({ ...isErrorMessage, "studentId": ErrorStudentId });
             }
         } else if (isInputForm.studentId.length > 0 || isInputForm.password.length > 0) {
-            console.log("isInputForm.studentId.length > 0 || isInputForm.password.length > 0");
-            
+            // console.log("isInputForm.studentId.length > 0 || isInputForm.password.length > 0");
+
             const valueError = "";
             if (isInputForm.studentId.length > 0) {
-                
+
                 setIsErrorMessage({ ...isErrorMessage, "studentId": valueError });
-                console.log("isInputForm.studentId.length >0")
+                // console.log("isInputForm.studentId.length >0")
             } else if (isInputForm.password.length > 0) {
-                
+
                 setIsErrorMessage({ ...isErrorMessage, "password": valueError });
             }
             if (isInputForm.studentId.length > 0 && isInputForm.password.length > 0) {
-                console.log("isInputForm.studentId.length > 0 && isInputForm.password.length > 0")
+                // console.log("isInputForm.studentId.length > 0 && isInputForm.password.length > 0")
                 const valueError = "";
                 setIsErrorMessage({ ...isErrorMessage, "password": valueError });
                 setIsErrorMessage({ ...isErrorMessage, "studentId": valueError });
-                
-    
+
+
             }
         }
         // console.log("IsInputForm",isInputForm);
@@ -106,7 +112,7 @@ const Login = () => {
         <div className="flex items-center w-screen h-screen">
             <div className="m-auto w-96 h-auto p-5 flex items-center rounded-lg shadow-2xl bg-gray-100">
                 <div className="w-full h-full">
-                <div className="cardHeader p-3">
+                    <div className="cardHeader p-3">
                         <h1 className="font-bold text-black text-2xl">Đăng nhập sinh viên</h1>
                     </div>
                     <div className="cardBody p-0 m-0">

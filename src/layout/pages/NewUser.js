@@ -46,12 +46,6 @@ export default function NewUser({ isMobile }) {
         // navigate('/sinh-vien/them-sinh-vien')
     }
 
-    const [isData, setIsData] = useState({})
-    const getUsers = async () => {
-        const data = await UserDataService.getAllUsers();
-        setIsData(data.docs.map((docs) => ({ ...docs.data(), id: docs.id })))
-    }
-
     const [isInputForm, setIsInputForm] = useState({
         'studentId': '',
         'firstName': '',
@@ -362,7 +356,7 @@ export default function NewUser({ isMobile }) {
                             <div className={`${isMobile480 ? '' : `grid grid-cols-2 gap-4`}`}>
                                 <div className="mb-10 xl:w-96">
                                     <label className="form-label inline-block mb-2 text-gray-700" htmlFor="firstName">Họ sinh viên</label>
-                                    <input placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="firstName`} name="firstName" />
+                                    <input placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="firstName" name="firstName" />
                                     <span className={`${colorInput.firstName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.firstName}</span>
                                 </div>
                                 <div className="mb-10 xl:w-96">
