@@ -5,8 +5,6 @@ import React, { useEffect,useState } from "react";
 import { AiFillSetting } from "react-icons/ai";
 const ShowProfile = (userTeacher) => {
   useEffect(() => {
-    // console.log("userTeacher in ShowProfile", userTeacher); 
-    // window.addEventListener("reload",window.location.reload(true)  )
   },[])
   const { logout } = UserAuth();
   const navigate = useNavigate();

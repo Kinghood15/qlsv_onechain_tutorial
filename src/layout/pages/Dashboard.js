@@ -17,7 +17,6 @@ export default function Dashboard(accesstoken) {
             setIsTable(false)
         }
     }
-    // console.log(isTable);
 
     // create an event listener
     useEffect(() => {
@@ -34,20 +33,12 @@ export default function Dashboard(accesstoken) {
             setIsMobile(false)
         }
     }
-    // console.log(isTable);
 
     // create an event listener
-    useEffect(() => {
-        // window.addEventListener("resize", handleResizeMobile);
-        // if (Screen.prototype.availWidth < 860) {
-        //     setIsMobile(true);
-        // };
-    })
     const [isCheckMenu, setIsCheckMenu] = useState();
     const callbackFunction = (childData) => {
         setIsCheckMenu(childData);
     }
-    // console.log("isCheckMenu",isCheckMenu);
     return (
         <>
             {(() => {

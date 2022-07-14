@@ -5,8 +5,6 @@ import ScienceBratchServices from './services/ScienceBratch.services';
 import { useState, useEffect } from 'react';
 
 const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
-    console.log("handleClickOpenFilter",handleClickOpenFilter);
-    console.log("isOpenFilter",isOpenFilter);
     const titleSoft = [{
         'name': 'Giới tính'
     }, {
@@ -51,21 +49,15 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
         const value = target.value;
         const name = target.name;
         if (checked) {
-            console.log("checked", checked)
-            console.log("isInputForm.gender.length", isInputForm.gender.length)
             if (name === 'gender') {
                 if (isInputForm.gender.length > 0) {
-                    console.log("if isInputForm.gender")
                     setIsInputForm({ ...isInputForm, [name]: isInputForm.gender + value });
                 } else {
-                    console.log("else isInputForm.gender")
                     setIsInputForm({ ...isInputForm, [name]: value + ',' });
                 }
             }
             if (name === 'nameClass') {
                 if (isInputForm.nameClass.length > 0) {
-                    console.log('nameClass', isInputForm.nameClass.split(','));
-                    console.log("if isInputForm.nameClass", isInputForm.nameClass.split(',').length);
                     // if(isInputForm.nameClass)
                     if (isInputForm.nameClass.split(',').length < 2) {
                         setIsInputForm({ ...isInputForm, [name]: isInputForm.nameClass + value });
@@ -74,13 +66,11 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                     }
 
                 } else {
-                    console.log("else isInputForm.nameClass")
                     setIsInputForm({ ...isInputForm, [name]: value + ',' });
                 }
             }
             if (name === 'scienceBranch') {
                 if (isInputForm.scienceBranch.length > 0) {
-                    console.log("if isInputForm.scienceBranch")
                     if (isInputForm.scienceBranch.split(',').length < 2) {
                         setIsInputForm({ ...isInputForm, [name]: isInputForm.scienceBranch + value });
                     } else {
@@ -88,7 +78,6 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                     }
                     // setIsInputForm({...isInputForm,[name]: isInputForm.scienceBranch + value});
                 } else {
-                    console.log("else isInputForm.scienceBranch")
                     setIsInputForm({ ...isInputForm, [name]: value + ',' });
                 }
             }
@@ -96,8 +85,6 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
         } else {
             if (name === 'gender') {
                 if (isInputForm.gender) {
-                    console.log("if isInputForm.gender else")
-                    console.log("if isInputForm.gender.split", isInputForm.gender.split(','))
                     var itemcheck;
                     isInputForm.gender.split(',').forEach((item) => {
                         if (item !== value) {
@@ -110,14 +97,11 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                         setIsInputForm({ ...isInputForm, [name]: '' });
                     }
                 } else {
-                    console.log("else isInputForm.gender else")
                     setIsInputForm({ ...isInputForm, [name]: '' });
                 }
             }
             if (name === 'nameClass') {
                 if (isInputForm.nameClass) {
-                    console.log("if isInputForm.nameClass else")
-                    console.log("if isInputForm.nameClass.split", isInputForm.nameClass.split(','))
                     var itemcheck;
                     isInputForm.nameClass.split(',').forEach((item) => {
                         if (item !== value) {
@@ -130,14 +114,11 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                         setIsInputForm({ ...isInputForm, [name]: '' });
                     }
                 } else {
-                    console.log("else isInputForm.nameClass else")
                     setIsInputForm({ ...isInputForm, [name]: '' });
                 }
             }
             if (name === 'scienceBranch') {
                 if (isInputForm.scienceBranch) {
-                    console.log("if isInputForm.scienceBranch else")
-                    console.log("if isInputForm.scienceBranch.split", isInputForm.scienceBranch.split(','))
                     var itemcheck;
                     isInputForm.scienceBranch.split(',').forEach((item) => {
                         if (item !== value) {
@@ -150,13 +131,10 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                         setIsInputForm({ ...isInputForm, [name]: '' });
                     }
                 } else {
-                    console.log("else isInputForm.scienceBranch else")
                     setIsInputForm({ ...isInputForm, [name]: '' });
                 }
             }
         }
-
-        console.log("isInputForm", isInputForm);
     }
     function getUnique(arr, comp) {
 
@@ -169,91 +147,59 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
     var getDocument;
     const handleOnClick = async () => {
         try {
-            console.log("isInputForm", isInputForm);
-            console.log("genderArrcheck start", genderArrcheck)
             if (isInputForm.gender.length > 0 || isInputForm.nameClass.length > 0 || isInputForm.scienceBranch.length > 0) {
                 const dataArr = new Array();
                 if (Array.isArray(isInputForm.gender) === false) {
                     const genderArr = isInputForm.gender.split(",");
-                    console.log("Gender array", genderArr);
                     function isEmptyArr(value) {
                         if (value !== '') {
-                            console.log(value);
                             return value;
                         }
                     }
                     const genderArrNew = genderArr.filter(isEmptyArr);
-                    console.log("genderArrNew", genderArrNew);
-                    console.log("genderArrNew", Array.isArray(genderArrNew));
                     if (genderArrNew.length > 0) {
                         genderArrcheck = true;
                         const getDocumentGender = await UsersServices.getUsersByGender(genderArrNew);
-                        console.log("getDocumentGender", getDocumentGender);
                         // setIsData(getDocumentGender.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
                         setIsDataGender(getDocumentGender.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
                         getDocumentGender.forEach((item) => {
-                            // console.log("item in await getDocumentGender",item);
-                            // setIsData({...item.data()});
-
                             dataArr.push({...item.data(),['id']:item.id});
                         })
-                        console.log("isDataGender", isDataGender);
                     }
                 }
                 if (Array.isArray(isInputForm.nameClass) === false) {
                     const nameClassArr = isInputForm.nameClass.split(",");
-                    console.log("nameClassArr array", nameClassArr);
                     function isEmptyArr(value) {
                         if (value !== '') {
-                            console.log(value);
                             return value;
                         }
                     }
                     const nameClassArrNew = nameClassArr.filter(isEmptyArr);
-                    console.log("nameClassArrNew", nameClassArrNew);
-                    console.log("nameClassArrNew", nameClassArrNew.length === 0);
                     if (nameClassArrNew.length > 0) {
                         nameClassArrcheck = true;
                         const getDocumentNameClass = await UsersServices.getUsersByNameClass(nameClassArrNew);
-                        console.log("getDocumentGender", getDocumentNameClass);
                         // setIsData({...getDocumentNameClass.docs.map((docs) => ({ ...docs.data(), id: docs.id }))});
                         setIsDataNameClass(getDocumentNameClass.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
                         getDocumentNameClass.forEach((item) => {
-                            // console.log("item in await getDocumentGender",item);
-                            // setIsData({...item.data()});
-
                             dataArr.push({...item.data(),['id']:item.id});
                         })
-                        console.log("isDataNameClass", isDataNameClass);
                     }
                 }
                 if (Array.isArray(isInputForm.scienceBranch) === false) {
                     const scienceBranchArr = isInputForm.scienceBranch.split(",");
-                    console.log("scienceBranchArr array", scienceBranchArr);
                     function isEmptyArr(value) {
                         if (value !== '') {
                             return value;
                         }
                     }
                     const scienceBranchArrNew = scienceBranchArr.filter(isEmptyArr);
-                    console.log("scienceBranchArrNew", scienceBranchArrNew);
-                    console.log("scienceBranchArrNew", scienceBranchArrNew.length === 0);
                     if (scienceBranchArrNew.length > 0) {
                         scienceBranchArrcheck = true;
                         const getDocumentScienceBranch = await UsersServices.getUsersByScienceBranch(scienceBranchArrNew);
-                        console.log("getDocumentScienceBranch", getDocumentScienceBranch);
-                        // getDocumentScienceBranch.forEach((item) => {
-                        //     // console.log("item in await getDocumentScienceBranch",item);
-                        //     setIsData({...item.data()});
-                        // })
-                        // setIsData({...getDocumentScienceBranch.docs.map((docs) => ({ ...docs.data(), id: docs.id }))});
                         setIsDataScienceBranch(getDocumentScienceBranch.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
                         getDocumentScienceBranch.forEach((item) => {
-                            // console.log("item in await getDocumentGender",item);
-                            // setIsData({...item.data()});
                             dataArr.push({...item.data(),['id']:item.id});
                         })
-                        console.log("isDataScienceBranch", isDataScienceBranch);
                     }
 
                 }
@@ -274,14 +220,8 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                 }
 
                 // Display the unique objects
-                console.log("newArray", newArray);
                 setIsData(newArray);
-                // console.log("getUnique by filter",dataArr); 
-                // isData.push(isDataScienceBranch,isDataGender,isDataNameClass);
             }
-            // console.log("IsData is onClick", isData);
-            // console.log("IsData is length", isData.length);
-            // await UsersServices.getUsersByFilter(isInputForm.gender, isInputForm.scienceBranch, isInputForm.nameClass);
         } catch (error) {
             console.log(error);
         }

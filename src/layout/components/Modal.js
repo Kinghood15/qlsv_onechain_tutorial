@@ -113,14 +113,6 @@ export default function Modal({ modal, data, closeModal }) {
     const name = target.name;
     setIsInputForm({ ...isInputForm, [name]: value });
   }
-  // const onSubmit = async (value) => {
-  // try {
-  // console.log("isInputForm in Submit", isInputForm)
-
-  // } catch (error) {
-  // console.log("Message: UserDataService.updateUser ", error);
-  // }
-  // }
   const { validator, handleReset, handleSubmit } = useValidator({
     initValues: isInputForm
   });

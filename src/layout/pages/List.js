@@ -360,24 +360,50 @@ export default function List() {
                                         })
 
                                     }
-                                    <div className="tab-footer">
-                                        <div className={`${isMobile480 ? 'p-3' : 'p-5'}`}>
-                                            <div className="h-20 mx-auto px-4">
-                                                <nav className="h-20 flex flex-row flex-nowrap justify-between md:justify-center items-center" aria-label="Pagination">
-                                                    {pageNumbers.map((number) => {
-                                                        if (number + 1 < pageNumbers.length) {
-                                                            return (
-                                                                <button key={number + 1} onClick={() => { paginate(number + 1); setPageNumberActive(number + 1) }} className={`md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300 ${isMobile860 ? 'block' :'hidden'}` + `${pageNumberActive === number + 1 ? " bg-sky-300" : ""}`} title={`Page ${number + 1}`}>
-                                                                    {number + 1}
-                                                                </button>
-                                                            );
-                                                        }
-
-                                                    })}
-                                                </nav>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {(() => {
+                                        if(pageNumbers.length === 2) {
+                                            return(
+                                                <div className="tab-footer">
+                                                    <div className={`${isMobile480 ? 'p-3 ' : 'p-5 '}`}>
+                                                        <div className="h-20 mx-auto px-4">
+                                                            <nav className="h-20 flex flex-row flex-nowrap justify-center md:justify-center items-center" aria-label="Pagination">
+                                                                {pageNumbers.map((number) => {
+                                                                    if (number + 1 < pageNumbers.length) {
+                                                                        return (
+                                                                            <button key={number + 1} onClick={() => { paginate(number + 1); setPageNumberActive(number + 1) }} className={`md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300 ${isMobile860 ? 'block' :'hidden'}` + `${pageNumberActive === number + 1 ? " bg-sky-300" : ""}`} title={`Page ${number + 1}`}>
+                                                                                {number + 1}
+                                                                            </button>
+                                                                        );
+                                                                    }
+                                                                })}
+                                                            </nav>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        }else{
+                                            return(
+                                                <div className="tab-footer">
+                                                    <div className={`${isMobile480 ? 'p-3 ' : 'p-5 '}`}>
+                                                        <div className="h-20 mx-auto px-4">
+                                                            <nav className="h-20 flex flex-row flex-nowrap justify-between md:justify-center items-center" aria-label="Pagination">
+                                                                {pageNumbers.map((number) => {
+                                                                    if (number + 1 < pageNumbers.length) {
+                                                                        return (
+                                                                            <button key={number + 1} onClick={() => { paginate(number + 1); setPageNumberActive(number + 1) }} className={`md:flex w-10 h-10 mx-1 justify-center items-center rounded-full border border-gray-200 bg-white text-black hover:border-gray-300 ${isMobile860 ? 'block' :'hidden'}` + `${pageNumberActive === number + 1 ? " bg-sky-300" : ""}`} title={`Page ${number + 1}`}>
+                                                                                {number + 1}
+                                                                            </button>
+                                                                        );
+                                                                    }
+                                                                
+                                                                })}
+                                                            </nav>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+                                    })()}
                                 </div>
                             );
                         } else {
@@ -435,6 +461,9 @@ export default function List() {
                                                                 )
                                                             })
                                                         }
+                                                        {(() => {
+                                                            if(currentPosts.length === 0) return <div className="w-full text-center"><p className="p-5">Data không tồn tại</p></div>
+                                                        })()}
                                                         {
                                                             isOpenModalView && <Modal modal={"view"} data={isModalData} closeModal={setIsOpenModalView} />
                                                         }

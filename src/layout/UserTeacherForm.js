@@ -42,9 +42,6 @@ const UserTeacherForm = () => {
         if(name !== ""){
             setIsInputForm({ ...isInputForm, [name]: value });
         }
-        console.log("name in handleChange by UserTeacherForm:",name);
-        console.log("value in handleChange by UserTeacherForm:",value);
-        console.log("isInputForm in handleChange by UserTeacherForm:",isInputForm);
     }
     console.log("Step " + step);
     const [isScienceBranch, setIsScienceBranch] = useState([]);

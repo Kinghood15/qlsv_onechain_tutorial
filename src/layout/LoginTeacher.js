@@ -45,7 +45,6 @@ export default function LoginTeacher() {
             setEmail(e.target.value.trim());
             validateInput();
         }
-        // console.log("email",email);
     }
     // Event on change in password 
     const handlePasswordChange = (e) => {
@@ -74,19 +73,14 @@ export default function LoginTeacher() {
 
     function handleChange(env) {
         const target = env.target;
-        // console.log("target",target);
         const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
-        // console.log("name: " + name, target.name);
         setInputForm({ ...inputForm, [name]: value });
-        // console.log("isInputForm", inputForm);
     }
     const onReset = (value) => {
         setInputForm({ ...value });
     }
     const LoginPost = async(e) => {
-        // validateInput();
-        // console.log(errorMessage);
         e.preventDefault();
         try {
             if(await signIn(inputForm.email, inputForm.password)){
@@ -98,37 +92,8 @@ export default function LoginTeacher() {
         } catch (error) {
             alert("Đăng nhập không thành công") 
         }
-        // setErrorMessage({""})
-        // if(errorMessage.)
-
     }
     return (
-        // <Container className="containerLogin" xs>
-        //     <Card css={{ mw: "600px", w:"80%", p: "$6" }}>
-        //         <Card.Header css={{ mw: "550px",w:"90%", p: "$6" }} className="cardHeader">
-        //             <Text h1>Đăng nhập</Text>
-        //         </Card.Header>
-        //         {/* <Spacer y={2.5} /> */}
-        //         <Card.Body css={{ mw: "550px",w:"90%",p: "$6" }} className="cardBody">
-        //             {/* <form className="formLogin" justify="center" align="center"> */}
-        //             <Spacer y={2.5} />
-        //             <Input rounded bordered color={colorInput.email} css={{ w: "95%" }} labelPlaceholder="Tên đăng nhập" className="username" onChange={handleUserNameChange} initialValue="" type="text" required />
-        //             <Spacer y={0.5} />
-        //             <Text color="error"> {errorMessage.email}</Text>
-        //             <Spacer y={2.0} />
-        //             <Input.Password rounded bordered color={colorInput.password} css={{ w: "95%" }} labelPlaceholder="Mật khẩu" onChange={handlePasswordChange} initialValue="" type="password" required />
-        //             <Spacer y={0.5} />
-        //             <Text color="error"> {errorMessage.password} </Text>
-        //             <Spacer y={2.0} />
-        //             <Link href="/forgot-password">Quên mật khẩu ?</Link>
-        //             <Spacer y={0.5} />
-        //             <Button color="primary" onClick={LoginPost}  css={{ w: "95%" }} >Đăng nhập</Button>
-        //             <Spacer y={1.5} />
-        //             <Card.Divider />
-        //             <Text >Bạn chưa có tài khoản ? <Link href="/signup">Đăng ký tại đây </Link></Text>
-        //         </Card.Body>
-        //     </Card>
-        // </Container>
         <>
             <section className="h-screen">
                 <div className="px-6 h-full text-gray-800">
@@ -168,16 +133,6 @@ export default function LoginTeacher() {
                                 </div>
 
                                 <div className="flex justify-between items-center mb-6">
-                                    {/* <div className="form-group form-check">
-                                        <input
-                                            type="checkbox"
-                                            className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                            id="exampleCheck2"
-                                        />
-                                        <label className="form-check-label inline-block text-gray-800" htmlFor="exampleCheck2"
-                                        >Nhớ mật khẩu</label
-                                        >
-                                    </div> */}
                                     <a href="#!" className="text-gray-800">Quên mật khẩu?</a>
                                 </div>
 

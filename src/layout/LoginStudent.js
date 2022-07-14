@@ -13,8 +13,6 @@ const Login = () => {
         try {
             if (isInputForm.studentId.length > 0 && isInputForm.password.length > 0) {
                 await signInStudent(isInputForm.studentId.trim(), isInputForm.password.trim())
-                console.log("userStudent in LoginStudent", userStudent);
-                console.log("userStudent === {}", Object.getOwnPropertyNames(userStudent).length === 0);
                 if( signInStudent(isInputForm.studentId.trim(), isInputForm.password.trim())){
                     if (Object.getOwnPropertyNames(userStudent).length !== 0) {
                         alert("Đăng nhập thành công !");
@@ -51,47 +49,33 @@ const Login = () => {
         const target = env.target;
         const value = target.type === "checkbox" ? target.checked : target.value.trim();
         const name = target.name;
-        console.log("isInputForm", isInputForm);
         setIsInputForm({ ...isInputForm, [name]: value });
-        // console.log("isInputForm", isInputForm);
         if (isInputForm.studentId.length === 0 || isInputForm.password.length === 0) {
-            // console.log("isInputForm.studentId.length === 0 || isInputForm.password.length === 0")
 
             if (isInputForm.studentId.length === 0) {
                 const Error = 'Vui lòng nhập mã sinh viên ở đây';
                 setIsErrorMessage({ ...isErrorMessage, "studentId": Error });
-
                 console.log("error", isErrorMessage);
-                // console.log("isInputForm.studentId.length = " + isInputForm.studentId.length);
             }
             if (isInputForm.password.length === 0) {
-                // console.log("isInputForm.password.length = 0")
                 const Error = "Vui lòng mật khẩu sinh viên ở đây";
                 setIsErrorMessage({ ...isErrorMessage, "password": Error });
 
             }
             else if (isInputForm.studentId.length === 0 && isInputForm.password.length === 0) {
-                // console.log("isInputForm.studentId.length === 0 && isInputForm.password.length === 0")
-
                 const ErrorPassword = "Vui lòng mật khẩu sinh viên ở đây";
                 setIsErrorMessage({ ...isErrorMessage, "password": ErrorPassword });
                 const ErrorStudentId = 'Vui lòng nhập mã sinh viên ở đây';
                 setIsErrorMessage({ ...isErrorMessage, "studentId": ErrorStudentId });
             }
         } else if (isInputForm.studentId.length > 0 || isInputForm.password.length > 0) {
-            // console.log("isInputForm.studentId.length > 0 || isInputForm.password.length > 0");
-
             const valueError = "";
             if (isInputForm.studentId.length > 0) {
-
                 setIsErrorMessage({ ...isErrorMessage, "studentId": valueError });
-                // console.log("isInputForm.studentId.length >0")
             } else if (isInputForm.password.length > 0) {
-
                 setIsErrorMessage({ ...isErrorMessage, "password": valueError });
             }
             if (isInputForm.studentId.length > 0 && isInputForm.password.length > 0) {
-                // console.log("isInputForm.studentId.length > 0 && isInputForm.password.length > 0")
                 const valueError = "";
                 setIsErrorMessage({ ...isErrorMessage, "password": valueError });
                 setIsErrorMessage({ ...isErrorMessage, "studentId": valueError });
@@ -99,8 +83,6 @@ const Login = () => {
 
             }
         }
-        // console.log("IsInputForm",isInputForm);
-        // console.log("IsErrorMessage", isErrorMessage);
     }
     const onReset = (value) => {
         setIsInputForm({ ...value });

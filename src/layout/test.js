@@ -17,7 +17,6 @@ const Test = () => {
       .then((userCredential) => {
         // Signed in 
        const user = userCredential.user
-       console.log(user)
        alert("Thanh coong")
         // ...
       })

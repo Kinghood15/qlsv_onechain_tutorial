@@ -22,32 +22,7 @@ import ProtectedRoute from './router/Protected.Route';
 import ProtectedUserRoute from './router/ProtectedUser.Route';
 // import PrivateRoute from './PrivateRoute';
 function App() {
-  const [isActive, setIsActive] = useState(false);
-  var checkToken = 0;
-  const querySnapshotFunction = async (query) => {
-    const querySnapshot = await getDocs(query);
-    querySnapshot.forEach((doc) => {
-      checkToken++;
-      // console.log("doc.data() in querySnapshot function", doc.data())
-    });
-    // console.log("checkToken in querySnapshot function", checkToken)
-  }
-  // const AuthorizationCheck = (stringToken) => {
-  //   let token = stringToken.trim().split(' ')[1];
-  //   // Get data by token 
-  //   let data = CryptoJS.AES.decrypt(token, ACCESS_TOKEN_SECRET);
-  //   data = data.toString(CryptoJS.enc.Utf8);
-  //   let dataJSON = JSON.parse(data);
-  //   //Get document query parameters
-  //   const q = query(collection(db, "users"), where("studentId", "==", Object(dataJSON).studentId), where("email", "==", Object(dataJSON).email), where("firstName", "==", Object(dataJSON).firstName), where("lastName", "==", Object(dataJSON).lastName));
 
-  //   if (querySnapshotFunction(q)) {
-  //     // console.log("checkToken", checkToken);
-  //     if (checkToken === 1) {
-  //       return true;
-  //     } else return false;
-  //   }
-  // }
   return (
     <BrowserRouter>
       <AuthContextProvider>

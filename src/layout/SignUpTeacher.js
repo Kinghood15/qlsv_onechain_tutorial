@@ -42,11 +42,6 @@ const SignUpTeacher = ({history}) => {
         'gender': '',
     })
     const { createUser } = UserAuth();
-    // const handleSignUp = useCallback(async (e) => {
-    //     e.preventDefault();
-    //     // const { email}
-    // })
-
     const [isScienceBranch, setIsScienceBranch] = useState([]);
     const getScienceBratch = async () => {
         try {
@@ -58,12 +53,9 @@ const SignUpTeacher = ({history}) => {
     }
     function handleChange(env) {
         const target = env.target;
-        // console.log("target",target);
         const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
-        // console.log("name: " + name, target.name);
         setIsInputForm({ ...isInputForm, [name]: value });
-        // console.log("isInputForm", isInputForm);
     }
     const onReset = (value) => {
         setIsInputForm({ ...value });
@@ -79,7 +71,6 @@ const SignUpTeacher = ({history}) => {
     }, [isScienceBranch]);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("isInputForm", isInputForm);
         if (isInputForm.email && isInputForm.password && isInputForm.password.trim() === isInputForm.confirmPassword.trim() && isInputForm.firstName && isInputForm.lastName && isInputForm.gender && isInputForm.position && isInputForm.birthday && isInputForm.nameScienceBranch) {
             try{
                 await createUser(isInputForm.email, isInputForm.password);
@@ -103,15 +94,11 @@ const SignUpTeacher = ({history}) => {
         const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
         setIsInputForm({ ...isInputForm, [name]: value });
-        // if (name === "studentId") {
-        // setIsInputForm({ ...isInputForm, ["studentId"]: value });
-        // 
         if (name === 'firstName') {
             handleChangeFirstName();
         } else if (name === 'lastName') {
             handleChangeLastName();
         } else if (name === 'email') {
-            // console.log("onChange name Email")
             handleChangeEmail();
         } else if(name === 'password') {
             handleChangePassword();
@@ -125,11 +112,9 @@ const SignUpTeacher = ({history}) => {
             handleChangeAge();
             handleChangeConfirmPassword();
         }
-        console.log("validateInput in onChange", validateInput);
     }
     function handleChangePassword() {
         if (isInputForm.password) {
-            console.log("isInputForm.password.length", isInputForm.password.length);
             if (isInputForm.password.length > 6) {
                 setValidateInput({ ...validateInput, ['password']: '' });
                 setColorInput({ ...colorInput, ['password']: 'border-green-300' });
@@ -145,7 +130,6 @@ const SignUpTeacher = ({history}) => {
     }
     function handleChangeConfirmPassword() {
         if (isInputForm.confirmPassword) {
-            // console.log("isInputForm.password.length", isInputForm.password.length);
             if (isInputForm.confirmPassword.length > 6) {
 
                 if(isInputForm.password.trim() === isInputForm.confirmPassword.trim() && isInputForm.password.trim().length === isInputForm.confirmPassword.trim().length){
@@ -230,15 +214,12 @@ const SignUpTeacher = ({history}) => {
         if (isInputForm.birthday) {
             if (isInputForm.birthday.length > 0) {
                 const date = new Date();
-                console.log("date: " + date);
                 const birthdayCheck = new Date(isInputForm.birthday);
-                console.log("birthdayCheck", birthdayCheck);
                 var age_now = date.getFullYear() - birthdayCheck.getFullYear();
                 var m = date.getMonth() - birthdayCheck.getMonth();
                 if (m < 0 || (m === 0 && date.getDate() < birthdayCheck.getDate())) {
                     age_now--;
                 }
-                console.log("age_now", age_now);
                 if (age_now < 18) {
                     setValidateInput({ ...validateInput, ['birthday']: 'Tuổi của bạn không hợp lệ bắt buộc phải trên 18 tuổi!' })
                     setColorInput({ ...colorInput, ['birthday']: 'border-red-300' })

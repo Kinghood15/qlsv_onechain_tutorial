@@ -8,11 +8,9 @@ import { useValidator } from "@validator.tool/hook";
 import { confirmAlert } from 'react-confirm-alert';
 const EditProfile = (userTeacher) => {
     useEffect(() => {
-        // console.log("userTeacher in EditProfile", Object(userTeacher).userTeacher)
         getScienceBratch();
         if (Object(userTeacher).userTeacher.email !== '') {
             setIsUserTeacher(Object(userTeacher).userTeacher)
-            // console.log("After setIsUserTeacher",isUserTeacher)
         }
     }, [])
     const [colorInput, setColorInput] = useState({
@@ -91,12 +89,10 @@ const EditProfile = (userTeacher) => {
         };
         reader.readAsDataURL(urlImg.target.files[0]);
     };
-    // console.log("isUserTeacher in edit profile", isUserTeacher);
     const [isScienceBranch, setIsScienceBranch] = useState([]);
     const getScienceBratch = async () => {
         try {
             const data = await ScienceBratchServices.getAllscienceBratch();
-            // console.log("Data in get ScienceBratch", data.docs);
             setIsScienceBranch(data.docs.map((docs) => ({ ...docs.data(), id: docs.id })));
         } catch (e) {
             console.log("Message" + e.message);
@@ -111,7 +107,6 @@ const EditProfile = (userTeacher) => {
         if (name === "confirmEmail") {
             setConfirmEmail(value);
         }
-        // console.log("isUserTeacher in handleChange",isUserTeacher);
     }
     const { validator, handleSubmit } = useValidator({
         initValues: isUserTeacher
