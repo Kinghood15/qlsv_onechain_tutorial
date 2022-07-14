@@ -196,6 +196,14 @@ export default function LoginTeacher() {
                                         >Đăng ký tài khoản tại đây</a
                                         >
                                     </p>
+                                    <p className="text-sm font-semibold mt-2 pt-1 mb-0">
+                                        Bạn chưa có tài khoản ? (Giao diện Multiple page) 
+                                        <a
+                                            href="/giao-vien/dang-ky"
+                                            className="px-2 text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+                                        >Đăng ký tài khoản tại đây</a
+                                        >
+                                    </p>
                                 </div>
                             </form>
                         </div>

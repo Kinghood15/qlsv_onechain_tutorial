@@ -192,7 +192,7 @@ export default function Modal({ modal, data, closeModal }) {
       <div className="bg-black opacity-50 fixed top-0 left-0 w-screen h-screen z-10"></div>
       <div className={`modal fade fixed top-0 left-0 block w-full m-auto h-full z-20 outline-none overflow-x-hidden overflow-y-auto`}
         id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" >
-        <div className={(modal === 'view' ? `${isTable ? 'w-[40vw]' : 'w-[30vw] '}` : 'w-[60vw] ') + `modal-dialo m-auto mt-8 pointer-events-none`}>
+        <div className={(modal === 'view' ? `${isTable ? 'w-[40vw]' : 'w-[30vw] '}` : `${isTable ? 'w-[100vw]' : 'w-[60vw] '}`) + `modal-dialo m-auto mt-8 pointer-events-none`}>
           <div
             className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
             <div

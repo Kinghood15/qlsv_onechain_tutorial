@@ -195,7 +195,7 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                             // console.log("item in await getDocumentGender",item);
                             // setIsData({...item.data()});
 
-                            dataArr.push(item.data());
+                            dataArr.push({...item.data(),['id']:item.id});
                         })
                         console.log("isDataGender", isDataGender);
                     }
@@ -222,7 +222,7 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                             // console.log("item in await getDocumentGender",item);
                             // setIsData({...item.data()});
 
-                            dataArr.push(item.data());
+                            dataArr.push({...item.data(),['id']:item.id});
                         })
                         console.log("isDataNameClass", isDataNameClass);
                     }
@@ -251,7 +251,7 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                         getDocumentScienceBranch.forEach((item) => {
                             // console.log("item in await getDocumentGender",item);
                             // setIsData({...item.data()});
-                            dataArr.push(item.data());
+                            dataArr.push({...item.data(),['id']:item.id});
                         })
                         console.log("isDataScienceBranch", isDataScienceBranch);
                     }
