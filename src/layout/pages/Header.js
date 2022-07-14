@@ -127,15 +127,16 @@ export default function Header(props) {
         }
     }
 
-    const { user,userStudent } = UserAuth();
+    const { logout,user,userStudent } = UserAuth();
 
 
     const navigate = useNavigate();
     const Logout = async (e) => {
         // e.preventDefault();
+        // const { logout } = UserAuth();  
         try {
             if(Object.getOwnPropertyNames(user).length !== 0){
-                const { logout } = UserAuth();    
+                  
                 if (await logout() === undefined) {
                     alert("Đăng suất tài khoản thành công !")
                     navigate('/giao-vien/dang-nhap');

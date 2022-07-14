@@ -13,7 +13,6 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import Modal from '../components/Modal';
 export default function NewUser({ isMobile }) {
     const navigate = useNavigate();
-    const [isStudentId, setIsStudentId] = useState();
     const [colorInput, setColorInput] = useState({
         'studentId': 'border-gray-300',
         'firstName': 'border-gray-300',
@@ -200,10 +199,10 @@ export default function NewUser({ isMobile }) {
         if (isInputForm.lastName) {
             if (isInputForm.lastName.length < 1) {
                 setValidateInput({ ...validateInput, ['lastName']: 'Bạn phải nhiều hơn 1 ký tự' })
-                setColorInput({ ...colorInput, ['lastName']: 'border-green-300' });
+                setColorInput({ ...colorInput, ['lastName']: 'border-red-300' });
             } else if (isInputForm.lastName.length > 1) {
                 setValidateInput({ ...validateInput, ['lastName']: '' });
-                setColorInput({ ...colorInput, ['lastName']: 'border-red-300' });
+                setColorInput({ ...colorInput, ['lastName']: 'border-green-300' });
             }
         } else {
             setValidateInput({ ...validateInput, ['lastName']: 'Bạn phải nhập tên sinh viên !' });
@@ -214,10 +213,10 @@ export default function NewUser({ isMobile }) {
         if (isInputForm.address) {
             if (isInputForm.address.length < 1) {
                 setValidateInput({ ...validateInput, ['address']: 'Bạn phải nhiều hơn 1 ký tự' })
-                setColorInput({ ...colorInput, ['address']: 'border-green-300' })
+                setColorInput({ ...colorInput, ['address']: 'border-red-300' })
             } else if (isInputForm.address.length > 1) {
                 setValidateInput({ ...validateInput, ['address']: '' });
-                setColorInput({ ...colorInput, ['address']: 'border-red-300' });
+                setColorInput({ ...colorInput, ['address']: 'border-green-300' });
             }
         } else {
             setValidateInput({ ...validateInput, ['address']: 'Bạn phải nhập địa chỉ sinh viên !' });

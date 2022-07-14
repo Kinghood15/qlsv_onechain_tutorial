@@ -7,11 +7,12 @@ import ScienceBratchServices from "./services/ScienceBratch.services";
 import UsersTeacherServices from "./services/UsersTeacher.services";
 import { UserAuth } from "./Provider/AuthContextProvider";
 import { useNavigate } from 'react-router-dom';
+import isEmail from 'validator/es/lib/isEmail';
 import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './env';
 const SignUpTeacher = ({history}) => {
     const navigate = useNavigate();
     // const auth = getAuth();
-    const [inputForm, setInputForm] = useState({
+    const [isInputForm, setIsInputForm] = useState({
         firstName: "",
         lastName: "",
         email: "",
@@ -19,11 +20,28 @@ const SignUpTeacher = ({history}) => {
         position: "Giáo viên",
         birthday: "",
         nameScienceBranch: "",
-        gender: "",
+        gender: "Nam",
         avatar: AVATAR_USER,
     });
+    const [colorInput, setColorInput] = useState({
+        'firstName': 'border-gray-300',
+        'lastName': 'border-gray-300',
+        'password': 'border-gray-300',
+        'email': 'border-gray-300',
+        'birthday': 'border-gray-300',
+        'nameScienceBranch': 'border-gray-300',
+        'gender': 'border-gray-300',
+    })
+    const [validateInput, setValidateInput] = useState({
+        'firstName': '',
+        'lastName': '',
+        'password': '',
+        'email': '',
+        'birthday': '',
+        'nameScienceBranch': '',
+        'gender': '',
+    })
     const { createUser } = UserAuth();
-    const [error, setError] = useState(false)
     // const handleSignUp = useCallback(async (e) => {
     //     e.preventDefault();
     //     // const { email}
@@ -44,19 +62,29 @@ const SignUpTeacher = ({history}) => {
         const value = target.type === "checkbox" ? target.checked : target.value;
         const name = target.name;
         // console.log("name: " + name, target.name);
-        setInputForm({ ...inputForm, [name]: value });
-        // console.log("isInputForm", inputForm);
+        setIsInputForm({ ...isInputForm, [name]: value });
+        // console.log("isInputForm", isInputForm);
     }
     const onReset = (value) => {
-        setInputForm({ ...value });
+        setIsInputForm({ ...value });
     }
+    useEffect(() => {
+        if (isScienceBranch && isScienceBranch.length > 0) {
+            isScienceBranch.map((item, index) => {
+                if (index === 0) {
+                    setIsInputForm({ ...isInputForm, ['nameScienceBranch']: item.nameScienceBranch });
+                }
+            })
+        }
+    }, [isScienceBranch]);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (inputForm.email && inputForm.password && inputForm.password.trim() === inputForm.confirmPassword.trim() && inputForm.firstName && inputForm.lastName && inputForm.gender && inputForm.position && inputForm.birthday && inputForm.nameScienceBranch) {
+        console.log("isInputForm", isInputForm);
+        if (isInputForm.email && isInputForm.password && isInputForm.password.trim() === isInputForm.confirmPassword.trim() && isInputForm.firstName && isInputForm.lastName && isInputForm.gender && isInputForm.position && isInputForm.birthday && isInputForm.nameScienceBranch) {
             try{
-                await createUser(inputForm.email, inputForm.password);
+                await createUser(isInputForm.email, isInputForm.password);
                 try{
-                    if(await UsersTeacherServices.addUserTeacher(inputForm)){
+                    if(await UsersTeacherServices.addUserTeacher(isInputForm)){
                         alert("Đăng ký tài khoản thành công !")
                         navigate("/giao-vien/dang-nhap")
                     }else return alert("Đăng ký tài khoản không thành công !")
@@ -70,9 +98,160 @@ const SignUpTeacher = ({history}) => {
         }
 
     }
+    function handleChange(env) {
+        const target = env.target;
+        const value = target.type === "checkbox" ? target.checked : target.value;
+        const name = target.name;
+        setIsInputForm({ ...isInputForm, [name]: value });
+        // if (name === "studentId") {
+        // setIsInputForm({ ...isInputForm, ["studentId"]: value });
+        // 
+        if (name === 'firstName') {
+            handleChangeFirstName();
+        } else if (name === 'lastName') {
+            handleChangeLastName();
+        } else if (name === 'email') {
+            // console.log("onChange name Email")
+            handleChangeEmail();
+        } else if(name === 'password') {
+            handleChangePassword();
+        } else if(name === 'confirmPassword') {
+            handleChangeConfirmPassword();
+        } else if (name === 'address') {
+            handleChangeAddresses();
+        } else if (name === 'birthday') {
+            handleChangeAge();
+        } else{
+            handleChangeAge();
+            handleChangeConfirmPassword();
+        }
+        console.log("validateInput in onChange", validateInput);
+    }
+    function handleChangePassword() {
+        if (isInputForm.password) {
+            console.log("isInputForm.password.length", isInputForm.password.length);
+            if (isInputForm.password.length > 6) {
+                setValidateInput({ ...validateInput, ['password']: '' });
+                setColorInput({ ...colorInput, ['password']: 'border-green-300' });
+            } else if(isInputForm.password.length <6){
+                setValidateInput({ ...validateInput, ['password']: 'Mật khẩu phải trên 6 ký tự trở lên ' });
+                setColorInput({ ...colorInput, ['password']: 'border-red-300' });
+            }
+              
+        } else {
+            setValidateInput({ ...validateInput, ['password']: 'Bạn phải nhập mật khẩu !' });
+            setColorInput({ ...colorInput, ['password']: 'border-red-300' });
+        }
+    }
+    function handleChangeConfirmPassword() {
+        if (isInputForm.confirmPassword) {
+            // console.log("isInputForm.password.length", isInputForm.password.length);
+            if (isInputForm.confirmPassword.length > 6) {
+
+                if(isInputForm.password.trim() === isInputForm.confirmPassword.trim() && isInputForm.password.trim().length === isInputForm.confirmPassword.trim().length){
+                    setValidateInput({ ...validateInput, ['confirmPassword']: 'Xác nhật mật khẩu trùng với mật khẩu trên !' });
+                    setColorInput({ ...colorInput, ['confirmPassword']: 'border-green-300' });
+                }else{
+                    setValidateInput({ ...validateInput, ['confirmPassword']: 'Xác nhận mật khẩu không trùng với mật khẩu trên!. Yêu cầu kiểm tra lại !' });
+                    setColorInput({ ...colorInput, ['confirmPassword']: 'border-red-300' });
+                }
+
+            } else if(isInputForm.confirmPassword.length <6){
+                setValidateInput({ ...validateInput, ['confirmPassword']: 'Xác nhật mật khẩu phải trên 6 ký tự trở lên ' });
+                setColorInput({ ...colorInput, ['confirmPassword']: 'border-red-300' });
+            }
+              
+        } else {
+            setValidateInput({ ...validateInput, ['confirmPassword']: 'Bạn phải nhập xác nhận mật khẩu !' });
+            setColorInput({ ...colorInput, ['confirmPassword']: 'border-red-300' });
+        }
+    }
+    function handleChangeFirstName() {
+        if (isInputForm.firstName) {
+            if (isInputForm.firstName.length < 1) {
+                setValidateInput({ ...validateInput, ['firstName']: 'Bạn phải nhiều hơn 1 ký tự' });
+                setColorInput({ ...colorInput, ['firstName']: 'border-red-300' });
+            } else if (isInputForm.firstName.length > 1) {
+                setValidateInput({ ...validateInput, ['firstName']: '' });
+                setColorInput({ ...colorInput, ['firstName']: 'border-green-300' });
+            }
+        } else {
+            setValidateInput({ ...validateInput, ['firstName']: 'Bạn phải nhập họ sinh viên!' });
+            setColorInput({ ...colorInput, ['firstName']: 'border-red-300' });
+        }
+    }
+    function handleChangeLastName() {
+        if (isInputForm.lastName) {
+            if (isInputForm.lastName.length < 1) {
+                setValidateInput({ ...validateInput, ['lastName']: 'Bạn phải nhiều hơn 1 ký tự' })
+                setColorInput({ ...colorInput, ['lastName']: 'border-red-300' });
+            } else if (isInputForm.lastName.length > 1) {
+                setValidateInput({ ...validateInput, ['lastName']: '' });
+                setColorInput({ ...colorInput, ['lastName']: 'border-green-300' });
+            }
+        } else {
+            setValidateInput({ ...validateInput, ['lastName']: 'Bạn phải nhập tên sinh viên !' });
+            setColorInput({ ...colorInput, ['lastName']: 'border-red-300' });
+        }
+    }
+    function handleChangeAddresses() {
+        if (isInputForm.address) {
+            if (isInputForm.address.length < 1) {
+                setValidateInput({ ...validateInput, ['address']: 'Bạn phải nhiều hơn 1 ký tự' })
+                setColorInput({ ...colorInput, ['address']: 'border-red-300' })
+            } else if (isInputForm.address.length > 1) {
+                setValidateInput({ ...validateInput, ['address']: '' });
+                setColorInput({ ...colorInput, ['address']: 'border-green-300' });
+            }
+        } else {
+            setValidateInput({ ...validateInput, ['address']: 'Bạn phải nhập địa chỉ sinh viên !' });
+            setColorInput({ ...colorInput, ['address']: 'border-red-300' });
+        }
+    }
+    function handleChangeEmail() {
+        if (isInputForm.email) {
+            if (isInputForm.email.length < 5) {
+                setValidateInput({ ...validateInput, ['email']: 'Yêu cầu bạn nhập đúng địa chỉ email!' })
+                setColorInput({ ...colorInput, ['email']: 'border-red-300' })
+            } 
+            else if (isEmail(isInputForm.email) && isInputForm.email.length > 9) {
+                setValidateInput({ ...validateInput, ['email']: 'Email của bạn hợp lệ' })
+                setColorInput({ ...colorInput, ['email']: 'border-green-300' })
+            } else if (!isEmail(isInputForm.email)) {
+                setValidateInput({ ...validateInput, ['email']: 'Email của bạn không hợp lệ' })
+                setColorInput({ ...colorInput, ['email']: 'border-red-300' })
+            }
+        }else{
+            setValidateInput({ ...validateInput, ['email']: 'Bạn phải nhập địa chỉ email sinh viên !' });
+            setColorInput({ ...colorInput, ['email']: 'border-red-300' });
+        }
+    }
+    function handleChangeAge() {
+        if (isInputForm.birthday) {
+            if (isInputForm.birthday.length > 0) {
+                const date = new Date();
+                console.log("date: " + date);
+                const birthdayCheck = new Date(isInputForm.birthday);
+                console.log("birthdayCheck", birthdayCheck);
+                var age_now = date.getFullYear() - birthdayCheck.getFullYear();
+                var m = date.getMonth() - birthdayCheck.getMonth();
+                if (m < 0 || (m === 0 && date.getDate() < birthdayCheck.getDate())) {
+                    age_now--;
+                }
+                console.log("age_now", age_now);
+                if (age_now < 18) {
+                    setValidateInput({ ...validateInput, ['birthday']: 'Tuổi của bạn không hợp lệ bắt buộc phải trên 18 tuổi!' })
+                    setColorInput({ ...colorInput, ['birthday']: 'border-red-300' })
+                } else {
+                    setValidateInput({ ...validateInput, ['birthday']: 'Tuổi của bạn hợp lệ' })
+                    setColorInput({ ...colorInput, ['birthday']: 'border-green-300' })
+                }
+            }
+        }
+    }
     useEffect(() => {
         getScienceBratch();
-    })
+    },[])
     return (
         <>
             <section className="h-screen">
@@ -88,33 +267,41 @@ const SignUpTeacher = ({history}) => {
                                     <div className="form-group mb-6">
                                         <input name="firstName" type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput123"
                                             aria-describedby="emailHelp123" placeholder="Họ" />
+                                        <span className={`${colorInput.firstName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.firstName}</span>
+
                                     </div>
                                     <div className="form-group mb-6">
                                         <input name="lastName" type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput124"
                                             aria-describedby="emailHelp124" placeholder="Tên" />
+                                        <span className={`${colorInput.lastName}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.lastName}</span>
                                     </div>
                                 </div>
                                 <div className="form-group mb-6">
                                     <input name="email" type="email" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput125"
                                         placeholder="Địa chỉ email của giáo viên"
                                     />
+                                    <span className={`${colorInput.email}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.email}</span>
                                 </div>
                                 <div className="form-group mb-6">
                                     <input name="password" type="password" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput126"
                                         placeholder="Mật khẩu"
                                     />
+                                    <span className={`${colorInput.password}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.password}</span>
                                 </div>
                                 <div className="form-group mb-6">
                                     <input name="confirmPassword" type="password" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput127"
                                         placeholder="Xác nhận mật khẩu" />
+                                    <span className={`${colorInput.confirmPassword}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.confirmPassword}</span>
                                 </div>
                                 <div className="form-group mb-6">
                                     <input name="passwordInput" type="password" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput128"
                                         placeholder="Mã đăng ký (Tính năng chưa phát triển nên có thể nhập linh tinh)" />
+                                    {/* <span className={`${colorInput.studentId}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.studentId}</span> */}
                                 </div>
                                 <div className="form-group mb-6">
                                     <label className="form-label inline-block mb-2 text-gray-700" htmlFor="birthday">Ngày sinh giáo viên</label>
                                     <input required type="date" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="birthday" name="birthday" />
+                                    <span className={`${colorInput.birthday}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.birthday}</span>
                                 </div>
                                 <div className="form-group mb-6">
                                     <label className="form-label inline-block mb-2 text-gray-700" htmlFor="gender">Giới tính:</label>
@@ -122,6 +309,7 @@ const SignUpTeacher = ({history}) => {
                                         <option name="gender" selected value="Nam">Nam</option>
                                         <option name="gender" value="Nữ">Nữ</option>
                                     </select>
+
                                 </div>
                                 <div className="form-group mb-6">
                                     <label className="form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch">Khoa ngành:</label>
@@ -148,8 +336,9 @@ const SignUpTeacher = ({history}) => {
                                 </div>
                                 <div className="form-group form-check text-center mb-6">
                                     {/* <label className="form-check-label inline-block text-gray-800" >Tôi đồng ý với điều khoản và chính sách của nhà trường</label> */}
+                                    <button className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Đăng ký</button>
                                 </div>
-                                <button className=" w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Đăng ký</button>
+
                             </form>
                         </div>
                     </div>

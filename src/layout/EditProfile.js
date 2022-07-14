@@ -153,14 +153,14 @@ const EditProfile = (userTeacher) => {
     useEffect(() => {
         handleResize();
         window.addEventListener('resize', handleResize);
-    }, [])
+    }, [isMobile320, isMobile480, isMobile860, isMobile1025, isTable])
     return (
         <main className={`w-full`}>
             <div className="bg-white w-full m-auto flex-1 rounded-lg">
                 <form onChange={handleChange} onSubmit={handleSubmit(Save)}>
                     <div className={`boxheaderProfile ${isMobile1025 ? '' : 'flex justify-space-between relative'} h-40 rounded-lg `}>
                         <div className={`BoxAvatarProfile relative h-full ${isMobile1025 ? 'w-full' : 'w-[30%]'} shadow-inner`}>
-                            <div className={`${isMobile480 ? 'w-28 h-28' : 'w-56 h-56'} bg-white rounded-full  ${isMobile1025 ? 'mx-auto' : 'top-1/3 absolute right-1'} flex items-center justify-center`}>
+                            <div className={`boxAvatarProfileWhite ${isMobile480 ? 'w-28 h-28' : 'w-56 h-56'} bg-white rounded-full  ${isMobile1025 ? 'mx-auto' : 'top-1/3 absolute right-1'} flex items-center justify-center`}>
                                 <div className="profile-pic">
                                     <label className="-label" htmlFor="file">
                                         <span className="glyphicon glyphicon-camera"></span>

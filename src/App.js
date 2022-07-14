@@ -7,7 +7,7 @@ import MainPages from './layout/pages/MainPages';
 import LoginTeacher from './layout/LoginTeacher';
 import Error404 from './layout/pages/404';
 import SignUpTeacher from './layout/SignUpTeacher';
-import UserStudentForm from './layout/UserStudentForm';
+import UserTeacherForm from './layout/UserTeacherForm';
 import ChangePasswordStudent from './layout/ChangePasswordStudent';
 import MainProfile from './layout/pages/MainProfile';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
@@ -18,7 +18,6 @@ import { ACCESS_TOKEN_SECRET, AVATAR_USER } from './layout/env';
 import CryptoJS from 'crypto-js';
 import { useState } from 'react';
 import { AuthContextProvider } from './layout/Provider/AuthContextProvider';
-import { AuthUserContextProvider } from './layout/Provider/AuthUserContextProvider';
 import ProtectedRoute from './router/Protected.Route';
 import ProtectedUserRoute from './router/ProtectedUser.Route';
 // import PrivateRoute from './PrivateRoute';
@@ -55,11 +54,11 @@ function App() {
         <Routes>
           {/* <div> */}
           <Route path="/" exact element={<Home accesstoken={true} />} />
-          <Route path="/giao-vien/tong-quan" element={
+          {/* <Route path="/giao-vien/tong-quan" element={
             <ProtectedRoute>
               <Dashboard accesstoken={true} />
             </ProtectedRoute>
-          } />
+          } /> */}
           <Route path="/giao-vien/sinh-vien" element={
             <ProtectedRoute>
               <MainPages page="List" />
@@ -81,20 +80,11 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/404" element={<Error404 />} />
+          <Route path="/*" element={<Error404 />} />
           <Route path="/giao-vien/dang-nhap" element={<LoginTeacher />} />
           {/*<Route path="/thay-doi-thong-tin-ca-nhan" element={<EditUser />} /> {/*Dang Fix */}
           <Route path="/giao-vien/dang-ky" element={<SignUpTeacher />} />
-          <Route path="/dang-nhap" element={<Login />} /> {/*Dang Fix */}
-          <Route path="/cap-nhat-thong-tin-sinh-vien" element={
-            <ProtectedUserRoute>
-              <UserStudentForm />
-            </ProtectedUserRoute>
-          } />{/* Dang Fix */}
-          <Route path="/doi-mat-khau" element={
-            <ProtectedUserRoute>
-              <ChangePasswordStudent />
-            </ProtectedUserRoute>
-          } /> 
+          <Route path="/giao-vien/dang-ky-2" element={<UserTeacherForm />} />
         </Routes>
       </AuthContextProvider>
 
@@ -103,3 +93,14 @@ function App() {
 }
 
 export default App;
+          {/* <Route path="/dang-nhap" element={<Login />} /> {/*Dang Fix */}
+          // <Route path="/cap-nhat-thong-tin-sinh-vien" element={
+          //   <ProtectedUserRoute>
+          //     <UserStudentForm />
+          //   </ProtectedUserRoute>
+          // } />{/* Dang Fix */}
+          // <Route path="/doi-mat-khau" element={
+          //   <ProtectedUserRoute>
+          //     <ChangePasswordStudent />
+          //   </ProtectedUserRoute>
+          // } /> 

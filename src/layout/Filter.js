@@ -251,26 +251,15 @@ const Filter = (props, isOpenFilter, handleClickOpenFilter ) => {
                         getDocumentScienceBranch.forEach((item) => {
                             // console.log("item in await getDocumentGender",item);
                             // setIsData({...item.data()});
-
                             dataArr.push(item.data());
                         })
                         console.log("isDataScienceBranch", isDataScienceBranch);
                     }
 
                 }
-
-                // dataArr.push(isDataGender,isDataNameClass,isDataScienceBranch);
-                console.log("dataArr is onClick", dataArr);
-                console.log("getUnique", getUnique(dataArr, "gender"));
-                console.log("genderArrcheck", genderArrcheck);
-                // console.log("Array.isArray(isInputForm.gender)",Array.isArray(isInputForm.gender));
-                // console.log("Array.isArray(isInputForm.nameClass)",Array.isArray(isInputForm.nameClass));
-                // console.log("Array.isArray(isInputForm.scienceBranch)",Array.isArray(isInputForm.scienceBranch));
                 let newArray = [];
-
                 // Declare an empty object
                 let uniqueObject = {};
-
                 // Loop for the array elements
                 for (let i in dataArr) {
                     // Extract the title

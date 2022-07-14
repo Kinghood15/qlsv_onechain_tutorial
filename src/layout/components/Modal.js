@@ -92,7 +92,7 @@ export default function Modal({ modal, data, closeModal }) {
     "email": data.email,
     "avatar": data.avatar,
     "scienceBranch": data.scienceBranch
-});
+  });
 
   const onReset = (value) => {
     setIsInputForm({ ...value });
@@ -101,8 +101,8 @@ export default function Modal({ modal, data, closeModal }) {
     var reader = new FileReader();
     var baseString;
     reader.onloadend = function () {
-        baseString = reader.result;
-        setIsInputForm({...isInputForm, ['avatar']: baseString});
+      baseString = reader.result;
+      setIsInputForm({ ...isInputForm, ['avatar']: baseString });
     };
     reader.readAsDataURL(urlImg.target.files[0]);
   };
@@ -114,42 +114,85 @@ export default function Modal({ modal, data, closeModal }) {
     setIsInputForm({ ...isInputForm, [name]: value });
   }
   // const onSubmit = async (value) => {
-    // try {
-      // console.log("isInputForm in Submit", isInputForm)
-     
-    // } catch (error) {
-      // console.log("Message: UserDataService.updateUser ", error);
-    // }
+  // try {
+  // console.log("isInputForm in Submit", isInputForm)
+
+  // } catch (error) {
+  // console.log("Message: UserDataService.updateUser ", error);
+  // }
   // }
   const { validator, handleReset, handleSubmit } = useValidator({
     initValues: isInputForm
   });
   const editHandler = (id) => {
     confirmAlert({
-        title: 'Cảnh báo',
-        message: 'Bạn có chắc chắn muốn sửa người dùng này không ?',
-        buttons: [
-            {
-                label: 'Yes',
-                onClick: async () => {
-                  await UserDataService.updateUser(data.id, isInputForm)
-                  closeModal(false)
-                }
-            },
-            {
-                label: 'No',
-                onClick: () => true
-            }
-        ]
+      title: 'Cảnh báo',
+      message: 'Bạn có chắc chắn muốn sửa người dùng này không ?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: async () => {
+            await UserDataService.updateUser(data.id, isInputForm)
+            closeModal(false)
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => true
+        }
+      ]
     })
-};
+  };
+  const [isTable, setIsTable] = useState(false)
+  const [isMobile1025, setIsMobile1025] = useState(false)
+  const [isMobile860, setIsMobile860] = useState(false);
+  const [isMobile480, setIsMobile480] = useState(false);
+  const [isMobile320, setIsMobile320] = useState(false);
+
+  //choose the screen size 
+  const handleResize = () => {
+    if (document.body.clientWidth < 1400) {
+      setIsTable(true)
+      if (document.body.clientWidth < 1025) {
+        setIsMobile1025(true)
+        if (document.body.clientWidth < 860) {
+          setIsMobile860(true);
+          if (document.body.clientWidth < 480) {
+            setIsMobile480(true);
+            if (document.body.clientWidth < 320) {
+              setIsMobile320(true);
+            } else {
+              setIsMobile320(false);
+            }
+          } else {
+            setIsMobile480(false);
+          }
+        } else {
+          setIsMobile860(false);
+        }
+      } else {
+        setIsMobile1025(false)
+      }
+    } else {
+      setIsTable(false)
+
+    }
+
+  }
+
+  useEffect(() => {
+    // window.addEventListener("reload",handleResize());
+    handleResize();
+    window.addEventListener("resize", handleResize());
+    // handleResizeWindowInnerWidth();
+  }, [isMobile320, isMobile480, isMobile860, isMobile1025, isTable])
   return (
     <>
       {/* <!-- Modal --> */}
       <div className="bg-black opacity-50 fixed top-0 left-0 w-screen h-screen z-10"></div>
-      <div className="modal fade fixed top-0 left-0 block w-full m-auto h-full z-20 outline-none overflow-x-hidden overflow-y-auto"
+      <div className={`modal fade fixed top-0 left-0 block w-full m-auto h-full z-20 outline-none overflow-x-hidden overflow-y-auto`}
         id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" >
-        <div className={(modal === 'view' ? 'w-[30vw] ' : 'w-[60vw] ') + `modal-dialo m-auto mt-8 pointer-events-none`}>
+        <div className={(modal === 'view' ? `${isTable ? 'w-[40vw]' : 'w-[30vw] '}` : 'w-[60vw] ') + `modal-dialo m-auto mt-8 pointer-events-none`}>
           <div
             className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
             <div
@@ -220,7 +263,7 @@ export default function Modal({ modal, data, closeModal }) {
                           <input value={isInputForm.studentId} name="studentId" required type="text" className={`${colorInput.studentId} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 text-black bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="studentId" placeholder="Mã sinh viên" />
                           <span className={`${colorInput.studentId}` === 'border-red-300' ? 'text-red-400' : 'text-green-400'}>{validateInput.studentId}</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className={`${isTable ? '' : 'grid grid-cols-2 gap-4'}`}>
                           <div className="mb-10 xl:w-96">
                             <label className="form-label inline-block mb-2 text-gray-700" htmlFor="firstName">Họ sinh viên</label>
                             <input value={isInputForm.firstName} placeholder="Họ sinh viên" required type="text" className={`${colorInput.firstName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="firstName" name="firstName" />
@@ -230,7 +273,7 @@ export default function Modal({ modal, data, closeModal }) {
                             <input value={isInputForm.lastName} placeholder="Tên sinh viên" required type="text" className={`${colorInput.lastName} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="lastName" name="lastName" />
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className={`${isTable ? '' : 'grid grid-cols-2 gap-4'}`}>
                           <div className="mb-10 xl:w-96">
                             <label className="form-label inline-block mb-2 text-gray-700" htmlFor="email">Email</label>
                             <input value={isInputForm.email} placeholder="Email" required type="email" className={`${colorInput.email} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="email" name="email" />
@@ -241,7 +284,7 @@ export default function Modal({ modal, data, closeModal }) {
                             <input value={isInputForm.address} placeholder="Địa chỉ" required type="text" className={`${colorInput.address} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="address" name="address" />
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className={`${isTable ? '' : 'grid grid-cols-2 gap-4'}`}>
                           <div className="mb-10 xl:w-96">
                             <label className="form-label inline-block mb-2 text-gray-700" htmlFor="birthday">Ngày sinh sinh viên</label>
                             <input value={isInputForm.birthday} required type="date" className={`${colorInput.birthday} form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} id="birthday" name="birthday" />
@@ -254,7 +297,7 @@ export default function Modal({ modal, data, closeModal }) {
                             </select>
                           </div>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className={`${isTable ? '' : 'grid grid-cols-2 gap-4'}`}>
                           <div className="mb-10 xl:w-96">
                             <label className="form-label inline-block mb-2 text-gray-700" htmlFor="scienceBranch">Khoa ngành:</label>
                             <select value={isInputForm.scienceBranch} name="scienceBranch" id="scienceBranch" className={`${colorInput.scienceBranch} form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`} aria-label="Khoa nganh">
